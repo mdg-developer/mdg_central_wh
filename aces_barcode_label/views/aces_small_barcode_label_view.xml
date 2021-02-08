@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- wizard -->
+        <record model="ir.ui.view" id="view_aces_small_barcode_label_form">
+            <field name="name">aces.small.barcode.label.form</field>
+            <field name="model">aces.small.barcode.label</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Design Template">
+                        <group style="width:100% !important;">
+                            <group>
+                                <field name="design_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="paper_format_id" invisible="1"/>
+                                <field name="make_update_existing"/>
+                            </group>
+                            <group>
+                                <button string="Save" name="save_design_template" type="object" class="oe_highlight"
+                                        context="{'from_wizard': True}"/>
+                            </group>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Label">
+                            <field name="height"/>
+                            <field name="width"/>
+                        </group>
+                        <group string="Currency">
+                            <field name="currency_id"/>
+                            <field name="currency_position"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="product_lines">
+                                <tree string="Product Lines" editable="top">
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Fields">
+                            <field name="field_lines">
+                                <tree string="Lines" editable="top">
+                                    <field name="font_size"/>
+                                    <field name="font_color"/>
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Barcode">
+                            <group>
+                                <field name="barcode_type" style="width:30%"/>
+                                <field name="disp_height"/>
+                                <field name="disp_width"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="action_call_report" string="Print" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+       <!--  <act_window id="action_aces_small_barcode_label"
+                    name="Dynamic Product Label"
+                    src_model="product.template"
+                    res_model="aces.small.barcode.label"
+                    view_type="form"
+                    view_mode="form"
+                    key2="client_print_multi"
+                    target="new"/> -->
+
+        <record id="action_aces_small_barcode_label" model="ir.actions.act_window">
+            <field name="name">Dynamic Product Label</field>
+            <field name="res_model">aces.small.barcode.label</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="product.model_product_template"/>
+        </record>
+
+         <record id="action_aces_small_barcode_product_label" model="ir.actions.act_window">
+            <field name="name">Dynamic Product Label</field>
+            <field name="res_model">aces.small.barcode.label</field>
+            <field name="view_mode">form</field>
+             <field name="context">{'type': 'product_id'}</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="product.model_product_product"/>
+        </record>
+
+
+        <!-- wizard ends -->
+
+        <record id="wizard_aces_small_barcode_template_form_view" model="ir.ui.view">
+            <field name="name">aces.small.barcode.template.form</field>
+            <field name="model">aces.small.barcode.template</field>
+            <field name="arch" type="xml">
+                <form string="Product Label design">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <footer>
+                        <button name="go_to_label_wizard" string="Save" type="object" class="oe_highlight"/>
+                        or
+                        <button name="close_wizard" string="Cancel" type="object" class="oe_link"
+                                context="{'cancel_change' : True}"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_aces_small_barcode_template_tree">
+            <field name="name">aces.small.barcode.template.form</field>
+            <field name="model">aces.small.barcode.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_aces_small_barcode_template_form">
+            <field name="name">aces.small.barcode.template.form</field>
+            <field name="model">aces.small.barcode.template</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name" required="1"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <group string="Label">
+                            <field name="height"/>
+                            <field name="width"/>
+                        </group>
+                        <group string="Currency">
+                            <field name="currency_id"/>
+                            <field name="currency_position"/>
+                        </group>
+                    </group>
+                    <group string="Barcode">
+                        <field name="barcode_type" style="width:30%"/>
+                        <field name="disp_height"/>
+                        <field name="disp_width"/>
+                    </group>
+                    <notebook>
+                        <page string="Fields">
+                            <field name="field_lines">
+                                <tree string="Lines" editable="top">
+                                    <field name="font_size"/>
+                                    <field name="font_color"/>
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_aces_small_barcode_template">
+            <field name="name">Product Label design</field>
+            <field name="res_model">aces.small.barcode.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_aces_small_barcode_template_tree" model="ir.actions.act_window.view">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_aces_small_barcode_template_tree"/>
+            <field name="act_window_id" ref="action_aces_small_barcode_template"/>
+        </record>
+
+        <!-- child view first -->
+        <record id="action_aces_small_barcode_template_form" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_aces_small_barcode_template_form"/>
+            <field name="act_window_id" ref="action_aces_small_barcode_template"/>
+        </record>
+
+        <menuitem id="menuitem_aces_small_barcode_template" parent="sale.product_menu_catalog"
+                  action="action_aces_small_barcode_template" sequence="100"/>
+
+    </data>
+</odoo>

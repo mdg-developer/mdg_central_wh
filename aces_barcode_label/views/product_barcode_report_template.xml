@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="internal_layout_barcode">
+            <div class="header">
+                <div class="row">
+
+                    <div class="col-xs-2 col-xs-offset-3 text-right">
+                        <ul class="list-inline">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                <t t-raw="0"/>
+            </div>
+        </template>
+        <template id="product_barcode_report_template">
+            <t t-call="web.html_container">
+                <t t-call="aces_barcode_label.internal_layout_barcode">
+                    <span t-foreach="get_label_data(data['form'])" t-as="l">
+                        <div class="page">
+                            <div class="row" style="text-align: center;display:inline-block;margin-left: 15px;">
+                                <span t-if="l.get('1') and l.get('1') != 'barcode'">
+                                    <t t-set="style" t-value="draw_style(data['form'],l['1'])"/>
+                                    <div t-att-style="style" t-raw="l['1']"/>
+                                </span>
+                                <span t-if="l.get('1') and l.get('1') == 'barcode'">
+                                    <t t-set="style" t-value="draw_barcode_style(data['form'])"/>
+                                    <img t-att-src="'data:image/png;base64,%s' % to_text(get_barcode_string(l.get('product_id').barcode, data['form']))"
+                                         t-att-style="style"/>
+                                </span>
+
+                                <span t-if="l.get('2') and l.get('2') != 'barcode'">
+                                    <t t-set="style" t-value="draw_style(data['form'],l['2'])"/>
+                                    <div t-att-style="style" t-raw="l['2']"/>
+                                </span>
+                                <span t-if="l.get('2') and l.get('2') == 'barcode'">
+                                    <t t-set="style" t-value="draw_barcode_style(data['form'])"/>
+                                    <img t-att-src="'data:image/png;base64,%s' % to_text(get_barcode_string(l.get('product_id').barcode, data['form']))"
+                                         t-att-style="style"/>
+                                </span>
+                                <span t-if="l.get('3') and l.get('3') != 'barcode'">
+                                    <t t-set="style" t-value="draw_style(data['form'],l['3'])"/>
+                                    <div t-att-style="style" t-raw="l['3']"/>
+                                </span>
+                                <span t-if="l.get('3') and l.get('3') == 'barcode'">
+                                    <t t-set="style" t-value="draw_barcode_style(data['form'])"/>
+                                    <img t-att-src="'data:image/png;base64,%s' % to_text(get_barcode_string(l.get('product_id').barcode, data['form']))"
+                                         t-att-style="style"/>
+                                </span>
+
+                                <span t-if="l.get('4') and l.get('4') != 'barcode'">
+                                    <t t-set="style" t-value="draw_style(data['form'],l['4'])"/>
+                                    <div t-att-style="style" t-raw="l['4']"/>
+                                </span>
+                                <span t-if="l.get('4') and l.get('4') == 'barcode'">
+                                    <t t-set="style" t-value="draw_barcode_style(data['form'])"/>
+                                    <img t-att-src="'data:image/png;base64,%s' % to_text(get_barcode_string(l.get('product_id').barcode, data['form']))"
+                                         t-att-style="style"/>
+                                </span>
+                            </div>
+                        </div>
+                    </span>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
