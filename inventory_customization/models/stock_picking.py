@@ -16,7 +16,7 @@ class StockPicking(models.Model):
                     else:
                         quantity = line.product_uom_qty - allocated_qty
                     if counter == 0:
-                        existing_move_line = self.env['stock.move.line'].search([('picking_id', '=', self.id)])
+                        existing_move_line = self.env['stock.move.line'].search([('picking_id', '=', self.id),('product_id', '=', line.product_id.id)])
                         if existing_move_line:
                             existing_move_line.write({'qty_done': quantity})
                             allocated_qty = allocated_qty + quantity
