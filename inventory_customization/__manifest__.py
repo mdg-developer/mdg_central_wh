@@ -9,7 +9,9 @@
     'depends': [
         'base',
         'stock',
+        'product_expiry'
     ],
     'data': [
+             'views/product_template_view.xml',
     ],
 }
