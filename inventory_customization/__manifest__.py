@@ -13,5 +13,6 @@
     ],
     'data': [
              'views/product_template_view.xml',
+             'views/stock_move_line_view.xml',
     ],
 }
