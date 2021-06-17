@@ -331,6 +331,8 @@ class Location(models.Model):
         current_location = self
         putaway_location = self.env['stock.location']
         quant = self.env['stock.quant']
+        product_product = self.env['product.product']
+
         while current_location and not putaway_location:
             # Looking for a putaway about the product.
             putaway_rules = current_location.putaway_rule_ids.filtered(lambda x: x.product_id == product)
@@ -352,7 +354,21 @@ class Location(models.Model):
                     putaway_rules = current_location.putaway_rule_ids.filtered(lambda x: x.category_id == categ)
                     if putaway_rules:
                         putaway_location = putaway_rules[0].location_out_id
-                        break
+                        for rule in putaway_rules:
+                            product_records = product_product.search([('categ_id','=',categ.id)])
+                            print(product_records)
+                            print(product_records.ids)
+
+                            records = quant.search([('location_id','=',rule.location_out_id.id),('product_id','in',product_records.ids)])
+                            existed  = self.exist_location(rule.location_out_id,existing_locations)
+                            if  existed == False and len(records) == 0:                        
+                                putaway_location = rule.location_out_id
+                                break
+                            else:
+                                continue                    
+#                     if putaway_rules:
+#                         putaway_location = putaway_rules[0].location_out_id
+#                         break
                     categ = categ.parent_id
             current_location = current_location.location_id
         return putaway_location
