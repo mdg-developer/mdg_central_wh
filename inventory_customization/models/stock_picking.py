@@ -18,23 +18,14 @@ class StockPicking(models.Model):
                     if counter == 0:
                         existing_move_line = self.env['stock.move.line'].search([('picking_id', '=', self.id),('product_id', '=', line.product_id.id)])
                         if existing_move_line:
-                            lot_values = {
-                                            'product_id': line.product_id.id,
-                                            'company_id': line.company_id.id,
-                                        }
-                            lot_id = self.env['stock.production.lot'].create(lot_values)
+                            lot_name = self.env['ir.sequence'].next_by_code('stock.lot.serial')
                             existing_move_line.write({
                                                         'qty_done': quantity,
-                                                        'lot_id': lot_id.id,
-                                                        'lot_name': lot_id.name,
+                                                        'lot_name': lot_name,
                                                     })
                             allocated_qty = allocated_qty + quantity
                     else:
-                        lot_values = {
-                                        'product_id': line.product_id.id,
-                                        'company_id': line.company_id.id,
-                                    }
-                        lot_id = self.env['stock.production.lot'].create(lot_values)
+                        lot_name = self.env['ir.sequence'].next_by_code('stock.lot.serial')
                         values = {
                                     'picking_id': self.id,
                                     'product_id': line.product_id.id,
@@ -42,8 +33,7 @@ class StockPicking(models.Model):
                                     'product_uom_id': line.product_uom.id,
                                     'location_id': line.location_id.id,
                                     'location_dest_id': line.location_dest_id.id,
-                                    'lot_id': lot_id.id,
-                                    'lot_name': lot_id.name,
+                                    'lot_name': lot_name,
                                 }
                         self.env['stock.move.line'].create(values)
                         allocated_qty = allocated_qty + quantity
