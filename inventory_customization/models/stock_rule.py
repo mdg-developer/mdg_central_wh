@@ -20,9 +20,69 @@ class StockRule(models.Model):
     """ A rule describe what a procurement should do; produce, buy, move, ... """
     _inherit = 'stock.rule'
     
+    def splitting_stock_move(self,procurement, rule, moves_values_by_company,procure_method):
+#         move_values=[]
+#         new_procurements = []
+        product = self.env['product.product'].search([('id', '=', procurement.product_id.id)])
+       
+        pallet_size = product.product_tmpl_id.pallet_quantity
+        pick_face_qty = pallet_qty = 0
+        if pallet_size>0:
+            #divisor =  math.ceil(procurement.product_qty / pallet_quantity)
+            if procurement.product_qty<pallet_size:
+                pick_face_qty = procurement.product_qty
+            elif procurement.product_qty> pallet_size:
+                pick_face_qty = procurement.product_qty % pallet_size
+                pallet_qty = procurement.product_qty / pallet_size
+        else:
+            pick_face_qty = procurement.product_qty
+        
+        #only pickface qty exist  like orignal
+        if pallet_qty==0 and pick_face_qty>0:
+#             procurement.product_qty = pick_face_qty
+            move_values = rule._get_stock_move_values(procurement.product_id, pick_face_qty, procurement.product_uom,procurement.location_id,procurement.name, procurement.origin, procurement.company_id, procurement.values)
+        #pickface, pallet
+        elif pallet_qty>0 and pick_face_qty>0:
+            #pallet generation
+            #warehouse_stock_location
+            procurement_warehouse = procurement.values.get('warehouse_id').id                                
+            stock_location = self.env['stock.location'].search([('warehouse_id', '=', procurement_warehouse),('name', 'ilike', 'SHIPTO')], order='id', limit=1)
+#             procurement.append({'location_id' : stock_location})
+#             procurement.product_qty = pallet_qty*pallet_size
+            quantity = pallet_qty*pallet_size
+#             new_procurements.append(self.env['procurement.group'].Procurement(
+#                 procurement.product_id, quantity, procurement.product_uom,
+#                 stock_location,
+#                 procurement.name, procurement.origin, procurement.company_id, procurement.values))
+            move_values = rule._get_stock_move_values(procurement.product_id, quantity, procurement.product_uom,stock_location,procurement.name, procurement.origin, procurement.company_id, procurement.values)
+            move_values['procure_method'] = procure_method
+            moves_values_by_company[procurement.company_id.id].append(move_values)
+            
+            for company_id, moves_values in moves_values_by_company.items():
+                # create the move as SUPERUSER because the current user may not have the rights to do it (mto product launched by a sale for example)
+                moves = self.env['stock.move'].with_user(SUPERUSER_ID).sudo().with_company(company_id).create(moves_values)
+                # Since action_confirm launch following procurement_group we should activate it.
+                moves._action_confirm()              
+            #pickface generation, original
+#             procurement.product_qty = pick_face_qty
+            move_values = rule._get_stock_move_values(procurement.product_id, pick_face_qty, procurement.product_uom,stock_location,procurement.name, procurement.origin, procurement.company_id, procurement.values)
+            
+#             move_values.append(pallet_move_values)
+#             move_values.append(pick_face_move_values)
+        
+        elif pallet_qty>0 and pick_face_qty==0:
+            #pallet generation
+            #warehouse_stock_location
+            procurement_warehouse = procurement.values.get('warehouse_id').id                                
+            stock_location = self.env['stock.location'].search([('warehouse_id', '=', procurement_warehouse),('name', 'ilike', 'Stock')], order='id', limit=1)
+            procurement.location_id =stock_location
+            procurement.product_qty = pallet_qty*pallet_size
+            pallet_face_move_values = rule._get_stock_move_values(*procurement)
+            move_values = pallet_face_move_values        
+        return move_values
+            
     @api.model
     def _run_pull(self, procurements):
-        context = self._context.copy()
         moves_values_by_company = defaultdict(list)
         mtso_products_by_locations = defaultdict(list)
 
@@ -46,6 +106,7 @@ class StockRule(models.Model):
 
         # Prepare the move values, adapt the `procure_method` if needed.
         for procurement, rule in procurements:
+            is_shipto_location = False
             procure_method = rule.procure_method
             if rule.procure_method == 'mts_else_mto':
                 qty_needed = procurement.product_uom._compute_quantity(procurement.product_qty, procurement.product_id.uom_id)
@@ -55,32 +116,20 @@ class StockRule(models.Model):
                     forecasted_qties_by_loc[rule.location_src_id][procurement.product_id.id] -= qty_needed
                 else:
                     procure_method = 'make_to_order'
-
+            
+            #warehouse spitting
             if not procurement.values.get('sale_line_id'):
-                product = self.env['product.product'].search([('id', '=', procurement.product_id.id)])
-                pallet_quantity = product.product_tmpl_id.pallet_quantity
-                if pallet_quantity > 0:
-                    divisor =  math.ceil(procurement.product_qty / pallet_quantity)
-                    allocated_qty = 0
-                    for counter in range(0, int(divisor)):     
-                        if counter+1 < int(divisor):
-                            quantity = pallet_quantity
-                        else:
-                            quantity = procurement.product_qty - allocated_qty
-                            if procurement.values.get('warehouse_id'):
-                                procurement_warehouse = procurement.values.get('warehouse_id').id                                
-                                location = self.env['stock.location'].search([('warehouse_id', '=', procurement_warehouse),('name', 'ilike', 'Pick')], order='id', limit=1)
-                                if location:
-                                    context['pick_face_location_id'] = location.id
-                        context['quantity'] = quantity                        
-                        move_values = rule._get_stock_move_values(*procurement,context=context)
-                        move_values['procure_method'] = procure_method
-                        moves_values_by_company[procurement.company_id.id].append(move_values)
-                        allocated_qty = allocated_qty + quantity
+                location = self.env['stock.location'].search([('id', '=', procurement.location_id.id)])
+                if location and location.name.lower() == 'shipto':
+                    is_shipto_location = True
+                if is_shipto_location == True:
+                    move_values = self.splitting_stock_move(procurement,rule,moves_values_by_company,procure_method)
+                else:
+                    move_values = rule._get_stock_move_values(*procurement)
             else:
                 move_values = rule._get_stock_move_values(*procurement)
-                move_values['procure_method'] = procure_method
-                moves_values_by_company[procurement.company_id.id].append(move_values)
+            move_values['procure_method'] = procure_method
+            moves_values_by_company[procurement.company_id.id].append(move_values)
 
         for company_id, moves_values in moves_values_by_company.items():
             # create the move as SUPERUSER because the current user may not have the rights to do it (mto product launched by a sale for example)
@@ -89,7 +138,7 @@ class StockRule(models.Model):
             moves._action_confirm()
         return True
     
-    def _get_stock_move_values(self, product_id, product_qty, product_uom, location_id, name, origin, company_id, values, context=None):
+    def _get_stock_move_values(self, product_id, product_qty, product_uom, location_id, name, origin, company_id, values):
         ''' Returns a dictionary of values that will be used to create a stock move from a procurement.
         This function assumes that the given procurement has a rule (action == 'pull' or 'pull_push') set on it.
 
@@ -114,21 +163,12 @@ class StockRule(models.Model):
             picking_description += values['product_description_variants']
         # it is possible that we've already got some move done, so check for the done qty and create
         # a new move with the correct qty
-        
-        if context and context.get('quantity'):
-            qty_left = context.get('quantity')
-        else:
-            qty_left = product_qty
+        qty_left = product_qty
 
         move_dest_ids = []
         if not self.location_id.should_bypass_reservation():
             move_dest_ids = values.get('move_dest_ids', False) and [(4, x.id) for x in values['move_dest_ids']] or []
 
-        if context and context.get('pick_face_location_id'):
-            source_location = context.get('pick_face_location_id')
-        else:
-            source_location = self.location_src_id.id
-            
         move_values = {
             'name': name[:2000],
             'company_id': self.company_id.id or self.location_src_id.company_id.id or self.location_id.company_id.id or company_id.id,
@@ -136,7 +176,7 @@ class StockRule(models.Model):
             'product_uom': product_uom.id,
             'product_uom_qty': qty_left,
             'partner_id': partner.id if partner else False,
-            'location_id': source_location,
+            'location_id': self.location_src_id.id,
             'location_dest_id': location_id.id,
             'move_dest_ids': move_dest_ids,
             'rule_id': self.id,
