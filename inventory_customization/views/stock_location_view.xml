@@ -11,6 +11,7 @@
 				<field name="zone_id" />
 				<field name="pick_face" />
 				<field name="product_id" />
+				<field name="loose" />
 			</field>
 		</field>
 	</record>

@@ -9,7 +9,8 @@
     'depends': [
         'base',
         'stock',
-        'product_expiry'
+        'product_expiry',
+        'sale'
     ],
     'data': [
              'security/ir.model.access.csv', 
@@ -17,5 +18,6 @@
              'views/stock_move_line_view.xml',
              'views/zone_location_view.xml',
              'views/stock_location_view.xml',
+             'views/sale_order_view.xml',
     ],
 }

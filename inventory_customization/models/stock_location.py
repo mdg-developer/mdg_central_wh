@@ -9,3 +9,7 @@ class Location(models.Model):
         default=False,
     )
     product_id = fields.Many2one('product.product', string="Product")
+    loose = fields.Boolean(
+        string='Is a Loose Location?',
+        default=False,
+    )
