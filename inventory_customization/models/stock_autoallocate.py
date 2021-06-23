@@ -405,3 +405,5 @@ class StockRule(models.Model):
             if not new_move.location_id.should_bypass_reservation():
                 move.write({'move_dest_ids': [(4, new_move.id)]})
             new_move._action_confirm()
+
+

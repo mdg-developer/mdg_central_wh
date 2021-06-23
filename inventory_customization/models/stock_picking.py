@@ -4,10 +4,11 @@ import math
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    @api.model
-    def create(self, vals):
-        res = super(StockPicking, self).create(vals)
-        print(res)
+    # @api.model
+    # def create(self, vals):
+    #     res = super(StockPicking, self).create(vals)
+    #     print(res)
+    #     return res
 
     def split_operation_lines(self):
         for line in self.move_ids_without_package:
