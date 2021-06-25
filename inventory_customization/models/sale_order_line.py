@@ -4,7 +4,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
     loose = fields.Boolean('Loose', default=False)
-    ctn_pickface = fields.Boolean('Ctn', default=False)
+    ctn_pickface = fields.Boolean('CA', default=False)
 
     @api.onchange('loose')
     def _loose(self):
