@@ -8,6 +8,8 @@
 		<field name='arch' type='xml'>
 			<xpath expr="//page/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
 				<field name='loose'/>
+				<field name='ctn_pickface'/>
+
 			</xpath>
 		</field>
 	</record>

@@ -3,6 +3,7 @@ from odoo import _, api, fields, models
 class StockLocationRoute(models.Model):
     _inherit = "stock.location.route"
     pickface_pcs_route = fields.Boolean("PICKFACE PCS Route")
+    pickface_ctn_route = fields.Boolean("PICKFACE Ctn Route")
 
 class Location(models.Model):
     _inherit = "stock.location"

@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='warehouse_ids']" position="before">
                     <br/><field name="pickface_pcs_route" string="PICKFACE PCS Route"/>
+					<br/><field name="pickface_ctn_route" string="PICKFACE Ctn Route"/>					
                 </xpath>
             </field>
         </record>
