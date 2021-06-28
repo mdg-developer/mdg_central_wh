@@ -42,4 +42,13 @@ class StockPicking(models.Model):
                                 }
                         self.env['stock.move.line'].create(values)
                         allocated_qty = allocated_qty + quantity
+                        
+    def button_validate(self):
+        
+        result = super(StockPicking, self).button_validate()
+        picking = self.env['stock.picking'].search([('origin', '=', self.origin),('name', 'ilike', 'INT')])
+        if picking:
+            picking.split_operation_lines()
+        return result
+        
                     
