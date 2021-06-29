@@ -42,7 +42,7 @@ class StockPicking(models.Model):
                                 existed  = rule.location_out_id.exist_location(rule.location_out_id,existing_locations)
                                 if  existed == False and len(records) == 0:                        
                                     putaway_location = rule.location_out_id
-                                    existing_locations.append(putaway_location)
+                                    existing_locations.append(putaway_location.id)
                                     break
                                 else:
                                     continue
