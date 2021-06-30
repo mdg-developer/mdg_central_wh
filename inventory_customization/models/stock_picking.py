@@ -40,12 +40,26 @@ class StockPicking(models.Model):
                             for rule in putaway_rules:
                                 records = self.env['stock.quant'].search([('location_id','=',rule.location_out_id.id),('product_id','=',line.product_id.id)])
                                 existed  = rule.location_out_id.exist_location(rule.location_out_id,existing_locations)
-                                if  existed == False and len(records) == 0:                        
+                                if existed == False and len(records) == 0:                        
                                     putaway_location = rule.location_out_id
                                     existing_locations.append(putaway_location.id)
                                     break
                                 else:
                                     continue
+                        else:
+                            putaway_rules = line.location_dest_id.putaway_rule_ids.filtered(lambda x: x.category_id == line.product_id.categ_id)
+                            if putaway_rules:
+                                putaway_location = putaway_rules[0].location_out_id
+                                for rule in putaway_rules:
+                                    product_records = self.env['product.product'].search([('categ_id','=',line.product_id.categ_id.id)])
+                                    records = self.env['stock.quant'].search([('location_id','=',rule.location_out_id.id),('product_id','in',product_records.ids)])
+                                    existed  = rule.location_out_id.exist_location(rule.location_out_id,existing_locations)
+                                    if existed == False and len(records) == 0:                        
+                                        putaway_location = rule.location_out_id
+                                        existing_locations.append(putaway_location.id)
+                                        break
+                                    else:
+                                        continue   
                         lot_value = {                                        
                                         'product_id': line.product_id.id,
                                         'company_id': line.company_id.id,
