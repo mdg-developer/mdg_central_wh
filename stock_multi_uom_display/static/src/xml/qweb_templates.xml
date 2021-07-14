@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    
+    <t t-name="stock_barcode_lines_template">
+        <t t-if="lines">
+            <t t-foreach="lines" t-as="line">
+                <div class="o_barcode_line list-group-item d-flex flex-row flex-nowrap"
+                    t-att-data-id="line.virtual_id || line.id"
+                    t-att-data-barcode="line.product_barcode">
+                    <div class="o_barcode_line_details flex-grow-1 flex-column flex-nowrap">
+                        <div class="o_barcode_line_title pb-1">
+                            <i class="fa fa-fw fa-tags"/>
+                            <span class="product-label" t-esc="line.display_name || line.product_id.display_name"/>
+                            <span>Hello<span/>
+                        </div>
+                        <div name="quantity"> <!-- Name used for inheritance -->
+                            <i class="fa fa-fw fa-cube"/>
+                            <span t-attf-class="o_barcode_scanner_qty text-monospace badge #{' '}"> <!-- @SLE: Eventually add contextual classes: "badge-warning", "badge-danger", "badge-success"  -->
+                                <t t-if="isPickingRelated">
+                                    <span class="qty-done d-inline-block text-left" t-esc="line.qty_done"/>
+                                    <span t-if="line.product_uom_qty" t-esc="'/ ' + line.product_uom_qty"/>
+                                    
+                                </t>
+                                <t t-if="model == 'stock.inventory'">
+                                    <span class="product_qty d-inline-block text-left" t-esc="line.product_qty"/>
+                                    <span t-if="line.theoretical_qty" t-esc="'/ ' + line.theoretical_qty"/>
+                                </t>
+                            </span>
+                            <span t-if="groups.group_uom" t-esc="line.product_uom_id[1]"/>
+                        </div>
+                        <div t-if="line.package_id || line.result_package_id" name="package">
+                            <i class="fa fa-fw fa-archive"/>
+                            <t t-if="line.package_id" t-esc="line.package_id[1]"/>
+                            <t t-if="isPickingRelated">
+                                <i class="fa fa-long-arrow-right"/>
+                                <t t-if="line.result_package_id" t-esc="line.result_package_id[1]"/>
+                            </t>
+                        </div>
+                        <div t-if="line.owner_id">
+                            <i class="fa fa-fw fa-user-o"/> <t t-esc="line.owner_id[1]"/>
+                        </div>
+                        <div t-if="line.product_id.tracking !== 'none' and requireLotNumber">
+                            <i class="fa fa-fw fa-barcode"/>
+                            <span class="o_line_lot_name" t-esc="(line.lot_id &amp;&amp; line.lot_id[1]) || (line.prod_lot_id &amp;&amp;line.prod_lot_id[1]) || line.lot_name || ''"/>
+                        </div>
+                    </div>
+                    <div t-if="line.partner_id">
+                        <i class="fa fa-fw fa-user-o"/> <t t-esc="line.partner_id[1]"/>
+                    </div>
+                    <div t-if="state != 'done' and state != 'cancel'" class="o_barcode_line_actions d-flex align-items-center pl-4">
+                        <a class="o_edit text-muted" href="#" title="Edit"><i class="fa fa-2x fa-pencil"/></a>
+                    </div>
+                    <button t-if="!isPickingRelated || (line.product_id.tracking !== 'serial')"
+                        class="o_line_button o_add_unit btn btn-primary ml-2 ml-sm-4"
+                        t-att-data-reserved="(line.product_uom_qty - line.qty_done)">
+                        + 1
+                    </button>
+                    <button t-if="istouchSupported &amp;&amp; isPickingRelated &amp;&amp; (line.product_id.tracking !== 'serial')"
+                        class="o_line_button o_add_reserved btn btn-primary ml-2 ml-sm-4"
+                        t-att-data-reserved="(line.product_uom_qty - line.qty_done)">
+                        <t t-esc="'+ ' + (line.product_uom_qty - line.qty_done)"/>
+                    </button>
+                    <button t-if="model == 'stock.inventory'" class="o_line_button o_remove_unit btn btn-primary ml-2 ml-sm-4">
+                        - 1
+                    </button>
+                </div>
+            </t>
+        </t>
+        <t t-if="packageLines">
+            <t t-foreach="packageLines" t-as="packageLine">
+                <div class="o_barcode_line list-group-item d-flex flex-row flex-nowrap py-3" t-att-data-id="packageLine.virtual_id || packageLine.id" t-att-data-barcode="packageLine.product_barcode">
+                    <div class="o_barcode_line_details flex-grow-1 flex-column flex-nowrap">
+                        <div>
+                            <i class="fa fa-fw fa-archive"/> <t t-esc="packageLine.package_id[1]"/> <i class="fa fa-long-arrow-right"/> <t t-esc="packageLine.result_package_id[1]"/>
+                        </div>
+                        <div>
+                            <i class="fa fa-fw fa-cube"/>
+                            <span t-attf-class="o_barcode_scanner_qty text-monospace badge #{' '}"> <!-- @SLE, Eventually add contextual classes: "badge-warning", "badge-danger", "badge-success"  -->
+                                <span class="d-inline-block text-left" t-if="packageLine.qty_done != 0">1</span>
+                                <span class="d-inline-block text-left" t-else="">0</span>
+                                <span t-if="packageLine.reservedPackage">/  1</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="o_barcode_line_actions d-flex align-items-center pl-4">
+                        <span><a class="fa fa-dropbox text-muted float-right o_package_content"></a></span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+
+   
+
+</templates>
