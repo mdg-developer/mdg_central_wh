@@ -3,7 +3,7 @@ from odoo import _, api, fields, models
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
     
-    bigger_qty = fields.Float('Bigger Qty', default=0.0, digits='Product Unit of Measure', compute='_compute_bigger_qty', copy=False)
+    bigger_qty = fields.Float('Bigger Qty', default=0.0, digits='Product Unit of Measure', compute='_compute_bigger_qty',store=True, copy=False)
     bigger_uom_id = fields.Many2one(string='Bigger UOM',related='product_id.uom_po_id', store=True, index=True, copy=False)
     
     @api.depends('qty_done')

@@ -8,7 +8,7 @@
 # You can`t redistribute it and/or modify it.
 #
 #################################################################################
-
+from . import stock_move
 from . import stock_move_line
 
 
