@@ -12,7 +12,7 @@
                         <div class="o_barcode_line_title pb-1">
                             <i class="fa fa-fw fa-tags"/>
                             <span class="product-label" t-esc="line.display_name || line.product_id.display_name"/>
-                            <span>Hello<span/>
+                            
                         </div>
                         <div name="quantity"> <!-- Name used for inheritance -->
                             <i class="fa fa-fw fa-cube"/>
@@ -20,7 +20,7 @@
                                 <t t-if="isPickingRelated">
                                     <span class="qty-done d-inline-block text-left" t-esc="line.qty_done"/>
                                     <span t-if="line.product_uom_qty" t-esc="'/ ' + line.product_uom_qty"/>
-                                    
+                                      
                                 </t>
                                 <t t-if="model == 'stock.inventory'">
                                     <span class="product_qty d-inline-block text-left" t-esc="line.product_qty"/>
@@ -28,6 +28,8 @@
                                 </t>
                             </span>
                             <span t-if="groups.group_uom" t-esc="line.product_uom_id[1]"/>
+                            <span>&amp;nbsp;&amp;nbsp;</span>
+                            <span t-esc="line.bigger_qty  + ' * ' + line.bigger_uom_id[1]"/>
                         </div>
                         <div t-if="line.package_id || line.result_package_id" name="package">
                             <i class="fa fa-fw fa-archive"/>

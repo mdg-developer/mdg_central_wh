@@ -23,9 +23,13 @@
     'summary': 'Module allows to change the sequence of fields to display in barcode label report.',
     'depends': ['base', 'stock','stock_barcode','product_expiry'],
     'data': [
-       'views/stock_view.xml'
+       'views/stock_view.xml',
+       #'views/qweb_templates.xml'
     ],
-    
+    'qweb': [
+        
+        "static/src/xml/qweb_templates.xml",
+    ],
     'installable': True,
     'auto_install': False,
 }
