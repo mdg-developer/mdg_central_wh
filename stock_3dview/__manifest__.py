@@ -18,7 +18,6 @@
         'stock_3dbase',
     ],
     'data': [
-        'views/assets.xml',
         'views/stock_view.xml',
     ],
     'qweb': [
@@ -32,4 +31,21 @@
     'auto_install': False,
     'price': 150.00,
     'currency': 'EUR',
+
+    "assets": {
+        'web.assets_common': [
+            'stock_3dview/static/src/css/style.css" rel="stylesheet',
+        ],
+        'web.assets_backend': [
+            'stock_3dview/static/src/js/libs/three.min.js',
+            'stock_3dview/static/src/js/libs/stats.min.js',
+            'stock_3dview/static/src/js/libs/dat.gui.min.js',
+            'stock_3dview/static/src/js/libs/OrbitControls.js',
+            'stock_3dview/static/src/js/libs/Detector.js',
+            'stock_3dview/static/src/js/renderer.js',
+            'stock_3dview/static/src/js/model.js',
+            'stock_3dview/static/src/js/threedview.js',
+
+        ],
+    },
 }
