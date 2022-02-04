@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_move_line_product_selector_inherit" model="ir.ui.view">
+            <field name="name">stock.move.line.product.selector.inherit</field>
+            <field name="inherit_id" ref="stock_barcode.stock_move_line_product_selector"/>
+            <field name="model">stock.move.line</field>
+            <field name="arch" type="xml">
+                <xpath expr="//form/div[@class='row']" position="before">
+                    <span style="max-width : 50px">
+                        <field name="bigger_uom_qty_done" options="{'type': 'number'}" placeholder="Bigger UOM" style="max-width:150px; margin-right:50px; margin-left:38px;border: 1px solid #dee2e6;"/>
+                        <field name="product_purchase_uom_id" placeholder="Unit of Measure" options="{'no_open': True}" attrs="{'readonly': [('product_uom_qty', '!=', 0.0)]}" style="border:black;"/>
+                     </span>
+                     <span style="max-width : 50px">
+                        <field name="basic_uom_qty_done" class="w-50 w-md-100" options="{'type': 'number'}" placeholder="Basic UOM" style="max-width:150px; margin-right:50px; margin-left: 50px;border: 1px solid #dee2e6;"/>
+                        <field name="product_uom_id" placeholder="Unit of Measure" options="{'no_open': True}" attrs="{'readonly': [('product_uom_qty', '!=', 0.0)]}" style="border:black;"/>
+                    </span>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
