@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_move_line_product_selector_inherit_date" model="ir.ui.view">
+            <field name="name">stock.move.line.product.selector.inherit</field>
+            <field name="inherit_id" ref="stock_barcode.stock_move_line_product_selector"/>
+            <field name="model">stock.move.line</field>
+            <field name="arch" type="xml">
+                <xpath expr="//form/field[@name='picking_location_dest_id']" position="after">
+                    <div class="row mt-2 mb-2">
+                        <div class="col-12 d-flex align-items-baseline">
+                            <i class="fa fa-fw fa-lg fa-calendar mr-3" title="Product"/>
+                            <field name="expiration_date" placeholder="Expiration Date" readonly="0" required="1"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
