@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-    expiration_date = fields.Date(string='Expiration Date', help='This is the date on which the goods with this Serial Number may'
+    expiration_date = fields.Date(string='Expiry Date', help='This is the date on which the goods with this Serial Number may'
                                                                  ' become dangerous and must not be consumed.')
 
 
@@ -18,7 +18,7 @@ class StockPicking(models.Model):
         if self.picking_type_id.sequence_code == 'INT':
             for flag in self.move_line_ids_without_package:
                 if flag.expiration_date == False:
-                    raise UserError(_("Expiration Date is Required!"))
+                    raise UserError(_("Expiry Date is Required!"))
                     return
         return super(StockPicking, self).button_validate()
         # if self.picking_type_id.sequence_code == 'IN':

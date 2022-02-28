@@ -9,13 +9,33 @@
                 <xpath expr="//form/div[@class='row']" position="before">
                     <span style="max-width : 50px">
                         <field name="bigger_uom_qty_done" options="{'type': 'number'}" placeholder="Bigger UOM" style="max-width:150px; margin-right:50px; margin-left:38px;border: 1px solid #dee2e6;"/>
-                        <field name="product_purchase_uom_id" placeholder="Unit of Measure" options="{'no_open': True}" attrs="{'readonly': [('product_uom_qty', '!=', 0.0)]}" style="border:black;"/>
+                        <span attrs="{'invisible':[('product_purchase_uom_id', '!=', False)]}" style="color:#c8c8c8;">Unit of measure</span>
+                        <field name="product_purchase_uom_id" placeholder="Unit of Measure" options="{'no_open': True}" readonly="1" style="border:black;"/>
                      </span>
-                     <span style="max-width : 50px">
+                    <span style="max-width : 50px">
                         <field name="basic_uom_qty_done" class="w-50 w-md-100" options="{'type': 'number'}" placeholder="Basic UOM" style="max-width:150px; margin-right:50px; margin-left: 50px;border: 1px solid #dee2e6;"/>
-                        <field name="product_uom_id" placeholder="Unit of Measure" options="{'no_open': True}" attrs="{'readonly': [('product_uom_qty', '!=', 0.0)]}" style="border:black;"/>
+                        <span attrs="{'invisible':[('product_uom_id', '!=', False)]}" style="color:#c8c8c8;">Unit of measure</span>
+                        <field name="product_uom_id" placeholder="Unit of Measure" options="{'no_open': False}" readonly="1" style="border:black;"/>
                     </span>
                 </xpath>
+
+<!--                <xpath expr="//form/div[@class='row']" position="replace">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-12 col-md-6 my-2 d-flex align-items-baseline">-->
+<!--                            <i class="fa fa-fw fa-lg fa-cube mr-3" title="Quantity"/>-->
+<!--                            <field name="qty_done" class="w-50 w-md-100" options="{'type': 'number'}" placeholder="Quantity"/>-->
+<!--                            <widget name="set_reserved_qty_button"-->
+<!--                                attrs="{'invisible': [('product_uom_qty', '=', 0)]}"/>-->
+<!--                        </div>-->
+<!--                        <div class="col-6 d-flex align-items-baseline" groups="uom.group_uom"-->
+<!--                            attrs="{'invisible': [('product_uom_qty', '!=', 0)]}" style="margin-top:15px;">-->
+<!--                            <i class="fa mr-3" attrs="{'invisible': [('product_uom_qty', '!=', 0.0)]}"/>-->
+<!--                            <field name="product_uom_id" placeholder="Unit of Measure"-->
+<!--                                options="{'no_open': True}" attrs="{'readonly': [('product_uom_qty', '=', 0.0)]}"-->
+<!--                               />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </xpath>-->
             </field>
         </record>
     </data>

@@ -9,8 +9,15 @@
     'depends': [
         'base',
         'stock',
+        'stock_barcode',
     ],
     'data': [
              'reports/report_stockpicking_operations.xml',
     ],
+    "assets": {
+            'web.assets_backend': [
+                'report_customization/static/src/js/barcode_model.js',
+            ],
+        },
+
 }

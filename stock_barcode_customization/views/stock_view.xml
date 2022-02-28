@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="product_expiry.view_stock_move_line_detailed_operation_tree_expiry"/>
             <field name='arch' type='xml'>
                 <field name='expiration_date' position='replace'>
-                    <field string="Detail EXP" name="expiration_date" required="1"/>
+                    <field string="Expiry Date" name="expiration_date" required="1"/>
                  </field>
             </field>
         </record>
@@ -19,7 +19,7 @@
         <field name="inherit_id" ref="product_expiry.view_stock_move_line_operation_tree_expiry"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='expiration_date']" position="replace" >
-                <field string="EXP" name="expiration_date" attrs="{
+                <field string="Expiry Date" name="expiration_date" attrs="{
                     'column_invisible': ['|', ('parent.use_expiration_date', '!=', True), ('parent.picking_code', '!=', 'incoming')],
                     'readonly': [('picking_type_use_existing_lots', '=', True)],
                 }"/>

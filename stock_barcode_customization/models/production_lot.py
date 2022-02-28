@@ -7,7 +7,7 @@ from odoo import api, fields, models
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
-    expiration_date = fields.Date(string='Expiration Date',
+    expiration_date = fields.Date(string='Expiry Date',
                                       help='This is the date on which the goods with this Serial Number may become dangerous and must not be consumed.')
     @api.depends('expiration_date')
     def _compute_product_expiry_alert(self):

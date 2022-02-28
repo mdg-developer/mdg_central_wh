@@ -25,3 +25,23 @@ class StockMoveLine(models.Model):
             if self.product_purchase_uom_id.uom_type == 'bigger':
                 other_uom_qty = self.bigger_uom_qty_done * self.product_purchase_uom_id.factor_inv
             self.qty_done = other_uom_qty + self.basic_uom_qty_done
+        if not self.product_id:
+            self.product_uom_id = False
+            self.bigger_uom_qty_done =False
+            self.basic_uom_qty_done = False
+            self.qty_done = False
+
+    @api.onchange('bigger_uom_qty_done')
+    def _onchange_bigger_uom_qty_done(self):
+        if self.bigger_uom_qty_done < 0:
+            self.bigger_uom_qty_done = 0
+
+    @api.onchange('basic_uom_qty_done')
+    def _onchange_basic_uom_qty_done(self):
+        if self.basic_uom_qty_done < 0:
+            self.basic_uom_qty_done = 0
+
+    @api.onchange('qty_done')
+    def _onchange_qty_done(self):
+        if self.qty_done < 0:
+            self.qty_done = 0

@@ -9,8 +9,10 @@
                 <xpath expr="//form/field[@name='picking_location_dest_id']" position="after">
                     <div class="row mt-2 mb-2">
                         <div class="col-12 d-flex align-items-baseline">
-                            <i class="fa fa-fw fa-lg fa-calendar mr-3" title="Product"/>
-                            <field name="expiration_date" placeholder="Expiration Date" readonly="0" required="1"/>
+                            <i class="fa fa-fw fa-lg fa-calendar mr-3" title="Expiry Date"/>
+                            <field name="expiration_date" placeholder="Expiry Date" readonly="0"
+                            attrs="{'required': [('picking_code', '=', 'internal')]}"/>
+
                         </div>
                     </div>
                 </xpath>
