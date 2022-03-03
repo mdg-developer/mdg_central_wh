@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="MainComponentInherit" t-inherit="stock_barcode.MainComponent" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@class='o_barcode_locations']" position="replace">
+            <div class="o_barcode_locations">
+                <t t-if="displaySourceLocation">
+                    <span t-if="isTransfer" class="o_barcode_location_label">From </span>
+                    <span t-if="sourceLocations" t-on-click="toggleSourceSelection"
+                        class="o_barcode_summary_location_src o_clickable o_barcode_summary_location_highlight"
+                        t-attf-class="{{highlightSourceLocation ? 'o_strong' : ''}}">
+                        <span class="o_current_location" t-esc="currentSourceLocation"/>
+                        <span t-if="sourceLocationsLength">
+                            <ul t-if="state.displaySourceSelection" class="o_barcode_list_locations o_source_locations" style="overflow:auto; height:300px;">
+                                <t t-foreach="sourceLocations" t-as="location">
+                                    <LocationButton t-key="location.id" location="location" source="true"/>
+                                </t>
+                            </ul>
+                        </span>
+                        <span t-else="">
+                            <ul t-if="state.displaySourceSelection" class="o_barcode_list_locations o_source_locations" style="overflow:auto; height:auto;">
+                                <t t-foreach="sourceLocations" t-as="location">
+                                    <LocationButton t-key="location.id" location="location" source="true"/>
+                                </t>
+                            </ul>
+                        </span>
+                    </span>
+                </t>
+                <br t-if="displayLocations &amp;&amp; displayDestinationLocation" class="d-md-none"/>
+                <span t-if="displayDestinationLocation" class="text-truncate d-block d-md-inline mb-2">
+                    <span class="o_barcode_location_label"> To </span>
+                    <span t-if="destinationLocations" t-on-click="toggleDestinationSelection"
+                        class="o_barcode_summary_location_dest o_clickable o_barcode_summary_location_highlight"
+                        t-attf-class="{{highlightDestinationLocation ? 'o_strong' : ''}}">
+                        <span class="o_current_dest_location" t-esc="currentDestinationLocation"/>
+                        <span t-if="destinationLocationsLength">
+                            <ul t-if="state.displayDestinationSelection" class="o_barcode_list_locations o_destination_locations" style="overflow:auto; height:300px;">
+                                <t t-foreach="destinationLocations" t-as="location">
+                                    <LocationButton t-key="location.id" location="location" source="false"/>
+                                </t>
+                            </ul>
+                        </span>
+                        <span t-else="">
+                            <ul t-if="state.displayDestinationSelection" class="o_barcode_list_locations o_destination_locations" style="overflow:auto; height:auto;">
+                                <t t-foreach="destinationLocations" t-as="location">
+                                    <LocationButton t-key="location.id" location="location" source="false"/>
+                                </t>
+                            </ul>
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </xpath>
+    </t>
+</templates>

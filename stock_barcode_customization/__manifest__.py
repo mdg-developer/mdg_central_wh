@@ -18,4 +18,14 @@
              'views/stock_view.xml',
             "views/production_lot_view.xml",
     ],
+
+    'assets': {
+            'web.assets_backend': [
+                'stock_barcode_customization/static/src/components/stock_barcode_main.js',
+                'stock_barcode_customization/static/src/components/stock_barcode_dest_main.js',
+            ],
+            'web.assets_qweb': [
+                'stock_barcode_customization/static/src/**/*.xml',
+            ],
+        }
 }
