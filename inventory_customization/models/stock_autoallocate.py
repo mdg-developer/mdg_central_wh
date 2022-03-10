@@ -22,10 +22,9 @@ class StockMove(models.Model):
             # first priority goes to the preferred routes defined on the move itself (e.g. coming from a SO line)
             warehouse_id = move.warehouse_id or move.picking_id.picking_type_id.warehouse_id
             if move.location_dest_id.company_id == self.env.company:
-                rules = self.env['procurement.group']._search_rule(move.route_ids, move.product_id, warehouse_id, domain)
+                rules = self.env['procurement.group']._search_rule(move.route_ids, move.product_packaging_id, move.product_id, warehouse_id, domain)
             else:
-                rules = self.sudo().env['procurement.group']._search_rule(move.route_ids, move.product_id, warehouse_id,
-                                                                          domain)
+                rules = self.sudo().env['procurement.group']._search_rule(move.route_ids, move.product_packaging_id, move.product_id, warehouse_id,domain)
             # Make sure it is not returning the return
             if rules and (
                     not move.origin_returned_move_id or move.origin_returned_move_id.location_dest_id.id != rules.location_id.id):

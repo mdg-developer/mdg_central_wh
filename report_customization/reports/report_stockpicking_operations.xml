@@ -59,6 +59,11 @@
                                     <p t-field="o.scheduled_date"/>
                                 </div>
                             </div>
+                            <t t-set="flag_qty" t-value="0.0"/>
+                            <t t-set="flag_case" t-value="0.0"/>
+                            <t t-set="flag_weight" t-value="0.0"/>
+                            <t t-set="flag_cbm" t-value="0.0"/>
+
                             <table class="table table-sm" t-if="o.move_line_ids and o.move_ids_without_package">
                                 <t t-set="has_barcode" t-value="any(move_line.product_id and move_line.product_id.sudo().barcode or move_line.package_id for move_line in o.move_line_ids)"/>
                                 <t t-set="has_serial_number" t-value="any(move_line.lot_id or move_line.lot_name for move_line in o.move_line_ids)" groups="stock.group_production_lot"/>
@@ -79,11 +84,14 @@
                                         <th style="width: 30px;" name="th_to" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
                                             <strong>To</strong>
                                         </th>
-                                        <th style="width: 30px;" name="th_serial_number" class="text-center" t-if="has_serial_number">
+                                        <th style="width: 20px;" name="th_serial_number" class="text-center" t-if="has_serial_number">
                                            <strong>Lot/Serial Number</strong>
                                         </th>
-                                        <th style="width: 30px;" name="th_barcode" class="text-center" t-if="has_barcode">
+                                        <th style="width: 20px;" name="th_barcode" class="text-center" t-if="has_barcode">
                                             <strong>Product Barcode</strong>
+                                        </th>
+                                        <th name="th_ti_x_hi" style="width: 20px;">
+                                            <strong>TI X HI</strong>
                                         </th>
                                     </tr>
                                 </thead>
@@ -92,21 +100,29 @@
                                         <!-- In case you come across duplicated lines, ask NIM or LAP -->
                                         <t t-foreach="move.move_line_ids.sorted(key=lambda ml: ml.location_id.id)" t-as="ml">
                                             <tr>
+<!--                                                <t t-set="case_qty" t-value/>-->
                                                 <td style="width: 20px;">
                                                     <span t-field="ml.product_id.display_name"/><br/>
                                                     <span t-field="ml.product_id.description_picking"/>
+                                                    <t t-set="flag_cbm" t-value="ml.product_id.cbm * ml.product_uom_qty" t-if="o.state != 'done'"/>
+                                                    <t t-set="flag_cbm" t-value="ml.product_id.cbm * ml.qty_done" t-if="o.state == 'done'"/>
+                                                    <t t-set="flag_weight" t-value="ml.product_id.weight * ml.product_uom_qty" t-if="o.state != 'done'"/>
+                                                    <t t-set="flag_weight" t-value="ml.product_id.cbm * ml.qty_done" t-if="o.state == 'done'"/>
+
                                                 </td>
                                                 <td style="width: 20px;">
                                                     <span t-if="o.state != 'done'" t-field="ml.product_uom_qty" t-options='{"widget": "float", "precision": 0}'/>
                                                     <span t-if="o.state == 'done'" t-field="ml.qty_done" t-options='{"widget": "float", "precision": 0}'/>
                                                     <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
-
+                                                    <t t-if="o.state != 'done'" t-set="flag_qty" t-value="flag_qty+ml.product_uom_qty" t-options='{"widget": "float", "precision": 0}'/>
+                                                    <t t-if="o.state == 'done'" t-set="flag_qty" t-value="flag_qty+ml.qty_done" t-options='{"widget": "float", "precision": 0}'/>
                                                 </td>
                                                 <td style="width: 20px;">
-                                                    <span t-if="o.state != 'done'" t-esc="(ml.product_uom_qty/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 0}'/>
-                                                    <span t-if="o.state == 'done'" t-esc="(ml.qty_done/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 0}'/>
+                                                    <span t-if="o.state != 'done'" t-esc="(ml.product_uom_qty/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 4}'/>
+                                                    <span t-if="o.state == 'done'" t-esc="(ml.qty_done/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 4}'/>
                                                     <span t-field="ml.product_id.uom_po_id" groups="uom.group_uom"/>
-
+                                                    <t t-if="o.state != 'done'" t-set="flag_case" t-value="flag_case+(ml.product_uom_qty/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 4}'/>
+                                                    <t t-if="o.state == 'done'" t-set="flag_case" t-value="flag_case+(ml.qty_done/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 4}'/>
                                                 </td>
 
                                                 <td style="width: 20px;" t-if="o.picking_type_id.code != 'incoming'" groups="stock.group_stock_multi_locations">
@@ -123,11 +139,11 @@
                                                         </t>
                                                     </div>
                                                 </td>
-                                                <td style="width: 30px;" class=" text-center h6" t-if="has_serial_number">
+                                                <td style="width: 20px;" class=" text-center h6" t-if="has_serial_number">
                                                     <img t-if="has_serial_number and (ml.lot_id or ml.lot_name)" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.lot_id.name or ml.lot_name, 400, 100)" style="width:100%;height:35px;" alt="Barcode"/>
 
                                                 </td>
-                                                <td style="width: 30px;" class="text-center" t-if="has_barcode">
+                                                <td style="width: 20px;" class="text-center" t-if="has_barcode">
                                                     <t t-if="product_barcode != move.product_id.barcode">
                                                         <span t-if="move.product_id and move.product_id.barcode">
                                                             <img t-if="len(move.product_id.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN13', move.product_id.barcode, 400, 100, 0)" style="height:35px" alt="Barcode"/>
@@ -138,6 +154,10 @@
                                                         <t t-set="product_barcode" t-value="move.product_id.barcode"/>
                                                     </t>
                                                 </td>
+                                                <td style="width: 20px;">
+                                                    <span t-field="ml.product_id.ti_x_hi" groups="uom.group_uom"/>
+                                                </td>
+
                                             </tr>
                                         </t>
                                     </t>
@@ -172,9 +192,28 @@
                             </p>
                             <p t-field="o.note"/>
 
-                            <div style="margin-top : 50px;">
+<!--                            <div name="outgoing_calculation" t-if="o.picking_type_id.code == 'outgoing'">-->
+<!--                                <p>Total Weight :<t t-esc="flag_weight"/></p>-->
+<!--                                <p>Total CBM :<t t-esc="flag_cbm"/></p>-->
+<!--                                <p>Total Qty : <t t-esc="flag_qty"/></p>-->
+<!--                                <p>Total Case : <t t-esc="flag_case"/></p>-->
+<!--                            </div>-->
+
+
+                            <div style="margin-top : 50px;" t-if="o.picking_type_id.code != 'outgoing'">
                                 <p>Received By : ____________________</p>
                                 <p>Date/Time  : ______________________</p>
+                            </div>
+                            <div t-else="" style="padding-top:20px;">
+                                <span>
+                                    <p style="float:left;">Controller : ________________________________________________</p>
+                                    <p style="text-align:right;">Received By : ________________________________________________</p>
+                                </span>
+                                <br/><br/>
+                                <span>
+                                    <p style="float:left;">Driver By : ________________________________________________</p>
+                                    <p style="text-align:right;">Truck No : ________________________________________________</p>
+                                </span>
                             </div>
                         </div>
                     </t>

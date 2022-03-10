@@ -22,5 +22,31 @@
 			</field>
 		</field>
 	</record>
+
+	<record id="product_template_only_form_view_inherit" model="ir.ui.view">
+		<field name="name">product.template.only.form.view.inherit</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			 <xpath expr="//page[@name='inventory']/group[@name='inventory']" position="inside">
+				<group name="inventory_weight" string="Weights">
+					<label for="viss"/>
+					<div class="o_row" name="viss">
+						<field name="viss"/>
+					</div>
+
+					<label for="cbm"/>
+					<div class="o_row" name="cbm">
+						<field name="cbm"/>
+					</div>
+
+					<label for="ti_x_hi"/>
+					<div class="o_row" name="ti_x_hi">
+						<field name="ti_x_hi"/>
+					</div>
+				</group>
+			 </xpath>
+		</field>
+	</record>
 	
 </odoo>

@@ -10,7 +10,9 @@
         'base',
         'stock',
         'product_expiry',
-        'sale'
+        'sale',
+        'product',
+        'stock_location_position',
     ],
     'data': [
              'security/ir.model.access.csv', 
