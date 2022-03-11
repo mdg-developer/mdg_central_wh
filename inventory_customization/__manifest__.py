@@ -1,5 +1,5 @@
 {
-    'name': 'Inventory Customization',
+    'name': 'Inventory Customizations',
     "version": "14.0.0.0.0",
     'author': 'VentorTech',
     'website': 'https://www.7thcomputing.com',
