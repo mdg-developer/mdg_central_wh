@@ -23,9 +23,14 @@
             'web.assets_backend': [
                 'stock_barcode_customization/static/src/components/stock_barcode_main.js',
                 'stock_barcode_customization/static/src/components/stock_barcode_dest_main.js',
+                'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.js',
+                'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.scss',
+                # 'stock_barcode_customization/static/src/models/stock_barcode_model.js',
+                # 'stock_barcode_customization/static/src/models/stock_barcode_picking_model.js',
             ],
             'web.assets_qweb': [
                 'stock_barcode_customization/static/src/**/*.xml',
+                'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.xml',
             ],
         }
 }
