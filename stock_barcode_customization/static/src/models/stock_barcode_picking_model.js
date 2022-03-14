@@ -1,5 +1,4 @@
 /** @odoo-module **/
-console.log("Inherit load:stock_barcode_model.js");
 import BarcodePickingModel from '@stock_barcode/models/barcode_picking_model';
 import { patch } from 'web.utils';
 import core from 'web.core';

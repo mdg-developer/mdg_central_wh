@@ -1,5 +1,4 @@
 /** @odoo-module **/
-console.log("Inherit load:stock_Barcode_main.js");
 import MainComponent from '@stock_barcode/components/main';
 import { patch } from 'web.utils';
 import core from 'web.core';

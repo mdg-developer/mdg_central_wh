@@ -10,6 +10,7 @@
         'base',
         'stock',
         'stock_barcode',
+        'web',
     ],
     'data': [
              'reports/report_stockpicking_operations.xml',

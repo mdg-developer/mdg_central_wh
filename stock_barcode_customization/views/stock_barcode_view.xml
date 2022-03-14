@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/div[@class='row']" position="before">
                     <field name="bigger_category_id" invisible="1" />
-                    <field name="basic_category_id" invisible="1" />
+<!--                    <field name="basic_category_id" invisible="1" />-->
                     <div class="row col-12 col-md-6 my-2 d-flex align-items-baseline">
                         <span>
                             <i class="fa fa-fw fa-lg fa-cube mr-3" title="Quantity"/>
