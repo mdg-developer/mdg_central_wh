@@ -23,7 +23,6 @@
                     'column_invisible': ['|', ('parent.use_expiration_date', '!=', True), ('parent.picking_code', '!=', 'incoming')],
                     'readonly': [('picking_type_use_existing_lots', '=', True)],
                 }"/>
-
             </xpath>
         </field>
     </record>

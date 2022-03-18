@@ -12,7 +12,6 @@
                             <i class="fa fa-fw fa-lg fa-calendar mr-3" title="Expiry Date"/>
                             <field name="expiration_date" placeholder="Expiry Date" readonly="0"
                             attrs="{'required': [('picking_code', '=', 'internal')]}"/>
-
                         </div>
                     </div>
                 </xpath>
