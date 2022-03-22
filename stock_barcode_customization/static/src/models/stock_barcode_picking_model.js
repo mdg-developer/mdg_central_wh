@@ -5,30 +5,42 @@ import core from 'web.core';
 const _t = core._t;
 
 patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
-
-    _createCommandVals(line) {
-        const values = {
-            dummy_id: line.virtual_id,
-            location_id: line.location_id,
-            location_dest_id: line.location_dest_id,
-            lot_name: line.lot_name,
-            lot_id: line.lot_id,
-            package_id: line.package_id,
-            picking_id: line.picking_id,
-            product_id: line.product_id,
-            product_uom_id: line.product_uom_id,
-            product_purchase_uom_id: line.product_purchase_uom_id,
-            owner_id: line.owner_id,
-            qty_done: line.qty_done,
-            result_package_id: line.result_package_id,
-            state: 'assigned',
-        };
-        for (const [key, value] of Object.entries(values)) {
-            values[key] = this._fieldToValue(value);
+    async changeDestinationLocation(id, moveScannedLineOnly) {
+        console.log("In Barcode Picking Model : in line 36")
+        console.log("id",id)
+        console.log("moveScannedLineOnly",moveScannedLineOnly)
+        console.log("previousScannedLines",this.previousScannedLines)
+        this.currentDestLocationId = id;
+        if (moveScannedLineOnly && this.previousScannedLines.length) {
+            this.currentDestLocationId = id;
+            for (const line of this.previousScannedLines) {
+                line.location_dest_id = id;
+                this._markLineAsDirty(line);
+            }
+        } else {
+            // If the button was used to change the location, if will change the
+            // destination location of all the page's move lines.
+            for (const line of this.pageLines) {
+                line.location_dest_id = id;
+                this._markLineAsDirty(line);
+            }
         }
-        return values;
-    }
+        // Forget what lines have been scanned.
+        this.scannedLinesVirtualId = [];
+        this.lastScannedPackage = false;
 
+        await this.save();
+        this._groupLinesByPage(this.currentState);
+        for (let i = 0; i < this.pages.length; i++) {
+            const page = this.pages[i];
+            if (page.sourceLocationId === this.currentLocationId &&
+                page.destinationLocationId === this.currentDestLocationId) {
+                this.pageIndex = i;
+                break;
+            }
+        }
+        this.selectedLineVirtualId = false;
+    }
 
 
 })
