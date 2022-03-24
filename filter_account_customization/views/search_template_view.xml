@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <template id="search_template_account">
+        <button t-if="options.get('account')" type="button" class="o-no-caret btn btn-secondary dropdown-toggle account_account_filter" data-toggle="dropdown">
+            <span class="fa fa-folder-open"/> Accounts
+        </button>
+        <ul class="dropdown-menu o_filter_menu" role="menu">
+            <li class="o_account_report_search js_account_account_m2m"/>
+        </ul>
+    </template>
+
+    <template id="search_template" inherit_id="account_reports.search_template">
+        <xpath expr="." position="inside">
+            <div class="btn-group dropdown o_account_reports_filter_journals" t-if="options.get('account') != None">
+                <t t-call="filter_account_customization.search_template_account"/>
+            </div>
+        </xpath>
+    </template>
+
+</data>
+</odoo>
