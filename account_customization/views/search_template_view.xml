@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <template id="search_template_accounts">
+        <button type="button" class="o-no-caret btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+            <span class="fa fa-book"/>
+            Accounts:
+            <t t-set="selected_accounts" t-value="', '.join(account.get('name') for account in options['accounts'] if account.get('selected'))"/>
+            <t t-if="selected_accounts">
+                <t t-esc="selected_accounts"/>
+            </t>
+            <t t-else="">
+                All
+            </t>
+        </button>
+        <div class="dropdown-menu o_filter_menu" role="menu">
+            <t t-foreach="options['accounts']" t-as="ac">
+                <t t-if="ac.get('id') == 'divider'">
+                    <div role="separator" class="dropdown-divider"/>
+                    <b role="menuitem" class="ml4 dropdown-item-text"><t t-esc="ac.get('name')"/></b>
+                    <div role="separator" class="dropdown-divider"/>
+                </t>
+                <t t-if="ac.get('id') != 'divider'">
+                    <t t-if="ac.get('id') == 'group'">
+                        <a role="menuitem" class="dropdown-item js_account_report_group_choice_filter" data-filter="accounts" t-att-data-id="ac.get('id')" t-att-data-member-ids="ac.get('ids')">
+                            <t t-esc="ac.get('code')"/>
+                            <t t-esc="ac.get('name')"/>
+                        </a>
+                    </t>
+                    <t t-else="">
+                        <a role="menuitem" class="dropdown-item js_account_report_choice_filter" t-att-title="ac.get('name')+ '-' + ac.get('code')" t-att-data-id="ac.get('id')" data-filter="accounts">
+                            <t t-esc="ac.get('code')"/>
+                            <t t-esc="ac.get('name')"/>
+                        </a>
+                    </t>
+                </t>
+            </t>
+        </div>
+    </template>
+
+    <template id="search_template" inherit_id="account_reports.search_template">
+        <xpath expr="." position="inside">
+            <div class="btn-group dropdown o_account_reports_filter_journals" t-if="options.get('accounts') != None">
+                <t t-call="account_customization.search_template_accounts"/>
+            </div>
+        </xpath>
+    </template>
+
+
+</data>
+</odoo>
