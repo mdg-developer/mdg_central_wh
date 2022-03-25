@@ -15,7 +15,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'filter_account_customization/static/src/js/account_report.js',
+            'account_report_customization/static/src/js/account_report.js',
         ],
 
     }

@@ -1,4 +1,4 @@
-odoo.define('filter_account_customization.account_report_generic', function (require) {
+odoo.define('account_report_customization.account_report_generic', function (require) {
 'use strict';
 console.log("Inherittttttt")
 var core = require('web.core');

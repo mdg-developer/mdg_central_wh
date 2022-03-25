@@ -14,7 +14,7 @@
     <template id="search_template" inherit_id="account_reports.search_template">
         <xpath expr="." position="inside">
             <div class="btn-group dropdown o_account_reports_filter_journals" t-if="options.get('account') != None">
-                <t t-call="filter_account_customization.search_template_account"/>
+                <t t-call="account_report_customization.search_template_account"/>
             </div>
         </xpath>
     </template>

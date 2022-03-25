@@ -90,3 +90,9 @@ class AccountReport(models.AbstractModel):
 class AccountGeneralLedgerReport(models.AbstractModel):
     _inherit = "account.general.ledger"
     filter_account = True
+
+
+class ReportAccountFinancialReport(models.Model):
+
+    _inherit = "account.financial.html.report"
+    filter_account = True
