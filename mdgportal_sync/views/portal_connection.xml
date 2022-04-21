@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="portal_connection_form_view" model="ir.ui.view">
+            <field name="name">portal.connection.form.view</field>
+            <field name="model">cwh.connection</field>
+            <field name="arch" type="xml">
+                <form string="Connection">
+                    <header>
+                        <button string="Test Connection" type="object" name="test_connection"/>
+                    </header>
+                    <sheet name="cwh_connection">
+                        <group name="cwh_connection">
+                            <field name="url" string="URL"/>
+                            <field name="username" string="Username"/>
+                            <field name="password" string="Password"/>
+                            <field name="dbname" string="DB Name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="portal_connection_tree_view" model="ir.ui.view">
+            <field name="name">portal.connection.tree.view</field>
+            <field name="model">cwh.connection</field>
+            <field name="arch" type="xml">
+                <tree string="Connection">
+                    <field name="url" string="URL"/>
+                    <field name="username" string="Username"/>
+                    <field name="password" string="Password"/>
+                    <field name="dbname" string="DBName"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="portal_connection_action" model="ir.actions.act_window">
+            <field name="name">CWH Connection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cwh.connection</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="portal_connection_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a connection with MDG Portal
+              </p>
+            </field>
+        </record>
+
+<!--        <menuitem action="portal_connection_action" id="menu_portal_connection" name="CWH Connection" parent="stock.menu_product_in_config_stock"/>-->
+        <menuitem action="portal_connection_action" id="menu_portal_connection" name="CWH Connection" parent="base.menu_ir_property"/>
+
+        <record id="message_wizard_form" model="ir.ui.view">
+            <field name="name">message.wizard.form</field>
+            <field name="model">message.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="message" readonly="True"/>
+                    <footer>
+                        <button name="action_close" string="Ok" type="object" default_focus="1" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
