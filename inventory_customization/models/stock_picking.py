@@ -78,12 +78,19 @@ class StockPicking(models.Model):
                         allocated_qty = allocated_qty + quantity
                         
     def button_validate(self):
-        
+        if self.picking_type_id.sequence_code == 'IN':
+            for line in self.move_line_ids_without_package:
+                if not line.lot_name:
+                    lot_name = self.env['ir.sequence'].next_by_code('stock.lot.serial')
+                    line.write({'lot_name': lot_name})
         result = super(StockPicking, self).button_validate()
-        if self.picking_type_id.sequence_code == 'IN': 
-            picking = self.env['stock.picking'].search([('origin', '=', self.origin),('name', 'ilike', 'INT')])
-            if picking:
-                picking.split_operation_lines()
         return result
-        
+
+    # def button_validate(self):
+    #     result = super(StockPicking, self).button_validate()
+    #     picking = self.env['stock.picking'].search([('origin', '=', self.origin),('name', 'ilike', 'INT')])
+    #     if picking:
+    #         picking.split_operation_lines()
+    #     return result
+
                     
