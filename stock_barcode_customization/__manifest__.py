@@ -27,6 +27,7 @@
                 'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.scss',
                 # 'stock_barcode_customization/static/src/models/stock_barcode_model.js',
                 'stock_barcode_customization/static/src/models/stock_barcode_picking_model.js',
+                'stock_barcode_customization/static/src/models/stock_barcode_picking_model_pkg.js',
             ],
             'web.assets_qweb': [
                 'stock_barcode_customization/static/src/**/*.xml',
