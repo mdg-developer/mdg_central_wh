@@ -81,8 +81,8 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
 
             const searchLineParams = Object.assign({}, barcodeData, { product });
 
-            const currentLine = this._findLine(searchLineParams);
-//            const currentLine = this._findLinePackage(searchLineParams);
+//            const currentLine = this._findLine(searchLineParams);
+            const currentLine = this._findLinePackage(searchLineParams);
 
             if (currentLine) { // Updates an existing line.
                 console.log("IF ##1 current line")
