@@ -37,7 +37,7 @@
 
                 <xpath expr="//div[hasclass('justify-content-md-start')]" position="before">
                         <div class="row" style="font-size: 0.66em; text-transform: capitalize; color: #01666b; padding-left: 50px; margin-top: -10px">
-                            <field name="dummy_product_pallet"/> &amp;nbsp;&amp;nbsp; Cartons in one Pallet.
+                            <field name="dummy_product_pallet"/> &amp;nbsp; * <field name="dummy"/> &amp;nbsp;Units in one Pallet.
                         </div>
 
                 </xpath>

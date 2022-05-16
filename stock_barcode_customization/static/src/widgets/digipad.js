@@ -57,7 +57,7 @@ Digipad = Widget.extend({
         }
     },
 
-     _checkInputValuePackage: function () {
+    _checkInputValuePackage: function () {
         const quantityField = document.querySelector(`input[name="${this.quantityField}"]`);
         const inputValue = quantityField.value;
         if (Number(this.value) != Number(inputValue)) {
@@ -66,21 +66,6 @@ Digipad = Widget.extend({
         }
         const productField = document.querySelector("span[name='dummy_product_pallet']");
         const resultValue = productField.innerHTML;
-//        resultValue =await this._rpc({
-//                        model: 'product.product',
-//                        method: 'search_read',
-//                        domain: [
-//                            ['name', '=', productName],
-//                        ],
-//                        fields: ['ti_x_hi'],
-//                        limit: 1,
-//                    }).then(function (result) {
-//                        console.log("result :",result[0].ti_x_hi)
-//                        resultValue = result[0].ti_x_hi;
-//                        console.log("resultValue ##:",resultValue)
-//                        return resolve(resultValue);
-//                    })
-
         return resultValue
 
 
@@ -104,9 +89,10 @@ Digipad = Widget.extend({
      */
     _increment: function (interval=1) {
         console.log("Inside increment function")
+        console.log("interval :",interval)
         const numberValue = Number(this.value || 0);
         console.log("numberValue :",numberValue)
-        console.log("interval :",interval)
+
         this.value = String(numberValue + interval);
         console.log("this.value :",this.value)
     },
@@ -128,7 +114,7 @@ Digipad = Widget.extend({
      * @returns {Promise}
      */
     _setSpecialButtons: function () {
-         console.log("Shittttt 2#")
+        console.log("Shittttt 2#")
         this.specialButtons = ['increase', 'decrease'];
         const record = this.parent.state.data;
         const demandQty = record.product_uom_qty;
@@ -193,9 +179,27 @@ Digipad = Widget.extend({
     _onCLickButtonPackage: async function (ev) {
         var result;
         result = this._checkInputValuePackage();
-        console.log("this.result ## :",result);
-        this._increment(Number(result));
+        console.log("this.result ## :",result);   //300
+        const numberValue = Number(this.value || 0); //1800
+        console.log("numberValue :",numberValue)
+        const flagField = document.querySelector("span[name='dummy']");
+        const flagValue = flagField.innerHTML;
+        console.log("flagValue   :",flagValue)
+
+
+        console.log("numberValue  #1 :",(Number(result) * Number(flagValue)))
+
+
+        this.value= String((Number(result) * Number(flagValue))+numberValue)
+        console.log("numberValue  #2 :",this.value)
+        console.log("numberValue  #2 typeof:",typeof this.value)
+
+
+//        this._increment(Number(result));
         this._notifyChanges();
+
+
+
 //        ev.preventDefault();
 //        this._checkInputValue();
 //        console.log("Number(ev.currentTarget.dataset.qty) :",Number(ev.currentTarget.dataset.qty))
