@@ -22,6 +22,7 @@ class StockMoveLine(models.Model):
     basic_uom_id = fields.Many2one('uom.uom', 'Unit of Measure', related='product_id.uom_id',
                                     domain="[('id', '=', product_purchase_category_id)]")
     basic_category_id = fields.Many2one(related='product_id.uom_id')
+    dummy_product_pallet = fields.Float(related='product_id.product_tmpl_id.pallet_quantity', store=True)
 
     @api.onchange('product_id', 'bigger_uom_qty_done','basic_uom_qty_done','bigger_uom_id')
     def _onchange_product_id_uom(self):

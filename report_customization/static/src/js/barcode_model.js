@@ -1,5 +1,5 @@
 /** @odoo-module **/
-console.log("Inherit load");
+
 import BarcodeModel from '@stock_barcode/models/barcode_model';
 import LazyBarcodeCache from '@stock_barcode/lazy_barcode_cache';
 import BarcodeParser from 'barcodes.BarcodeParser';
@@ -13,8 +13,6 @@ import { Mutex } from "@web/core/utils/concurrency";
 patch(BarcodeModel.prototype, 'report_customization', {
 
     setData(data) {
-
-            console.log("barcode.model.js > inside setdata inherit")
             this._super(...arguments);
             if (this.record.picking_type_code === 'internal'){
                 Dialog.alert(self, _t("Destination location must be scanned before validating !"), {

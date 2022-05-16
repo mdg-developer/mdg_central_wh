@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-extend="stock_barcode.DigipadTemplate">
+        <t t-jquery="div.o_digipad_special_buttons" t-operation="append">
+            <t t-call="stock_barcode_customization.DigipadSpecialButtonsTemplateCustomized"/>
+        </t>
+    </t>
+
+    <t t-extend="stock_barcode.DigipadSpecialButtonsTemplate">
+        <!-- +1 / -1 buttons -->
+        <t t-jquery="div.o_packaging_button" t-operation="replace"></t>
+
+    </t>
+
+    <t t-name="stock_barcode_customization.DigipadSpecialButtonsTemplateCustomized">
+        <div class="o_packaging_button btn btn-secondary border w-100 py-2">
+            <div class="text-capitalize"> +
+            </div>
+            <div name="packaging_name" class="small-text">Add One Pallet Quantity</div>
+        </div>
+    </t>
+
+</templates>

@@ -82,8 +82,8 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
             const searchLineParams = Object.assign({}, barcodeData, { product });
 
 //            const currentLine = this._findLine(searchLineParams);
-            const currentLine = this._findLinePackage(searchLineParams);
-
+            const currentLine = await this._findLinePackage(searchLineParams);
+            console.log("current line :", currentLine)
             if (currentLine) { // Updates an existing line.
                 console.log("IF ##1 current line")
                 const fieldsParams = this._convertDataToFieldsParams({
@@ -93,6 +93,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
                     package: recPackage,
                     owner: barcodeData.owner,
                 });
+                console.log("fieldsParams :", fieldsParams)
                 await this.updateLine(currentLine, fieldsParams);
             } else { // Creates a new line.
                 console.log("ELSE ##1 create New line")
@@ -112,6 +113,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
         this.lastScannedPackage = recPackage.id;
         console.log("this.lastScannedPackage :",recPackage.id)
         this.trigger('update');
+        return this.lastScannedPackage
     }
 
 

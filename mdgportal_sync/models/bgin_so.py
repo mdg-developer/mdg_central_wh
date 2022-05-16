@@ -5,6 +5,7 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def button_validate(self):
+
         result = super(StockPicking, self).button_validate()
         if self.picking_type_id.code == "outgoing" and self.state == 'done':
             sale_order_id = self.env['sale.order'].search([('name', '=', self.origin)], limit=1)

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     
-	<record id='view_product_form_expiry_inherit_pallet' model='ir.ui.view'>
-		<field name='name'>product.template</field>
-		<field name='model'>product.template</field>
-		<field name='inherit_id' ref='product_expiry.view_product_form_expiry'/>
-		<field name='arch' type='xml'>
-			<group name='expiry_and_lots' position='inside'>
-				<field name='pallet_quantity'/>
-			</group>
-		</field>
-	</record>
+<!--	<record id='view_product_form_expiry_inherit_pallet' model='ir.ui.view'>-->
+<!--		<field name='name'>product.template</field>-->
+<!--		<field name='model'>product.template</field>-->
+<!--		<field name='inherit_id' ref='product_expiry.view_product_form_expiry'/>-->
+<!--		<field name='arch' type='xml'>-->
+<!--			<group name='expiry_and_lots' position='inside'>-->
+<!--				<field name='pallet_quantity'/>-->
+<!--			</group>-->
+<!--		</field>-->
+<!--	</record>-->
 	
 	<record id='product_packaging_form_view_inherit' model='ir.ui.view'>
 		<field name='name'>product.packaging.form.view</field>
@@ -44,6 +44,12 @@
 					<div class="o_row" name="ti_x_hi">
 						<field name="ti_x_hi"/>
 					</div>
+
+					<label for="pallet_quantity"/>
+					<div class="o_row" name="pallet_quantity">
+						<field name='pallet_quantity'/>
+					</div>
+
 				</group>
 			 </xpath>
 		</field>

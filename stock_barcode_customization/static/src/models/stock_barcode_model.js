@@ -6,12 +6,15 @@ const _t = core._t;
 
 patch(BarcodeModel.prototype, 'stock_barcode_customization', {
 
-    _findLinePackage(barcodeData) {
+    async _findLinePackage(barcodeData) {
         console.log("Inside _fineLinePackage ")
         let foundLine = false;
         const {lot, lotName, product} = barcodeData;
         const quantPackage = barcodeData.package;
         const dataLotName = lotName || (lot && lot.name) || false;
+        const currentPage = this.pages[this.pageIndex];
+        console.log ("Current Page :",currentPage);
+        let foundPage = false;
 
         for (const pageLines of this.pages){
 
@@ -55,6 +58,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_customization', {
                     // Found a uncompleted compatible line, stop searching.
 
                     foundLine = line;
+                    foundPage = this.pages[pageLines["index"]];
                     break;
                 }
                 // The line matches, but there could be a better candidate, so keep searching.
@@ -63,6 +67,14 @@ patch(BarcodeModel.prototype, 'stock_barcode_customization', {
 
         }
         console.log(" Finish Inside _fineLinePackage ")
+        console.log("Current Page Index:",currentPage.index);
+        console.log("Found Page Index :",foundPage.index);
+//        foundLine['currentPage']= currentPage.index;
+//        foundLine['foundPage'] = foundPage.index
+
+        if(currentPage.index != foundPage.index){
+            await this._changePage(foundPage.index);
+        }
         return foundLine;
     }
 })
