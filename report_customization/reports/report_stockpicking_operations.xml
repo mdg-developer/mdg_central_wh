@@ -161,7 +161,7 @@
 <!--                                                    </t>-->
                                                 </td>
                                                 <td style="width: 10%;">
-                                                    <span t-field="ml.product_id.ti_x_hi" groups="uom.group_uom"/>
+                                                    <span t-field="ml.product_id.ti" groups="uom.group_uom"/> x <span t-field="ml.product_id.hi" groups="uom.group_uom"/>
                                                 </td>
 
                                             </tr>

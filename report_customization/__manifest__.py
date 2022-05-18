@@ -14,6 +14,7 @@
     ],
     'data': [
              'reports/report_stockpicking_operations.xml',
+             'reports/report_template_inherit.xml',
     ],
     # "assets": {
     #         'web.assets_backend': [

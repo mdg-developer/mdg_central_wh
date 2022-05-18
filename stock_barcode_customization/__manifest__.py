@@ -29,13 +29,13 @@
                 'stock_barcode_customization/static/src/models/stock_barcode_model.js',
                 'stock_barcode_customization/static/src/models/stock_barcode_picking_model.js',
                 'stock_barcode_customization/static/src/models/stock_barcode_picking_model_pkg.js',
-                'stock_barcode_customization/static/src/widgets/digipad.js',
+                # 'stock_barcode_customization/static/src/widgets/digipad.js',
                 'stock_barcode_customization/static/src/scss/stock_barcode.scss',
             ],
             'web.assets_qweb': [
-                'stock_barcode_customization/static/src/**/*.xml',
+                # 'stock_barcode_customization/static/src/**/*.xml',
                 'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.xml',
-                'stock_barcode_customization/static/src/widgets/digipad.xml',
+                # 'stock_barcode_customization/static/src/widgets/digipad.xml',
             ],
         }
 }

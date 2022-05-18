@@ -17,7 +17,7 @@
         <div class="o_packaging_button btn btn-secondary border w-100 py-2">
             <div class="text-capitalize"> +
             </div>
-            <div name="packaging_name" class="small-text">Add One Pallet Quantity</div>
+            <div name="packaging_name" class="small-text">Add One Palletts Quantity</div>
         </div>
     </t>
 

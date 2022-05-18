@@ -40,9 +40,17 @@
 						<field name="cbm"/>
 					</div>
 
-					<label for="ti_x_hi"/>
-					<div class="o_row" name="ti_x_hi">
-						<field name="ti_x_hi"/>
+<!--					<label for="ti_x_hi"/>-->
+<!--					<div class="o_row" name="ti_x_hi">-->
+<!--						<field name="ti_x_hi"/>-->
+<!--					</div>-->
+					<label for="ti"/>
+					<div class="o_row" name="ti">
+						<field name="ti"/>
+					</div>
+					<label for="hi"/>
+					<div class="o_row" name="hi">
+						<field name="hi"/>
 					</div>
 
 					<label for="pallet_quantity"/>
