@@ -1,27 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-	<record id='view_stock_move_line_operation_tree_inherit_lot'
-		model='ir.ui.view'>
-		<field name='name'>stock.move.line.operations.tree</field>
-		<field name='model'>stock.move.line</field>
-		<field name='inherit_id' ref='stock.view_stock_move_line_operation_tree' />
-		<field name='arch' type='xml'>
-			<field name='lot_name' position='replace'>
-				<field name="lot_name" widget="text" groups="stock.group_production_lot"
-					placeholder="Write your SN/LN one by one or copy paste a list."
-					readonly="0" invisible="not context.get('show_lots_text')" />
-			</field>
-		</field>
-	</record>
-
 	<record id="view_stock_move_line_operation_tree_inherit_package" model="ir.ui.view">
         <field name="name">stock.move.line.operations.tree.inherit.package</field>
         <field name="model">stock.move.line</field>
         <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='result_package_id']" position="replace">
-               <field name="result_package_id" groups="stock.group_tracking_lot" attrs="{'required': [('picking_code', '=', 'incoming')]}"/>
+               <field name="result_package_id" groups="stock.group_tracking_lot" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='lot_name']" position="attributes">
+                <attribute name="attrs">{
+                    'required': [('picking_code', '=', 'incoming')],
+                }</attribute>
+			</xpath>
+            <xpath expr="//field[@name='lot_id']" position="attributes">
+                <attribute name="attrs">{
+                    'readonly': ['&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)],
+                    'required': [('picking_code', '=', 'internal')],
+                }</attribute>
+			</xpath>
+        </field>
+    </record>
+
+
+    <record id="view_stock_move_line_detailed_operation_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='lot_id']" position="before">
+                <field name="picking_code" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='result_package_id']" position="attributes">
+                <attribute name="attrs">
+                    {'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],}
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='lot_id']" position="attributes">
+                <attribute name="attrs">
+                    {'column_invisible': [('parent.show_lots_text', '=', True)],
+                    'invisible': [('lots_visible', '=', False)],
+                    'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
+                    }
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='lot_name']" position="attributes">
+                <attribute name="attrs">
+                    {'column_invisible': [('parent.show_lots_text', '=', False)],
+                    'invisible': [('lots_visible', '=', False)],
+                    'required': [('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
+                    }
+                </attribute>
             </xpath>
         </field>
     </record>

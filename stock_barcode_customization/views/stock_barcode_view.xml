@@ -8,7 +8,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/div[@class='row']" position="before">
                     <field name="bigger_category_id" invisible="1" />
-<!--                    <field name="basic_category_id" invisible="1" />-->
                     <div class="row col-12 col-md-6 my-2 d-flex align-items-baseline">
                         <span>
                             <i class="fa fa-fw fa-lg fa-cube mr-3" title="Quantity"/>
@@ -26,7 +25,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="replace">
-                    <field name="result_package_id" placeholder="Destination Package" attrs="{'required': [('picking_code', '=', 'incoming')]}"/>
+                    <field name="result_package_id" placeholder="Destination Package" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')]}"/>
                 </xpath>
 
                 <xpath expr="//div[hasclass('justify-content-md-start')]" position="before">
@@ -34,6 +33,22 @@
                             <field name="ti"/>&amp;nbsp;*&amp;nbsp;<field name="hi"/>=<field name="tixhi"/> &amp;nbsp; Cartons in one Pallet.
                         </div>
                 </xpath>
+
+                <xpath expr="//field[@name='lot_id']" position="attributes">
+                    <attribute name="attrs">{
+                    'invisible':['|', ('tracking', '=', 'none'), ('picking_type_use_existing_lots', '=', False)],
+                    'required': [('picking_code', '=', 'internal')],
+                    }</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='lot_name']" position="attributes">
+                    <attribute name="attrs">{
+                    'invisible':['|', '|', ('tracking', '=', 'none'), ('picking_type_use_create_lots', '=', False), ('picking_type_use_existing_lots', '=', True)],
+                    'required': [('picking_code', '=', 'incoming')],
+                    }</attribute>
+                </xpath>
+
+
 
             </field>
         </record>

@@ -18,3 +18,7 @@ class Location(models.Model):
         string='Is a Loose Location?',
         default=False,
     )
+    hold = fields.Boolean(
+        string='Is a Hold Location?',
+        default=False,
+    )

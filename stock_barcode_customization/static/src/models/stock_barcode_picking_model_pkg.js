@@ -7,7 +7,7 @@ const _t = core._t;
 patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
 
     async _processPackage(barcodeData) {
-        console.log("Inside _processPackage")
+
         const { packageName } = barcodeData;
         const recPackage = barcodeData.package;
 

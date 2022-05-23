@@ -11,7 +11,8 @@
         'stock',
         'stock_barcode',
         'product_expiry',
-        'inventory_customization'
+        'inventory_customization',
+        'mdgportal_sync',
     ],
     'data': [
              'views/stock_barcode_view.xml',

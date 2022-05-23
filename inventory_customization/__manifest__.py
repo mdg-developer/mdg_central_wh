@@ -22,5 +22,7 @@
              'views/stock_location_view.xml',
              'views/stock_views.xml',
              'views/sale_order_view.xml',
+             'views/stock_picking.xml',
+             'views/product_principle_test.xml',
     ],
 }

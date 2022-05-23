@@ -13,6 +13,7 @@ import { sprintf } from '@web/core/utils/strings';
 
 patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
     async changeDestinationLocation(id, moveScannedLineOnly) {
+        console.log("#BarcodePicking : changeDestinationLocation")
         this.currentDestLocationId = id;
         if (moveScannedLineOnly && this.previousScannedLines.length) {
             this.currentDestLocationId = id;
@@ -51,8 +52,52 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
             }
         }
         this.selectedLineVirtualId = false;
+
     }
 })
+
+patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupied', {
+    async _processLocationDestination(barcodeData) {
+        console.log("######## Inherited process location destination")
+        console.log("this.record.picking_type_code :",this.record.picking_type_code)
+        if (this.record.picking_type_code === 'internal' || this.record.picking_type_code === 'incoming'){
+            console.log("##### Inside if")
+            var rpc = require('web.rpc');
+            var fields = [];
+            var result =[];
+            var result_length;
+            result = await rpc.query({
+                model: 'stock.quant',
+                method: 'search_read',
+                domain: [['location_id', '=', barcodeData.destLocation.id]],
+            }).then(function (data) {
+                console.log(data);
+                result = data
+                result_length = result.length
+                console.log("result :",result)
+                console.log("result_length :",result_length)
+            });
+             if (result_length >= 1){
+                    Dialog.alert(self, _t("Your cannot transfer to this location !"), {
+                                title: _t('Internal Transfer'),
+                    });
+             }
+             else{
+                console.log("#Barocode picking:_processLocationDestination")
+                this.highlightDestinationLocation = true;
+                await this.changeDestinationLocation(barcodeData.destLocation.id, true);
+                this.trigger('update');
+                barcodeData.stopped = true;
+             }
+        }
+        else{
+            console.log("##### Inside else")
+            this._super(...arguments);
+        }
+
+    }
+})
+
 
 patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
     async validate() {
@@ -93,6 +138,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
 
 patch(BarcodeModel.prototype, 'stock_barcode_process_location',{
     async _processLocation(barcodeData) {
+        console.log("# barcode_model:_processLocation")
         if (barcodeData.location) {
             await this._processLocationSource(barcodeData);
             this.trigger('update');

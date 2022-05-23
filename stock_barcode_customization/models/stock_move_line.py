@@ -12,6 +12,12 @@ from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
+    _sql_constraints = [
+        (
+            'unique_result_package_id', 'UNIQUE(result_package_id,picking_code)',
+            'Destinatin Package Must be unique!')
+    ]
+    picking_code = fields.Selection(related='picking_id.picking_type_id.code', readonly=True, store=True)
     bigger_uom_qty_done = fields.Float('Bigger UOM Done', default=0.0, digits='Product Unit of Measure', copy=False)
     basic_uom_qty_done = fields.Float('Basic UOM Done', default=0.0, digits='Product Unit of Measure', copy=False)
     # product_purchase_uom_id = fields.Many2one(related='product_id.uom_po_id')
@@ -161,4 +167,16 @@ class StockMoveLine(models.Model):
                 next_moves._action_assign()
         return mls
 
+    @api.onchange('location_dest_id')
+    def _onchange_location_dest_id(self):
 
+        if self.picking_code == 'internal':
+            records = self.env['stock.quant'].search([('location_id','=',self.location_dest_id.id)])
+            if records:
+                self.location_dest_id = False
+                return {'warning': {
+                    'title': _("Warning"),
+                    'message': _(
+                        "You cannot transfer to this location ! "
+                    ),
+                }}
