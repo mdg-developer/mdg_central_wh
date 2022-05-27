@@ -17,7 +17,7 @@
 		<field name="model">product.template</field>
 		<field name="inherit_id" ref="product.product_template_only_form_view"/>
 		<field name="arch" type="xml">
-			 <xpath expr="//page[@name='inventory']/group[@name='inventory']" position="inside">
+			<xpath expr="//page[@name='inventory']/group[@name='inventory']" position="inside">
 				<group name="inventory_weight" string="Weights">
 					<label for="viss"/>
 					<div class="o_row" name="viss">
@@ -44,6 +44,10 @@
 
 				</group>
 			 </xpath>
+			<xpath expr="//field[@name='categ_id']" position="before">
+				<field name="principle_id"/>
+			</xpath>
+
 		</field>
 	</record>
 	

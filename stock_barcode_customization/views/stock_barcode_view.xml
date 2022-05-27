@@ -25,7 +25,12 @@
                 </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="replace">
-                    <field name="result_package_id" placeholder="Destination Package" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')]}"/>
+                    <field name="result_package_id" placeholder="Destination Package" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
+                                                                                                'invisible':[('picking_code', '=', 'incoming')]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='result_package_id']" position="after">
+                    <field name="dummy_result_package_id" placeholder="Destination Package" attrs="{'invisible':[('picking_code', '!=', 'incoming')]}"/>
                 </xpath>
 
                 <xpath expr="//div[hasclass('justify-content-md-start')]" position="before">

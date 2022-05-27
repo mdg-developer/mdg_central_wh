@@ -84,14 +84,20 @@
                                         <th style="width: 20%;" name="th_to" t-if="o.picking_type_id.code != 'outgoing'" groups="stock.group_stock_multi_locations">
                                             <strong>To</strong>
                                         </th>
-                                        <th style="width: 10%;" name="th_serial_number" class="text-center" t-if="has_serial_number">
+                                        <th style="width: 10%;" name="th_serial_number" class="text-center" t-if="has_serial_number and o.picking_type_id.code != 'internal'">
                                            <strong>Lot/Serial Number</strong>
                                         </th>
-                                        <th style="width: 10%;" name="th_barcode" class="text-center" t-if="has_barcode">
+                                        <th style="width: 10%;" name="th_barcode" class="text-center" t-if="has_barcode and o.picking_type_id.code != 'internal'">
                                             <strong>Product Barcode</strong>
                                         </th>
-                                        <th name="th_ti_x_hi" style="width: 10%;">
+                                        <th name="th_ti_x_hi" style="width: 10%;" t-if="o.picking_type_id.code != 'internal'">
                                             <strong>TI X HI</strong>
+                                        </th>
+                                        <th style="width: 10%;" name="th_product_principle" class="text-center" t-if="o.picking_type_id.code == 'internal'">
+                                           <strong>Product Principle</strong>
+                                        </th>
+                                        <th style="width: 10%;" name="th_product_category" class="text-center" t-if="o.picking_type_id.code == 'internal'">
+                                            <strong>Product Category</strong>
                                         </th>
                                     </tr>
                                 </thead>
@@ -145,11 +151,11 @@
                                                         </t>
                                                     </div>
                                                 </td>
-                                                <td style="width: 10%;" class=" text-center h6" t-if="has_serial_number">
+                                                <td style="width: 10%;" class=" text-center h6" t-if="has_serial_number and o.picking_type_id.code != 'internal'">
                                                     <img t-if="has_serial_number and (ml.lot_id or ml.lot_name)" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.lot_id.name or ml.lot_name, 400, 100)" style="width:100%;height:35px;" alt="Barcode"/>
 
                                                 </td>
-                                                <td style="width: 10%;" class="text-center" t-if="has_barcode">
+                                                <td style="width: 10%;" class="text-center" t-if="has_barcode and o.picking_type_id.code != 'internal'">
 <!--                                                    <t t-if="product_barcode != move.product_id.barcode">-->
                                                         <span t-if="move.product_id and move.product_id.barcode">
                                                             <img t-if="len(move.product_id.barcode) == 13" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;quiet=%s' % ('EAN13', move.product_id.barcode, 400, 100, 0)" style="height:35px" alt="Barcode"/>
@@ -160,8 +166,14 @@
 <!--                                                        <t t-set="product_barcode" t-value="move.product_id.barcode"/>-->
 <!--                                                    </t>-->
                                                 </td>
-                                                <td style="width: 10%;">
-                                                    <span t-field="ml.product_id.ti" groups="uom.group_uom"/> x <span t-field="ml.product_id.hi" groups="uom.group_uom"/>
+                                                <td style="width: 10%;" t-if="o.picking_type_id.code != 'internal'">
+                                                    <span t-field="ml.product_id.ti" groups="uom.group_uom"/> x <span t-field="ml.product_id.hi" groups="uom.group_uom"/> = <span t-field="ml.tixhi"/>
+                                                </td>
+                                                <td style="width: 10%;" t-if="o.picking_type_id.code == 'internal'">
+                                                    <span t-field="ml.product_id.principle_id.name"/>
+                                                </td>
+                                                <td style="width: 10%;" t-if="o.picking_type_id.code == 'internal'">
+                                                    <span t-field="ml.product_id.categ_id.name"/>
                                                 </td>
 
                                             </tr>

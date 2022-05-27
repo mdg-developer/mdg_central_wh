@@ -9,6 +9,9 @@ class ProductTemplate(models.Model):
     hi = fields.Integer(string='HI')
     viss = fields.Float(string='Viss',default=0.0000)
     cbm = fields.Float(string='CBM',default=0.0000)
+    principle_id = fields.Many2one(
+        'product.principle', 'Product Principle',help="Select principle for the current product")
+
 
 
 class Picking(models.Model):

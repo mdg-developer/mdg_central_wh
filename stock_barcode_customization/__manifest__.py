@@ -13,6 +13,7 @@
         'product_expiry',
         'inventory_customization',
         'mdgportal_sync',
+        'stock_barcode_picking_batch',
     ],
     'data': [
              'views/stock_barcode_view.xml',
@@ -32,11 +33,14 @@
                 'stock_barcode_customization/static/src/models/stock_barcode_picking_model_pkg.js',
                 # 'stock_barcode_customization/static/src/widgets/digipad.js',
                 'stock_barcode_customization/static/src/scss/stock_barcode.scss',
+                'stock_barcode_customization/static/src/components/line.js',
+                'stock_barcode_customization/static/src/components/line.scss',
             ],
             'web.assets_qweb': [
                 # 'stock_barcode_customization/static/src/**/*.xml',
                 'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.xml',
                 # 'stock_barcode_customization/static/src/widgets/digipad.xml',
+                'stock_barcode_customization/static/src/components/line.xml',
             ],
         }
 }

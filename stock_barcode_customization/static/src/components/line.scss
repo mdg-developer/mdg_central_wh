@@ -1,0 +1,12 @@
+.o_barcode_client_action {
+    .o_barcode_lines {
+        .o_barcode_line {
+            &.o_green_bkg {
+                background-color: #4caf50;
+            }
+            &.o_red_bkg {
+                background-color: rgba(theme-color('danger'), 0.25);
+            }
+        }
+    }
+}

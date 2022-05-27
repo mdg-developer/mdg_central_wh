@@ -152,12 +152,23 @@ patch(BarcodeModel.prototype, 'stock_barcode_setup',{
     setData(data) {
             this._super(...arguments);
             this.scanDestinationLocation = false;
-            if (this.record.picking_type_code === 'internal'){
-                Dialog.alert(self, _t("Destination location must be scanned before validating !"), {
-                        title: _t('Internal Transfer'),
-                    });
-
-            }
-
         }
+})
+
+patch(BarcodePickingModel.prototype, 'stock_barcode_updateLinePalletQty', {
+    async updateLinePalletQty(virtualId, qty = 1) {
+        console.log("####Inside updateLinePalletQty")
+        const flag = this.pageLines.find(l => l.virtual_id === virtualId);
+        const product = this.cache.getRecord('product.product', flag.product_id.id);
+        console.log("flag :",flag)
+        console.log("product :",product)
+        const fieldsParams = this._convertDataToFieldsParams({
+            product,
+            qty: qty,
+            lot_id :'',
+        });
+
+        await this._createNewLine({fieldsParams});
+    }
+
 })

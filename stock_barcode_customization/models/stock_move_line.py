@@ -12,8 +12,8 @@ from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-    bigger_uom_qty_done = fields.Float('Bigger UOM Done', default=0.0, digits='Product Unit of Measure', copy=False)
-    basic_uom_qty_done = fields.Float('Basic UOM Done', default=0.0, digits='Product Unit of Measure', copy=False)
+    bigger_uom_qty_done = fields.Float('Bigger UOM Done', digits='Product Unit of Measure', copy=False)
+    basic_uom_qty_done = fields.Float('Basic UOM Done', digits='Product Unit of Measure', copy=False)
     # product_purchase_uom_id = fields.Many2one(related='product_id.uom_po_id')
 
     bigger_uom_id = fields.Many2one('uom.uom', 'Unit of Measure',related='product_id.uom_po_id',domain="[('id', '=', product_purchase_category_id)]")
@@ -29,10 +29,24 @@ class StockMoveLine(models.Model):
     hi = fields.Integer(related="product_id.product_tmpl_id.hi", store=True)
     tixhi = fields.Integer('TI X HI', compute='_compute_ti_hi')
 
+    dummy_result_package_id = fields.Char("Destination Package")
+
+    @api.onchange('dummy_result_package_id')
+    def onchange_dummy_result_package_id(self):
+        if self.dummy_result_package_id:
+            package_id = self.env['stock.quant.package'].create({'name': self.dummy_result_package_id})
+            if package_id:
+                self.update({
+                    'result_package_id':package_id.id
+                })
+            else:
+                self.dummy_result_package_id = False
+
+
     @api.depends('ti', 'hi', 'product_id')
     def _compute_ti_hi(self):
         for record in self:
-            record.tixhi = self.ti * self.hi
+            record.tixhi = record.ti * record.hi
 
     @api.onchange('product_id', 'bigger_uom_qty_done','basic_uom_qty_done','bigger_uom_id')
     def _onchange_product_id_uom(self):
@@ -175,3 +189,10 @@ class StockMoveLine(models.Model):
                         "You cannot transfer to this location ! "
                     ),
                 }}
+
+    def _get_fields_stock_barcode(self):
+        fields = super()._get_fields_stock_barcode()
+        fields.append('picking_code')
+        fields.append('tixhi')
+        fields.append('dummy')
+        return fields
