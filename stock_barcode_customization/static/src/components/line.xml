@@ -10,6 +10,7 @@
                 {{(line.colorLine or line.colorLine === 0) ? 'o_colored_markup' : ''}}
                 {{isResultPackageId ? 'o_green_bkg' : ''}}
                 {{isNotResultPackageId ? 'o_faulty' : ''}}
+                {{hasScannedDestinationLocation ? 'o_green_bkg' : ''}}
             </attribute>
 
         </xpath>

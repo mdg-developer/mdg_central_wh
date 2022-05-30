@@ -30,7 +30,7 @@ class StockMoveLine(models.Model):
     tixhi = fields.Integer('TI X HI', compute='_compute_ti_hi')
 
     dummy_result_package_id = fields.Char("Destination Package")
-
+    has_scanned_loc = fields.Boolean('Scanned Destination Location?', default=False)
     @api.onchange('dummy_result_package_id')
     def onchange_dummy_result_package_id(self):
         if self.dummy_result_package_id:
@@ -195,4 +195,5 @@ class StockMoveLine(models.Model):
         fields.append('picking_code')
         fields.append('tixhi')
         fields.append('dummy')
+        fields.append('has_scanned_loc')
         return fields

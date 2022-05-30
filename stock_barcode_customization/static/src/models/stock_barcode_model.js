@@ -82,10 +82,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_customization', {
 
 patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementBtn', {
     getDisplayIncrementBtn(line) {
-        console.log("### getDisplayIncrementBtn")
-        console.log("### this.getQtyDone(line) :",this.getQtyDone(line))
-        console.log("### line.picking_code :",line.picking_code)
-        if (this.getQtyDone(line) == 0){
+        if (this.getQtyDone(line) == 0 && line.picking_code == 'incoming'){
             return true
         }
     }
@@ -94,10 +91,6 @@ patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementBtn', {
 
 patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementPalletBtn', {
     getDisplayIncrementPalletBtn(line) {
-        console.log("### getDisplayIncrementPalletBtn")
-        console.log("### this.getQtyDone(line)" , this.getQtyDone(line))
-        console.log("### line.picking_code" , line.picking_code)
-        console.log("### line :",line)
         if (this.getQtyDone(line) != 0 && line.picking_code == 'incoming'){
             return true
         }
