@@ -48,6 +48,9 @@ patch(LineComponent.prototype, 'stock_barcode_line_displayIncrementPalletBtn', {
 //        return this.env.model.getDisplayIncrementPalletBtn(this.line);
 
         var pallet = this.line.tixhi * this.line.dummy
+        if(this.line.picking_code != 'incoming'){
+            return false
+        }
         if (!this.qtyDemand){
             return false
         }
