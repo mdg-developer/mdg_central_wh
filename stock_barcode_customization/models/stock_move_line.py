@@ -31,6 +31,37 @@ class StockMoveLine(models.Model):
 
     dummy_result_package_id = fields.Char("Destination Package")
     has_scanned_loc = fields.Boolean('Scanned Destination Location?', default=False)
+    product_check = fields.Char("Product Check")
+    product_check_flag = fields.Char('Product Check',default='False')
+    # wrong_product_msg = fields.Char('Wrong Product Message',default='Verify the Product First!', readonly=True)
+    check_product_msg = fields.Char('Wrong Product Message', default='Verify the Product First!', readonly=True)
+
+    @api.onchange('expiration_date')
+    def onchange_expiration_date(self):
+        if self.expiration_date:
+            batch = self.expiration_date.strftime("%d%m%Y")
+            self.update({
+                'lot_name': batch
+            })
+    @api.onchange('product_check')
+    def onchange_product_check(self):
+        if self.product_check:
+            if self.product_id.barcode != self.product_check:
+                self.update({
+                    'product_check_flag': 'False',
+                })
+                # self.env.cr.execute("""update stock_move_line SET product_check='' WHERE id = %s""",[self.id])
+                raise ValidationError(_('Wrong Product !'))
+            else:
+                self.update({
+                    'product_check_flag': 'True'
+                })
+        else:
+            self.update({
+                'product_check_flag': 'False'
+            })
+
+
     @api.onchange('dummy_result_package_id')
     def onchange_dummy_result_package_id(self):
         if self.dummy_result_package_id:
@@ -196,4 +227,9 @@ class StockMoveLine(models.Model):
         fields.append('tixhi')
         fields.append('dummy')
         fields.append('has_scanned_loc')
+        fields.append('id')
         return fields
+
+    def check_product(self):
+
+        return

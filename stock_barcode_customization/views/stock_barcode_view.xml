@@ -6,10 +6,45 @@
             <field name="inherit_id" ref="stock_barcode.stock_move_line_product_selector"/>
             <field name="model">stock.move.line</field>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_code']" position="after">
+                    <field name="product_check" default_focus="1" placeholder="Scan the product to verify !" style="margin-left:15px;"/>
+                    <field name="product_check_flag" invisible="1"/>
+                    <field name="check_product_msg" style="color:red;font-size:small;margin-left:15px;" attrs="{'invisible':[('product_check_flag','==','True')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='qty_done']" position="attributes">
+                    <attribute name="attrs">{
+                        'readonly':[('product_check_flag', '!=', 'True')],
+                    }</attribute>
+                </xpath>
+                <xpath expr="//widget[@name='set_reserved_qty_button']" position="replace">
+                    <widget name="set_reserved_qty_button"
+                        attrs="{'invisible': ['|',('product_uom_qty', '=', 0),('product_check_flag','!=','True')]}"/>
+                </xpath>
+                <xpath expr="//i[hasclass('fa','fa-fw','fa-lg','fa-archive','mr-3')]" position="replace">
+                    <i class="fa fa-fw fa-lg fa-archive mr-3" title="Source Package" attrs="{'invisible':[('product_check_flag','!=','True')]}"/>
+                </xpath>
+
+<!--                <xpath expr="//i[hasclass('fa','fa-fw','fa-lg','fa-long-arrow-right','mr-3')]" position="replace">-->
+<!--                    <i class="fa fa-fw fa-lg fa-long-arrow-right mr-3" title="Destination Package" attrs="{'invisible':[('product_check_flag','!=','True')]}"/>-->
+<!--                </xpath>-->
+
+                <xpath expr="//i[hasclass('fa','fa-fw','fa-lg','fa-barcode','mr-3')]" position="replace">
+                    <i class="fa fa-fw fa-lg fa-barcode mr-3" title="Serial/Lot Number" attrs="{'invisible': ['|',('tracking', 'not in', ['serial', 'lot']),
+                                                                                                ('product_check_flag','!=','True')]}"/>
+                </xpath>
+
+
+
+
+<!--                <xpath expr="//div[hasclass('col-12','col-md-6','my-2','d-flex','align-items-baseline')]" position="attributes">-->
+<!--                    <attribute name="attrs">{-->
+<!--                        'readonly':[('product_check_flag', '!=', 'True')],-->
+<!--                    }</attribute>-->
+<!--                </xpath>-->
                 <xpath expr="//form/div[@class='row']" position="before">
                     <field name="bigger_category_id" invisible="1" />
                     <div class="row col-12 col-md-6 my-2 d-flex align-items-baseline">
-                        <span>
+                        <span attrs="{'invisible':[('picking_code', '=', 'internal')]}">
                             <i class="fa fa-fw fa-lg fa-cube mr-3" title="Quantity"/>
                             <field name="bigger_uom_qty_done" options="{'type': 'number'}" placeholder="Bigger UOM" style="max-width:150px; margin-right:10px;border: 1px solid #dee2e6;"/>
                             <field name="bigger_uom_id" placeholder="Unit of Measure" options="{'no_open': True}" style="border:black;"/>
@@ -23,14 +58,21 @@
                         </span>
                     </div>
                 </xpath>
+                <xpath expr="//field[@name='package_id']" position="replace">
+                    <field name="package_id" placeholder="Source Package" attrs="{'readonly':[('product_check_flag', '!=', 'True')]}"/>
+                </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="replace">
                     <field name="result_package_id" placeholder="Destination Package" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
-                                                                                                'invisible':[('picking_code', '=', 'incoming')]}"/>
+                                                                                                'invisible':[('picking_code', '=', 'incoming')],
+                                                                                                'readonly':[('product_check', '==', 'Product Verificaion Failed!')]
+                                                                                                }"/>
                 </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="after">
-                    <field name="dummy_result_package_id" placeholder="Destination Package" attrs="{'invisible':[('picking_code', '!=', 'incoming')]}"/>
+                    <field name="dummy_result_package_id" placeholder="Destination Package" attrs="{'invisible':[('picking_code', '!=', 'incoming')],
+                                                                                                    'readonly':[('product_check_flag', '!=', 'True')],
+                                                                                                    }"/>
                 </xpath>
 
                 <xpath expr="//div[hasclass('justify-content-md-start')]" position="before">
@@ -43,6 +85,7 @@
                     <attribute name="attrs">{
                     'invisible':['|', ('tracking', '=', 'none'), ('picking_type_use_existing_lots', '=', False)],
                     'required': [('picking_code', '=', 'internal')],
+                    'readonly':[('product_check_flag', '!=', 'True')],
                     }</attribute>
                 </xpath>
 
@@ -50,6 +93,7 @@
                     <attribute name="attrs">{
                     'invisible':['|', '|', ('tracking', '=', 'none'), ('picking_type_use_create_lots', '=', False), ('picking_type_use_existing_lots', '=', True)],
                     'required': [('picking_code', '=', 'incoming')],
+                    'readonly':[('product_check_flag', '!=', 'True')],
                     }</attribute>
                 </xpath>
 

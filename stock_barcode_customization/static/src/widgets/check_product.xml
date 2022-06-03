@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+     <t t-name="stock_barcode_customization.CheckBarcodeComponent">
+<!--        <button class="check_barcode"  name="checkProduct" t-esc="'Check Product'"/>-->
+<!--         <div class="check_barcode"> Check Product </div>-->
+         <div class="o_digipad_button btn btn-secondary d-flex justify-content-center align-items-center border w-100 py-2 check_barcode">Shit</div>
+    </t>
+</templates>

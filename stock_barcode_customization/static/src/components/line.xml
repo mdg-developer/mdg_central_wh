@@ -16,8 +16,14 @@
         </xpath>
 
         <xpath expr="//button[@name='incrementButton']" position="after">
-            <button t-if="displayIncrementPalletBtn" name="incrementButton" t-on-click="addPallet(incrementQty)"
+            <div t-if="!props.subline">
+                <button t-if="displayIncrementPalletBtn" name="incrementButton" t-on-click="addPallet(incrementQtyPallet)"
                 t-esc="'+ Pallet'" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4"/>
+            </div>
+
+<!--            <button name="deleteButton" t-on-click="deletePallet()" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4">-->
+<!--                <i class="fa fa-2x fa-remove"/>-->
+<!--            </button>-->
         </xpath>
 
 

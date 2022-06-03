@@ -56,7 +56,7 @@
                                 </div>
                                 <div name="div_sched_date" style="width:200px;">
                                     <strong>Scheduled Date:</strong>
-                                    <p t-field="o.scheduled_date"/>
+                                    <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                             </div>
                             <t t-set="flag_qty" t-value="0.0"/>
@@ -75,7 +75,7 @@
                                         <th style="width: 5%;">
                                             <strong>Quantity</strong>
                                         </th>
-                                        <th style="width: 10%;">
+                                        <th style="width: 15%;">
                                             <strong>Case Quantity</strong>
                                         </th>
                                         <th style="width: 20%;" name="th_from" t-if="o.picking_type_id.code != 'incoming'" align="left" groups="stock.group_stock_multi_locations">
@@ -93,10 +93,10 @@
                                         <th name="th_ti_x_hi" style="width: 10%;" t-if="o.picking_type_id.code != 'internal'">
                                             <strong>TI X HI</strong>
                                         </th>
-                                        <th style="width: 10%;" name="th_product_principle" class="text-center" t-if="o.picking_type_id.code == 'internal'">
+                                        <th style="width: 15%;" name="th_product_principle" t-if="o.picking_type_id.code == 'internal'">
                                            <strong>Product Principle</strong>
                                         </th>
-                                        <th style="width: 10%;" name="th_product_category" class="text-center" t-if="o.picking_type_id.code == 'internal'">
+                                        <th style="width: 15%;" name="th_product_category" t-if="o.picking_type_id.code == 'internal'">
                                             <strong>Product Category</strong>
                                         </th>
                                     </tr>
@@ -129,9 +129,10 @@
                                                     <t t-if="o.state != 'done'" t-set="flag_qty" t-value="flag_qty+ml.product_uom_qty" t-options='{"widget": "float", "precision": 0}'/>
                                                     <t t-if="o.state == 'done'" t-set="flag_qty" t-value="flag_qty+ml.qty_done" t-options='{"widget": "float", "precision": 0}'/>
                                                 </td>
-                                                <td style="width: 10%;">
+                                                <td style="width: 15%;">
                                                     <span t-if="o.state != 'done'" t-esc="(ml.product_uom_qty/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 2}'/>
                                                     <span t-if="o.state == 'done'" t-esc="(ml.qty_done/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 2}'/>
+                                                    <br/>
                                                     <span t-field="ml.product_id.uom_po_id" groups="uom.group_uom"/>
                                                     <t t-if="o.state != 'done'" t-set="flag_case" t-value="flag_case+(ml.product_uom_qty/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 2}'/>
                                                     <t t-if="o.state == 'done'" t-set="flag_case" t-value="flag_case+(ml.qty_done/ml.product_id.uom_po_id.factor_inv)" t-options='{"widget": "float", "precision": 2}'/>
@@ -169,10 +170,10 @@
                                                 <td style="width: 10%;" t-if="o.picking_type_id.code != 'internal'">
                                                     <span t-field="ml.product_id.ti" groups="uom.group_uom"/> x <span t-field="ml.product_id.hi" groups="uom.group_uom"/> = <span t-field="ml.tixhi"/>
                                                 </td>
-                                                <td style="width: 10%;" t-if="o.picking_type_id.code == 'internal'">
+                                                <td style="width: 15%;" t-if="o.picking_type_id.code == 'internal'">
                                                     <span t-field="ml.product_id.principle_id.name"/>
                                                 </td>
-                                                <td style="width: 10%;" t-if="o.picking_type_id.code == 'internal'">
+                                                <td style="width: 15%;" t-if="o.picking_type_id.code == 'internal'">
                                                     <span t-field="ml.product_id.categ_id.name"/>
                                                 </td>
 

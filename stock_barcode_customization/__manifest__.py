@@ -20,6 +20,7 @@
              'views/stock_expiration_date.xml',
              'views/stock_view.xml',
              'views/production_lot_view.xml',
+             # 'views/stock_inventory_view.xml',
     ],
 
     'assets': {
@@ -35,12 +36,17 @@
                 'stock_barcode_customization/static/src/scss/stock_barcode.scss',
                 'stock_barcode_customization/static/src/components/line.js',
                 'stock_barcode_customization/static/src/components/line.scss',
+                # 'stock_barcode_customization/static/src/js/stock_barcode_view.js',
+                # 'stock_barcode_customization/static/src/widgets/check_product.js',
+                'stock_barcode_customization/static/src/components/grouped_line.js',
             ],
             'web.assets_qweb': [
                 # 'stock_barcode_customization/static/src/**/*.xml',
                 'stock_barcode_customization/static/src/widgets/set_bigger_uom_button.xml',
                 # 'stock_barcode_customization/static/src/widgets/digipad.xml',
                 'stock_barcode_customization/static/src/components/line.xml',
+                # 'stock_barcode_customization/static/src/widgets/check_product.xml',
+                'stock_barcode_customization/static/src/components/grouped_line.xml',
             ],
         }
 }

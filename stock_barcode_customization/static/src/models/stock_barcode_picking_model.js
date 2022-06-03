@@ -210,3 +210,20 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_updateLinePalletQty', {
     }
 
 })
+
+patch(BarcodePickingModel.prototype, 'stock_barcode_deletePalletQty', {
+    async deletePalletQty(virtualId,lineId) {
+        console.log("Inside #2")
+        const line = this.pageLines.find(l => l.virtual_id === virtualId);
+        console.log("line",line)
+        var rpc = require('web.rpc');
+        await rpc.query({
+            model: 'stock.move.line',
+            method: 'unlink',
+            args: [lineId],
+        })
+        this.trigger('refresh')
+    }
+
+})
+

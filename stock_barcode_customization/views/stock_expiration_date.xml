@@ -7,7 +7,8 @@
             <field name="model">stock.move.line</field>
             <field name="arch" type="xml">
                 <xpath expr="//form/field[@name='picking_location_dest_id']" position="after">
-                    <div class="row mt-2 mb-2">
+                    <div class="row mt-2 mb-2" attrs="{'invisible':[('product_check_flag', '!=', 'True')],
+                                                       'readonly':[('product_check_flag', '!=', 'True')]}">
                         <div class="col-12 d-flex align-items-baseline">
                             <i class="fa fa-fw fa-lg fa-calendar mr-3" title="Expiry Date"/>
                             <field name="expiration_date" placeholder="Expiry Date" readonly="0" required="1"

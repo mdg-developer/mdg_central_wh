@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t owl="1" t-inherit="stock_barcode.GroupedLineComponent" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('o_toggle_sublines')]" position="after">
+            <button t-if="displayIncrementPalletBtn" name="incrementButton" t-on-click="addPalletGroup(incrementQtyGroup)"
+                t-esc="'++' + incrementQtyGroup" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4"/>
+        </xpath>
+
+
+    </t>
+</templates>
+
+
+<!--t-on-click="addPallet(incrementQty)"-->
