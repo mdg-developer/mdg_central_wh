@@ -39,6 +39,7 @@
                 # 'stock_barcode_customization/static/src/js/stock_barcode_view.js',
                 # 'stock_barcode_customization/static/src/widgets/check_product.js',
                 'stock_barcode_customization/static/src/components/grouped_line.js',
+                'stock_barcode_customization/static/src/components/main.js',
             ],
             'web.assets_qweb': [
                 # 'stock_barcode_customization/static/src/**/*.xml',

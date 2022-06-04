@@ -21,9 +21,9 @@
                 t-esc="'+ Pallet'" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4"/>
             </div>
 
-<!--            <button name="deleteButton" t-on-click="deletePallet()" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4">-->
-<!--                <i class="fa fa-2x fa-remove"/>-->
-<!--            </button>-->
+            <button t-if="displayDeleteButton" name="deleteButton" t-on-click="delete" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4">
+                <i class="fa fa-2x fa-remove"/>
+            </button>
         </xpath>
 
 

@@ -206,16 +206,15 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_updateLinePalletQty', {
             lot_id :'',
         });
 
-        await this._createNewLine({fieldsParams});
+        var newLine = await this._createNewLine({fieldsParams});
+        this.trigger('update')
     }
 
 })
 
 patch(BarcodePickingModel.prototype, 'stock_barcode_deletePalletQty', {
     async deletePalletQty(virtualId,lineId) {
-        console.log("Inside #2")
-        const line = this.pageLines.find(l => l.virtual_id === virtualId);
-        console.log("line",line)
+        console.log("Inside deletePalletQty Function")
         var rpc = require('web.rpc');
         await rpc.query({
             model: 'stock.move.line',
