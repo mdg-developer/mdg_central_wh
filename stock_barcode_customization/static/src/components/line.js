@@ -67,12 +67,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_displayDeleteButton', {
         if (this.qtyDemand){
             return false
         }
-        else if (this.line.picking_code == 'incoming' && !this.line.qtyDemand){
-            console.log("inside if condition")
-            return true
-        }else{
-            return false
-        }
+        return true
 
 
 
