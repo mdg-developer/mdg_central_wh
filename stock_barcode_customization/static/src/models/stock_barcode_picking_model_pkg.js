@@ -76,7 +76,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
         }
         // For each quants, creates or increments a barcode line.
         for (const quant of quants) {
-
+            console.log("quants :",quant)
             const product = this.cache.getRecord('product.product', quant.product_id);
 
             const searchLineParams = Object.assign({}, barcodeData, { product });
@@ -106,6 +106,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
                     owner: quant.owner_id,
                 });
                 await this._createNewLine({ fieldsParams });
+
             }
         }
         barcodeData.stopped = true;
@@ -113,7 +114,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
         this.lastScannedPackage = recPackage.id;
         console.log("this.lastScannedPackage :",recPackage.id)
         this.trigger('update');
-        return this.lastScannedPackage
+//        return this.lastScannedPackage
     }
 
 

@@ -69,10 +69,12 @@ patch(BarcodeModel.prototype, 'stock_barcode_customization', {
         console.log(" Finish Inside _fineLinePackage ")
         console.log("Current Page Index:",currentPage.index);
         console.log("Found Page Index :",foundPage.index);
+        console.log("Found Line Index :",foundLine)
 //        foundLine['currentPage']= currentPage.index;
 //        foundLine['foundPage'] = foundPage.index
 
-        if(currentPage.index != foundPage.index){
+        if(currentPage && foundPage && currentPage.index != foundPage.index){
+            console.log("Inside checck page condition page")
             await this._changePage(foundPage.index);
         }
         return foundLine;
@@ -94,5 +96,12 @@ patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementPalletBtn', {
         if (this.getQtyDone(line) != 0 && line.picking_code == 'incoming'){
             return true
         }
+    }
+})
+
+patch(BarcodeModel.prototype, 'stock_barcode_getRecord', {
+    getRecord() {
+        console.log("Inside getRecord function : this.record :",this.record)
+        return this.record
     }
 })

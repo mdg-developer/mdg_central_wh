@@ -14,31 +14,19 @@ import { sprintf } from '@web/core/utils/strings';
 patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
     async changeDestinationLocation(id, moveScannedLineOnly) {
         var rpc = require('web.rpc');
+        console.log("Change location customized :")
+        console.log("this.pageLines before :",this.pageLines)
         this.currentDestLocationId = id;
         if (moveScannedLineOnly && this.previousScannedLines.length) {
 
             this.currentDestLocationId = id;
             if (this.previousScannedLines.length != 1){
-                console.log("Inside ###1")
                 this.lastScannedLine.location_dest_id = id;
-                const flag1 = await rpc.query({
-                        model: 'stock.move.line',
-                        method: 'write',
-                        args: [[this.lastScannedLine.id], {has_scanned_loc: true}],
-                    })
-                    console.log("Flag1 :",flag1)
                 this._markLineAsDirty(this.lastScannedLine);
             }
             else{
-                console.log("Inside ###2")
                 for (const line of this.previousScannedLines) {
                     line.location_dest_id = id;
-                    const flag = await rpc.query({
-                        model: 'stock.move.line',
-                        method: 'write',
-                        args: [[line.id], {has_scanned_loc: true}],
-                    })
-                    console.log("Flag :",flag)
                     this._markLineAsDirty(line);
                 }
 
@@ -46,7 +34,6 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
 
         } else {
             for (const line of this.pageLines) {
-                console.log("Inside ###3")
                 line.location_dest_id = id;
                 this._markLineAsDirty(line);
             }
@@ -67,10 +54,23 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
         }
 
 
-        this.selectedLineVirtualId = false;
 
+        for (const line of this.pageLines) {
+            console.log("Inside main loop")
+            console.log ("line :", line)
+            if (line.picking_code == 'internal' && line.has_scanned_loc == false){
+                console.log('inside main confition')
+                line.has_scanned_loc = true
+                this._markLineAsDirty(line);
+            }
+            console.log ("write done :", line)
+        }
+
+        this.selectedLineVirtualId = false;
+        console.log("this.pageLines after :",this.pageLines)
 
     }
+
 })
 
 patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupied', {
@@ -118,20 +118,23 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
     async validate() {
         console.log("Inside Validate")
         var stop =false
-        var locationError = false
+
         console.log("Start")
         for (const pageLines of this.pages){
 
             for (const line of this.pages[pageLines["index"]].lines) {
+                console.log("line :",line)
                 if (line.has_scanned_loc == false && line.picking_code == 'internal') {
                     console.log("iniside if condition")
                     stop = true
                     break;
                 }
-                if (pageLines.lines.length>1 && line.picking_code == 'internal'){
-                    locationError = true
+                if (!line.id){
+                    console.log("Inside if condition 1")
+                    stop = true
                     break;
                 }
+
             }
         }
         console.log("Stop")
@@ -143,31 +146,26 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
             });
 
         }
-        else if (locationError == true){
-            Dialog.alert(self, _t("Cannot transfer the package to the same location !"), {
-                title: _t('Internal Transfer'),
-            });
-        }
         else{
-            await this.save();
-            const action = await this.orm.call(
-                this.params.model,
-                this.validateMethod,
-                [this.recordIds]
-            );
-            const options = {
-                on_close: ev => {
-                    if (ev === undefined) {
-                        // If all is OK, displays a notification and goes back to the previous page.
-                        this.notification.add(this.validateMessage, { type: 'success' });
-                        this.trigger('history-back');
-                    }
-                },
-            };
-            if (action && action.res_model) {
-                return this.trigger('do-action', { action, options });
-            }
-            return options.on_close();
+        await this.save();
+        const action = await this.orm.call(
+            this.params.model,
+            this.validateMethod,
+            [this.recordIds]
+        );
+        const options = {
+            on_close: ev => {
+                if (ev === undefined) {
+                    // If all is OK, displays a notification and goes back to the previous page.
+                    this.notification.add(this.validateMessage, { type: 'success' });
+                    this.trigger('history-back');
+                }
+            },
+        };
+        if (action && action.res_model) {
+            return this.trigger('do-action', { action, options });
+        }
+        return options.on_close();
         }
 
 

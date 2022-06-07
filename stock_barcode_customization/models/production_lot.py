@@ -11,7 +11,8 @@ class StockProductionLot(models.Model):
                                       help='This is the date on which the goods with this Serial Number may become dangerous and must not be consumed.')
     @api.depends('expiration_date')
     def _compute_product_expiry_alert(self):
-        current_date = fields.Date.today()
+
+        current_date = fields.Datetime.today()
         for lot in self:
             if lot.expiration_date:
                 lot.product_expiry_alert = lot.expiration_date <= current_date

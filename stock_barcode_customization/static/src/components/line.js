@@ -60,10 +60,22 @@ patch(LineComponent.prototype, 'stock_barcode_line_displayIncrementPalletBtn', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_displayDeleteButton', {
     get displayDeleteButton(){
+
+        console.log("############ Now this")
+        console.log("this :",this)
+        console.log("this.line :",this.line)
         if (this.qtyDemand){
             return false
         }
-        return true
+        else if (this.line.picking_code == 'incoming' && !this.line.qtyDemand){
+            console.log("inside if condition")
+            return true
+        }else{
+            return false
+        }
+
+
+
     }
 })
 
