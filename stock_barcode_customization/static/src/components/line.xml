@@ -15,6 +15,13 @@
 
         </xpath>
 
+        <xpath expr="//div[@name='lot']" position="after">
+            <div t-if="showPickfaceLocation" name="pickfaceLoc">
+                    <span id="pickFaceLabel"/>
+                    <span class="o_line_loc_name" t-esc="pickFaceLocationName" name="pickFaceLocation" id="pickFaceLocation"/>
+            </div>
+        </xpath>
+
         <xpath expr="//button[@name='incrementButton']" position="after">
             <div t-if="!props.subline">
                 <button t-if="displayIncrementPalletBtn" name="incrementButton" t-on-click="addPallet(incrementQtyPallet)"

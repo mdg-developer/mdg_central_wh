@@ -7,7 +7,7 @@
             <field name="model">stock.move.line</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='picking_code']" position="after">
-                    <field name="product_check" default_focus="1" placeholder="Scan the product to verify !" style="margin-left:15px;"/>
+                    <field name="product_check" default_focus="1" placeholder="Scan the product to verify !" style="margin-left:15px;background-color:yellow;"/>
                     <field name="product_check_flag" invisible="1"/>
                     <field name="check_product_msg" style="color:red;font-size:small;margin-left:15px;" attrs="{'invisible':[('product_check_flag','==','True')]}"/>
                 </xpath>
@@ -63,16 +63,15 @@
                 </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="replace">
-                    <field name="result_package_id" placeholder="Destination Package" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
+                    <field name="result_package_id" class="o_bkg_yellow" placeholder="LPN Number" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
                                                                                                 'invisible':[('picking_code', '=', 'incoming')],
                                                                                                 'readonly':[('product_check', '==', 'Product Verificaion Failed!')]
                                                                                                 }"/>
                 </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="after">
-                    <field name="dummy_result_package_id" placeholder="Destination Package" attrs="{'invisible':[('picking_code', '!=', 'incoming')],
-                                                                                                    'readonly':[('product_check_flag', '!=', 'True')],
-                                                                                                    }"/>
+                    <field  name="dummy_result_package_id" placeholder="LPN Number" class="o_bkg_yellow"
+                           attrs="{'invisible':[('picking_code', '!=', 'incoming')],'readonly':[('product_check_flag', '!=', 'True')],}"/>
                 </xpath>
 
                 <xpath expr="//div[hasclass('justify-content-md-start')]" position="before">
@@ -81,13 +80,15 @@
                         </div>
                 </xpath>
 
-                <xpath expr="//field[@name='lot_id']" position="attributes">
-                    <attribute name="attrs">{
-                    'invisible':['|', ('tracking', '=', 'none'), ('picking_type_use_existing_lots', '=', False)],
-                    'required': [('picking_code', '=', 'internal')],
-                    'readonly':[('product_check_flag', '!=', 'True')],
-                    }</attribute>
-                </xpath>
+<!--                <xpath expr="//field[@name='lot_id']" position="attributes">-->
+<!--                    <attribute name="attrs">{-->
+<!--                    'invisible':['|', ('tracking', '=', 'none'), ('picking_type_use_existing_lots', '=', False)],-->
+<!--                    'required': [('picking_code', '=', 'internal')],-->
+<!--                    'readonly':[('product_check_flag', '!=', 'True')],-->
+<!--                    }</attribute>-->
+<!--                    <attribute name="t-att-class">'o_bkg_yellow'</attribute>-->
+
+<!--                </xpath>-->
 
                 <xpath expr="//field[@name='lot_name']" position="attributes">
                     <attribute name="attrs">{
@@ -95,9 +96,23 @@
                     'required': [('picking_code', '=', 'incoming')],
                     'readonly':[('product_check_flag', '!=', 'True')],
                     }</attribute>
+                    <attribute name="t-att-class">'o_bkg_yellow'</attribute>
                 </xpath>
 
-
+                <xpath expr="//field[@name='lot_id']" position="replace">
+                    <field name="lot_id" placeholder="Serial/Lot Number" options="{'no_open': True}" class="o_bkg_yellow"
+                        context="{'default_product_id': product_id, 'default_company_id': company_id}"
+                        attrs="{'invisible': ['|', ('tracking', '=', 'none'), ('picking_type_use_existing_lots', '=', False)],
+                                'required': [('picking_code', '=', 'internal')],'readonly':[('product_check_flag', '!=', 'True')]}"
+                        />
+                </xpath>
+                <xpath expr="//field[@name='lot_name']" position="replace">
+                    <field name="lot_name" placeholder="Serial/Lot Number" class="o_bkg_yellow"
+                        attrs="{'invisible': ['|', '|', ('tracking', '=', 'none'), ('picking_type_use_create_lots', '=', False), ('picking_type_use_existing_lots', '=', True)],
+                                'required': [('picking_code', '=', 'incoming')],'readonly':[('product_check_flag', '!=', 'True')]
+                        }"
+                        />
+                </xpath>
 
             </field>
         </record>

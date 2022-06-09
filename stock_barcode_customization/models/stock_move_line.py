@@ -35,7 +35,15 @@ class StockMoveLine(models.Model):
     product_check_flag = fields.Char('Product Check',default='False')
     # wrong_product_msg = fields.Char('Wrong Product Message',default='Verify the Product First!', readonly=True)
     check_product_msg = fields.Char('Wrong Product Message', default='Verify the Product First!', readonly=True)
+    # location_dest_name = fields.Char(compute='_compute_location_dest_name', store=True)
 
+    # def _compute_location_dest_name(self):
+    #     import pdb
+    #     pdb.set_trace()
+    #     for record in self:
+    #         location_dest_id = record.location_dest_id
+    #         pickface_loc =self.env['stock.location'].search([('id', '=', location_dest_id.id)], limit=1)
+    #         record.location_dest_name =pickface_loc.complete_name
     @api.onchange('expiration_date')
     def onchange_expiration_date(self):
         if self.expiration_date:
@@ -228,6 +236,7 @@ class StockMoveLine(models.Model):
         fields.append('dummy')
         fields.append('has_scanned_loc')
         fields.append('id')
+        # fields.append('location_dest_name')
         return fields
 
     def check_product(self):

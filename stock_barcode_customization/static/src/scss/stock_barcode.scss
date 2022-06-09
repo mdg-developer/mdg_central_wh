@@ -113,3 +113,9 @@
         top: 50%;
     }
 }
+
+.o_bkg_yellow {
+    &.o_input, .o_input {
+        background-color: yellow!important;
+    }
+}

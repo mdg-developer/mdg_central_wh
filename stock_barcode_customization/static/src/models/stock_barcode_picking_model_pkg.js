@@ -10,6 +10,8 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
 
         const { packageName } = barcodeData;
         const recPackage = barcodeData.package;
+        var rpc = require('web.rpc');
+        var result;
 
 
         this.lastScannedPackage = false;
@@ -76,16 +78,16 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
         }
         // For each quants, creates or increments a barcode line.
         for (const quant of quants) {
-            console.log("quants :",quant)
+
             const product = this.cache.getRecord('product.product', quant.product_id);
 
             const searchLineParams = Object.assign({}, barcodeData, { product });
 
 //            const currentLine = this._findLine(searchLineParams);
             const currentLine = await this._findLinePackage(searchLineParams);
-            console.log("current line :", currentLine)
+
             if (currentLine) { // Updates an existing line.
-                console.log("IF ##1 current line")
+
                 const fieldsParams = this._convertDataToFieldsParams({
                     qty: quant.quantity,
                     lotName: barcodeData.lotName,
@@ -93,10 +95,10 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
                     package: recPackage,
                     owner: barcodeData.owner,
                 });
-                console.log("fieldsParams :", fieldsParams)
+
                 await this.updateLine(currentLine, fieldsParams);
             } else { // Creates a new line.
-                console.log("ELSE ##1 create New line")
+
                 const fieldsParams = this._convertDataToFieldsParams({
                     product,
                     qty: quant.quantity,
@@ -104,17 +106,33 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
                     package: quant.package_id,
                     resultPackage: quant.package_id,
                     owner: quant.owner_id,
-                });
-                await this._createNewLine({ fieldsParams });
 
+                });
+                var new_line = await this._createNewLine({ fieldsParams });
+
+                if (this.isInternalTransfer && this.destLocation.display_name == 'CWHB/Stock'){
+
+                    result = await rpc.query({
+                         model: 'stock.location',
+                        method: 'search',
+                        args: [[['pick_face', '=', true],['product_id', '=',product.id]]],
+                    });
+
+                    new_line.location_dest_id = result[0];
+                    this._markLineAsDirty(new_line);
+
+                }
             }
         }
+
         barcodeData.stopped = true;
         this.selectedLineVirtualId = false;
         this.lastScannedPackage = recPackage.id;
-        console.log("this.lastScannedPackage :",recPackage.id)
+
         this.trigger('update');
-//        return this.lastScannedPackage
+
+
+
     }
 
 

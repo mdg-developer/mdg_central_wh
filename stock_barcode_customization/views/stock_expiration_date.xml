@@ -11,7 +11,7 @@
                                                        'readonly':[('product_check_flag', '!=', 'True')]}">
                         <div class="col-12 d-flex align-items-baseline">
                             <i class="fa fa-fw fa-lg fa-calendar mr-3" title="Expiry Date"/>
-                            <field name="expiration_date" placeholder="Expiry Date" readonly="0" required="1"
+                            <field class="o_bkg_yellow" name="expiration_date" placeholder="Expiry Date" readonly="0" required="1"
                             />
                         </div>
                     </div>

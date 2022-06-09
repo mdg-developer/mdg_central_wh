@@ -61,9 +61,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_displayIncrementPalletBtn', {
 patch(LineComponent.prototype, 'stock_barcode_line_displayDeleteButton', {
     get displayDeleteButton(){
 
-        console.log("############ Now this")
-        console.log("this :",this)
-        console.log("this.line :",this.line)
+
         if (this.qtyDemand){
             return false
         }
@@ -102,8 +100,71 @@ patch(LineComponent.prototype, 'stock_barcode_line_addPallet', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_delete', {
     delete() {
-        console.log("line.js > delete this.line :",this.line)
+
         this.trigger('delete-line', { line: this.line });
     }
 
 })
+
+patch(LineComponent.prototype, 'stock_barcode_line_showLoc', {
+     async showLocation(prodID){
+        var rpc = require('web.rpc');
+        var flag;
+        console.log("**** look :", prodID)
+        const domain = [['pick_face', '=', true],['product_id','=',prodID.id]];
+        const fields = ['complete_name','pick_face'];
+
+        var data =await rpc.query({
+            args: [domain, fields],
+            method: 'search_read',
+            model: 'stock.location',
+        })
+
+        return data;
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
+    get pickFaceLocationName() {
+        var result_temp;
+
+        var result;
+        var loc_name;
+        console.log("this.line :",this.line)
+        var prodID = this.line.product_id
+        console.log("this.line line.product_id :",prodID)
+        if (this.line.picking_code == 'incoming'){
+            return
+        }
+
+        else{
+             result_temp = this.showLocation(prodID);
+             result_temp.then(function (result) {
+                    console.log("result :",result)
+                    if (result.length !=0){
+                        console.log("result[0].pick_face :",result[0].pick_face)
+                        document.getElementById("pickFaceLocation").textContent = ' ' + result[0].complete_name;
+                        document.getElementById("pickFaceLabel").textContent = 'PickFace Location :';
+                    }
+//                    else{
+//                        document.getElementById("pickFaceLocation").textContent = ' No Pickface Location Defined for this Product';
+//                    }
+
+                });
+             return "Loading..."
+        }
+
+
+
+    }
+
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_showPickfaceLocation', {
+    showPickfaceLocation(){
+        console.log("************** Show Pickface Loc")
+        console.log(this.env.model.isInternalTransfer())
+        this.env.model.isInternalTransfer();
+    }
+})
+
