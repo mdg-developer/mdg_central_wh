@@ -236,6 +236,7 @@ class StockMoveLine(models.Model):
         fields.append('dummy')
         fields.append('has_scanned_loc')
         fields.append('id')
+        fields.append('expiration_date')
         # fields.append('location_dest_name')
         return fields
 

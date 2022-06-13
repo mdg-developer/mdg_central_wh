@@ -16,6 +16,10 @@
         </xpath>
 
         <xpath expr="//div[@name='lot']" position="after">
+            <div t-if="line.expiration_date" name="expiryDate">
+                <span id="expLabel">Exp :</span>
+                    <span class="o_line_exp_name" t-esc="' '+line.expiration_date" id="expData"/>
+            </div>
             <div t-if="showPickfaceLocation" name="pickfaceLoc">
                     <span id="pickFaceLabel"/>
                     <span class="o_line_loc_name" t-esc="pickFaceLocationName" name="pickFaceLocation" id="pickFaceLocation"/>

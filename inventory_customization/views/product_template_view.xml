@@ -45,7 +45,7 @@
 				</group>
 			 </xpath>
 			<xpath expr="//field[@name='categ_id']" position="before">
-				<field name="principle_id"/>
+				<field name="principal_id"/>
 			</xpath>
 
 		</field>

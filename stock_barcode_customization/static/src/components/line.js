@@ -144,7 +144,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
                     if (result.length !=0){
                         console.log("result[0].pick_face :",result[0].pick_face)
                         document.getElementById("pickFaceLocation").textContent = ' ' + result[0].complete_name;
-                        document.getElementById("pickFaceLabel").textContent = 'PickFace Location :';
+                        document.getElementById("pickFaceLabel").textContent = 'PickFace :';
                     }
 //                    else{
 //                        document.getElementById("pickFaceLocation").textContent = ' No Pickface Location Defined for this Product';

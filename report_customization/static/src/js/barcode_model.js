@@ -14,12 +14,12 @@ patch(BarcodeModel.prototype, 'report_customization', {
 
     setData(data) {
             this._super(...arguments);
-            if (this.record.picking_type_code === 'internal'){
-                Dialog.alert(self, _t("Destination location must be scanned before validating !"), {
-                        title: _t('Internal Transfer'),
-                    });
-
-            }
+//            if (this.record.picking_type_code === 'internal'){
+//                Dialog.alert(self, _t("Destination location must be scanned before validating !"), {
+//                        title: _t('Internal Transfer'),
+//                    });
+//
+//            }
         }
 
 

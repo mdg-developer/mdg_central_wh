@@ -94,7 +94,7 @@
                                             <strong>TI X HI</strong>
                                         </th>
                                         <th style="width: 15%;" name="th_product_principle" t-if="o.picking_type_id.code == 'internal'">
-                                           <strong>Product Principle</strong>
+                                           <strong>Product Principal</strong>
                                         </th>
                                         <th style="width: 15%;" name="th_product_category" t-if="o.picking_type_id.code == 'internal'">
                                             <strong>Product Category</strong>
@@ -171,7 +171,7 @@
                                                     <span t-field="ml.product_id.ti" groups="uom.group_uom"/> x <span t-field="ml.product_id.hi" groups="uom.group_uom"/> = <span t-field="ml.tixhi"/>
                                                 </td>
                                                 <td style="width: 15%;" t-if="o.picking_type_id.code == 'internal'">
-                                                    <span t-field="ml.product_id.principle_id.name"/>
+                                                    <span t-field="ml.product_id.principal_id.name"/>
                                                 </td>
                                                 <td style="width: 15%;" t-if="o.picking_type_id.code == 'internal'">
                                                     <span t-field="ml.product_id.categ_id.name"/>
