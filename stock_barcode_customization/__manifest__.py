@@ -40,6 +40,7 @@
                 # 'stock_barcode_customization/static/src/widgets/check_product.js',
                 'stock_barcode_customization/static/src/components/grouped_line.js',
                 'stock_barcode_customization/static/src/components/main.js',
+                'stock_barcode_customization/static/src/stock_barcode_menu.js',
             ],
             'web.assets_qweb': [
                 # 'stock_barcode_customization/static/src/**/*.xml',
@@ -48,6 +49,7 @@
                 'stock_barcode_customization/static/src/components/line.xml',
                 # 'stock_barcode_customization/static/src/widgets/check_product.xml',
                 'stock_barcode_customization/static/src/components/grouped_line.xml',
+                'stock_barcode_customization/static/src/stock_barcode_menu.xml',
             ],
         }
 }

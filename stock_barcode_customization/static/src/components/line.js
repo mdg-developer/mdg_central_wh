@@ -110,7 +110,6 @@ patch(LineComponent.prototype, 'stock_barcode_line_showLoc', {
      async showLocation(prodID){
         var rpc = require('web.rpc');
         var flag;
-        console.log("**** look :", prodID)
         const domain = [['pick_face', '=', true],['product_id','=',prodID.id]];
         const fields = ['complete_name','pick_face'];
 
@@ -130,9 +129,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
 
         var result;
         var loc_name;
-        console.log("this.line :",this.line)
         var prodID = this.line.product_id
-        console.log("this.line line.product_id :",prodID)
         if (this.line.picking_code == 'incoming'){
             return
         }
@@ -140,9 +137,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
         else{
              result_temp = this.showLocation(prodID);
              result_temp.then(function (result) {
-                    console.log("result :",result)
                     if (result.length !=0){
-                        console.log("result[0].pick_face :",result[0].pick_face)
                         document.getElementById("pickFaceLocation").textContent = ' ' + result[0].complete_name;
                         document.getElementById("pickFaceLabel").textContent = 'PickFace :';
                     }
@@ -162,9 +157,34 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_showPickfaceLocation', {
     showPickfaceLocation(){
-        console.log("************** Show Pickface Loc")
-        console.log(this.env.model.isInternalTransfer())
         this.env.model.isInternalTransfer();
     }
 })
 
+patch(LineComponent.prototype, 'stock_barcode_line_incrementQtyPick', {
+ get incrementQtyPick() {
+        return this.qtyDemand;
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_incrementQtyDelivery', {
+ get incrementQtyDelivery() {
+        return this.qtyDemand;
+    }
+})
+
+
+patch(LineComponent.prototype, 'stock_barcode_line_displayIncrementBtnPick', {
+get displayIncrementBtnPick() {
+        return this.env.model.getDisplayIncrementBtnPick(this.line);
+    }
+
+})
+
+
+patch(LineComponent.prototype, 'stock_barcode_line_displayIncrementBtnDelivery', {
+get displayIncrementBtnDelivery() {
+        return this.env.model.getDisplayIncrementBtnDelivery(this.line);
+    }
+
+})

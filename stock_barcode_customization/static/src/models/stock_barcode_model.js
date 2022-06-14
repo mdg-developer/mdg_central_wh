@@ -7,13 +7,11 @@ const _t = core._t;
 patch(BarcodeModel.prototype, 'stock_barcode_customization', {
 
     async _findLinePackage(barcodeData) {
-        console.log("Inside _fineLinePackage ")
         let foundLine = false;
         const {lot, lotName, product} = barcodeData;
         const quantPackage = barcodeData.package;
         const dataLotName = lotName || (lot && lot.name) || false;
         const currentPage = this.pages[this.pageIndex];
-        console.log ("Current Page :",currentPage);
         let foundPage = false;
 
         for (const pageLines of this.pages){
@@ -66,22 +64,17 @@ patch(BarcodeModel.prototype, 'stock_barcode_customization', {
             }
 
         }
-        console.log(" Finish Inside _fineLinePackage ")
-        console.log("Current Page Index:",currentPage.index);
-        console.log("Found Page Index :",foundPage.index);
-        console.log("Found Line Index :",foundLine)
 //        foundLine['currentPage']= currentPage.index;
 //        foundLine['foundPage'] = foundPage.index
 
         if(currentPage && foundPage && currentPage.index != foundPage.index){
-            console.log("Inside checck page condition page")
             await this._changePage(foundPage.index);
         }
         return foundLine;
     }
 
 })
-
+//Test
 patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementBtn', {
     getDisplayIncrementBtn(line) {
         if (this.getQtyDone(line) == 0 && line.picking_code == 'incoming'){
@@ -90,6 +83,26 @@ patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementBtn', {
     }
 
 })
+
+patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementBtnPick', {
+    getDisplayIncrementBtnPick(line) {
+        if ((this.getQtyDone(line) < this.getQtyDemand(line)) && line.picking_code == 'internal'){
+            return true
+        }
+    }
+
+})
+
+patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementBtnDelivery', {
+    getDisplayIncrementBtnDelivery(line) {
+        if (line.picking_code == 'outgoing' && (this.getQtyDone(line) < this.getQtyDemand(line))){
+            return true
+        }
+    }
+
+})
+
+
 
 patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementPalletBtn', {
     getDisplayIncrementPalletBtn(line) {
@@ -101,7 +114,6 @@ patch(BarcodeModel.prototype, 'stock_barcode_getDisplayIncrementPalletBtn', {
 
 patch(BarcodeModel.prototype, 'stock_barcode_getRecord', {
     getRecord() {
-        console.log("Inside getRecord function : this.record :",this.record)
         return this.record
     }
 })

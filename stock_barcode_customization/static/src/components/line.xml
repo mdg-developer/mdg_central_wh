@@ -35,6 +35,15 @@
             <button t-if="displayDeleteButton" name="deleteButton" t-on-click="delete" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4">
                 <i class="fa fa-2x fa-remove"/>
             </button>
+
+            <button t-if="displayIncrementBtnPick" name="incrementButtonPick"
+                t-on-click="addQuantity(incrementQtyPick)" t-esc="'+ ' + incrementQtyPick"
+                class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4"/>
+
+            <button t-if="displayIncrementBtnDelivery" name="incrementButtonDelivery"
+                t-on-click="addQuantity(incrementQtyDelivery)" t-esc="'+ ' + incrementQtyDelivery"
+                class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4"/>
+
         </xpath>
 
 

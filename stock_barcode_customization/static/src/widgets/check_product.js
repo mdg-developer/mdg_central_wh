@@ -11,7 +11,6 @@ ProductCheck = Widget.extend({
 
     },
     init: function (parent, data, options) {
-        console.log("ProductCheck : init function")
         this._super(...arguments);
         this.parent = parent;
         this.dataPointID = data.id;
@@ -22,7 +21,6 @@ ProductCheck = Widget.extend({
 
     _onCLickButton: function (ev) {
         ev.preventDefault();
-        console.log("Dan Tan Tan Tan")
     },
 
 })

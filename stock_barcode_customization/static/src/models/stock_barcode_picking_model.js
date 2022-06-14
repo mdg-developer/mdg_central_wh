@@ -14,8 +14,6 @@ import { sprintf } from '@web/core/utils/strings';
 patch(BarcodePickingModel.prototype, 'stock_barcode_customization', {
     async changeDestinationLocation(id, moveScannedLineOnly) {
         var rpc = require('web.rpc');
-        console.log("Change location customized :")
-        console.log("this.pageLines before :",this.pageLines)
         this.currentDestLocationId = id;
         if (moveScannedLineOnly && this.previousScannedLines.length) {
 
@@ -117,11 +115,10 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
     async validate() {
 
         var stop =false
-
-
         for (const pageLines of this.pages){
 
             for (const line of this.pages[pageLines["index"]].lines) {
+
 
                 if (line.has_scanned_loc == false && line.picking_code == 'internal') {
 
@@ -135,6 +132,27 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
                 }
 
             }
+        }
+        if ((this.record.picking_type_code == 'internal' && this.record.location_dest_id == 11) || (this.record.picking_type_code == 'outgoing')) {
+            await this.save();
+            const action = await this.orm.call(
+                this.params.model,
+                this.validateMethod,
+                [this.recordIds]
+            );
+            const options = {
+                on_close: ev => {
+                    if (ev === undefined) {
+                        // If all is OK, displays a notification and goes back to the previous page.
+                        this.notification.add(this.validateMessage, { type: 'success' });
+                        this.trigger('history-back');
+                    }
+                },
+            };
+            if (action && action.res_model) {
+                return this.trigger('do-action', { action, options });
+            }
+            return options.on_close();
         }
 
         if (stop == true){
@@ -224,8 +242,6 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_deletePalletQty', {
 
 patch(BarcodePickingModel.prototype, 'stock_barcode_isInternalTransfer', {
   get isInternalTransfer() {
-        console.log("******** IsinternalTransfer")
-        console.log("1", this.record.picking_type_code)
         return ['internal'].includes(this.record.picking_type_code);
     }
 })

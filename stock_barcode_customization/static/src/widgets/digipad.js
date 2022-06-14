@@ -88,13 +88,11 @@ Digipad = Widget.extend({
      * @param {integer} [interval=1]
      */
     _increment: function (interval=1) {
-        console.log("Inside increment function")
-        console.log("interval :",interval)
+
         const numberValue = Number(this.value || 0);
-        console.log("numberValue :",numberValue)
+
 
         this.value = String(numberValue + interval);
-        console.log("this.value :",this.value)
     },
 
     /**
@@ -114,11 +112,9 @@ Digipad = Widget.extend({
      * @returns {Promise}
      */
     _setSpecialButtons: function () {
-        console.log("Shittttt 2#")
         this.specialButtons = ['increase', 'decrease'];
         const record = this.parent.state.data;
         const demandQty = record.product_uom_qty;
-        console.log("demandQty :",demandQty)
         const domain = [['product_id', '=', record.product_id.res_id]];
         if (demandQty) { // Doesn't fetch packaging with a too high quantity.
             domain.push(['qty', '<=', demandQty]);
@@ -132,9 +128,7 @@ Digipad = Widget.extend({
                 limit: 3,
             },
         }).then(res => {
-            console.log("...res :", ...res)
             this.specialButtons.push(...res);
-            console.log("this.specialButtons :",this.specialButtonsdisplay_uom)
         });
     },
 
@@ -179,21 +173,10 @@ Digipad = Widget.extend({
     _onCLickButtonPackage: async function (ev) {
         var result;
         result = this._checkInputValuePackage();
-        console.log("this.result ## :",result);   //300
         const numberValue = Number(this.value || 0); //1800
-        console.log("numberValue :",numberValue)
         const flagField = document.querySelector("span[name='dummy']");
         const flagValue = flagField.innerHTML;
-        console.log("flagValue   :",flagValue)
-
-
-        console.log("numberValue  #1 :",(Number(result) * Number(flagValue)))
-
-
         this.value= String((Number(result) * Number(flagValue))+numberValue)
-        console.log("numberValue  #2 :",this.value)
-        console.log("numberValue  #2 typeof:",typeof this.value)
-
 
 //        this._increment(Number(result));
         this._notifyChanges();
