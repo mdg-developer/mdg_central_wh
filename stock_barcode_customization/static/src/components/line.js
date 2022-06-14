@@ -157,6 +157,9 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_showPickfaceLocation', {
     showPickfaceLocation(){
+        console.log("**P*******")
+        console.log("this :",this)
+        console.log("this.line :", this.line)
         this.env.model.isInternalTransfer();
     }
 })
@@ -187,4 +190,13 @@ get displayIncrementBtnDelivery() {
         return this.env.model.getDisplayIncrementBtnDelivery(this.line);
     }
 
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_showExpDate', {
+    showExpDate(){
+        console.log("*********")
+        console.log("this :",this)
+        console.log("this.line :", this.line)
+//        this.env.model.isInternalTransfer();
+    }
 })

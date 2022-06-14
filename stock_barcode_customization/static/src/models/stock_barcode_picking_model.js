@@ -133,7 +133,9 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
 
             }
         }
-        if ((this.record.picking_type_code == 'internal' && this.record.location_dest_id == 11) || (this.record.picking_type_code == 'outgoing')) {
+        console.log("In validate this :",this)
+        console.log("PackageLines :",this.packageLines.length)
+        if ((this.record.picking_type_code == 'internal' && this.record.location_dest_id == 11) || (this.record.picking_type_code == 'outgoing') || (this.packageLines.length != 0)) {
             await this.save();
             const action = await this.orm.call(
                 this.params.model,
