@@ -194,9 +194,25 @@ get displayIncrementBtnDelivery() {
 
 patch(LineComponent.prototype, 'stock_barcode_line_showExpDate', {
     showExpDate(){
+//        this.env.model.isInternalTransfer();
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_exp_date', {
+ get expDate() {
         console.log("*********")
         console.log("this :",this)
-        console.log("this.line :", this.line)
-//        this.env.model.isInternalTransfer();
+        console.log("this.line :",this.line)
+        console.log("typeof :",typeof(this.line.expiration_date))
+        if (this.line.expiration_date){
+            var parts =this.line.expiration_date.split('-');
+            console.log("parts :",parts)
+            var exp_date = parts[2] +"/" +parts[1]+"/"+parts[0]
+            return exp_date
+        }
+        else{
+            document.getElementById("expLabel").textContent = '';
+        }
+
     }
 })
