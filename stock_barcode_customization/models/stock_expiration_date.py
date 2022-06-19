@@ -10,6 +10,9 @@ class StockMoveLine(models.Model):
     expiration_date = fields.Date(related='lot_id.expiration_date',store=True,readonly=False,string='Expiry Date', help='This is the date on which the goods with this Serial Number may'
                                                                  ' become dangerous and must not be consumed.')
 
+    validated_by = fields.Many2one('res.partner', string="Validated By",store=True, readonly=True)
+
+
     def write(self, vals):
         res = super(StockMoveLine, self).write(vals)
         if 'expiration_date' in vals and self.lot_id:

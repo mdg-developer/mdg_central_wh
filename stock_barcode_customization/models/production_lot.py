@@ -43,3 +43,10 @@ class StockProductionLot(models.Model):
             vals = self._get_date_values(time_delta, new_date)
             vals['expiration_date'] = new_date
             self.write(vals)
+
+
+    @api.model
+    def _get_fields_stock_barcode(self):
+        fields = super()._get_fields_stock_barcode()
+        fields.append('expiration_date')
+        return fields

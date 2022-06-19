@@ -7,28 +7,30 @@ const _t = core._t;
 patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
 
     async _processPackage(barcodeData) {
+        console.log("Inside _processPackage")
 
         const { packageName } = barcodeData;
         const recPackage = barcodeData.package;
         var rpc = require('web.rpc');
         var result;
-
-
+        console.log("barcodeData.packageType :",barcodeData.packageType)
+        console.log("recPackage :",recPackage)
+        console.log("packageName :",packageName)
         this.lastScannedPackage = false;
         if (barcodeData.packageType && !recPackage) {
-
+            console.log("Inside first if")
             // Scanned a package type and no existing package: make a put in pack (forced package type).
             barcodeData.stopped = true;
             return await this._processPackageType(barcodeData);
         } else if (packageName && !recPackage) {
-
+            console.log("Inside first else if")
             // Scanned a non-existing package: make a put in pack.
             barcodeData.stopped = true;
             return await this._putInPack({ default_name: packageName });
         } else if (!recPackage || (
             recPackage.location_id && recPackage.location_id != this.currentLocationId
         )) {
-
+            console.log("Inside last else if")
             return; // No package, package's type or package's name => Nothing to do.
         }
         // Scanned a package: fetches package's quant and creates a line for
@@ -41,7 +43,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
             [recPackage.quant_ids]
         );
         const quants = res.records['stock.quant'];
-
+        console.log("quants :",quants)
         if (!quants.length) { // Empty package => Assigns it to the last scanned line.
 
             const currentLine = this.selectedLine || this.lastScannedLine;
@@ -78,14 +80,14 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
         }
         // For each quants, creates or increments a barcode line.
         for (const quant of quants) {
-
+            console.log("inside loop quant :")
             const product = this.cache.getRecord('product.product', quant.product_id);
 
             const searchLineParams = Object.assign({}, barcodeData, { product });
 
 //            const currentLine = this._findLine(searchLineParams);
             const currentLine = await this._findLinePackage(searchLineParams);
-
+            console.log("currentLine :",currentLine)
             if (currentLine) { // Updates an existing line.
 
                 const fieldsParams = this._convertDataToFieldsParams({

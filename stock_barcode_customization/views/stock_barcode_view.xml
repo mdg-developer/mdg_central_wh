@@ -7,7 +7,8 @@
             <field name="model">stock.move.line</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='picking_code']" position="after">
-                    <field name="product_check" default_focus="1" placeholder="Scan the product to verify !" style="margin-left:15px;background-color:yellow;"/>
+                    <field name="picking_sequence_code" invisible="1"/>
+                    <field name="product_check" default_focus="1" placeholder="Scan the product to verify !" style="margin-left:15px;background-color:yellow;" attrs="{'invisible':[('product_check_flag','==','True')]}" />
                     <field name="product_check_flag" invisible="1"/>
                     <field name="check_product_msg" style="color:red;font-size:small;margin-left:15px;" attrs="{'invisible':[('product_check_flag','==','True')]}"/>
                 </xpath>
@@ -63,7 +64,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='result_package_id']" position="replace">
-                    <field name="result_package_id" class="o_bkg_yellow" placeholder="LPN Number" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],
+                    <field name="result_package_id" class="o_bkg_yellow" placeholder="LPN Number" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_sequence_code', '=', 'INT')],
                                                                                                 'invisible':[('picking_code', '=', 'incoming')],
                                                                                                 'readonly':[('product_check', '==', 'Product Verificaion Failed!')]
                                                                                                 }"/>

@@ -9,7 +9,8 @@
                 <field name='expiration_date' position='replace'>
                     <field name="picking_code" invisible="1"/>
                     <field string="Expiry Date" name="expiration_date" attrs="{'required':['|',('picking_code', '=', 'internal'),('picking_code', '=', 'incoming')]}"/>
-                 </field>
+                    <field string="Validated By" name="validated_by"/>
+                </field>
             </field>
         </record>
 
@@ -25,6 +26,7 @@
                     'column_invisible': ['|', ('parent.use_expiration_date', '!=', True), ('parent.picking_code', '!=', 'incoming')],
                     'readonly': [('picking_type_use_existing_lots', '=', True)],
                 }"/>
+                <field string="Validated By" name="validated_by"/>
             </xpath>
         </field>
     </record>

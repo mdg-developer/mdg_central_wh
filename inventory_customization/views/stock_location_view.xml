@@ -13,6 +13,7 @@
 				<field name="product_id" />
 				<field name="loose" />
 				<field name="hold"/>
+				<field name="ship_to"/>
 			</field>
 		</field>
 	</record>

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-extend="main_menu">
-        <t t-jquery="div.row > div.col:last" t-operation="after">
+        <t t-jquery="div.row > div.col:first" t-operation="after">
             <div class="col" style="margin-top: 3px;">
                 <button class="button_internal_transfer btn btn-block btn-primary mb-4">
                     Internal Transfer
                 </button>
             </div>
+
+        </t>
+        <t t-jquery="div.row > div.col:last" t-operation="after">
             <div class="col" style="margin-top: 3px;">
                 <button class="button_delivery btn btn-block btn-primary mb-4">
                     Delivery Order

@@ -20,6 +20,68 @@ patch(LineComponent.prototype, 'stock_barcode_line_color_customization_1', {
     }
 })
 
+patch(LineComponent.prototype, 'stock_barcode_line_color_customization_pick', {
+    get isPicking() {
+        if (this.line.picking_sequence_code == 'PICK' && this.line.qty_done && this.line.product_check_flag == 'True'){
+            console.log("Inside thisss")
+            return true;
+
+        }
+        return false;
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_color_customization_delivery_order', {
+    get isDeliveryOrder() {
+        console.log("this :",this)
+        console.log("this.line :",this.line)
+        console.log("this.line.picking_sequence_code :",this.line.picking_sequence_code)
+        console.log("this.line.qty_done :",this.line.qty_done)
+        console.log("this.line.product_check_flag :",this.line.product_check_flag)
+        if (this.line.picking_code == 'outgoing' && this.line.qty_done && this.line.product_check_flag == 'True'){
+            console.log("Inside thisss")
+            return true;
+
+        }
+        return false;
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_color_customization_pickCA', {
+    get isPickCA() {
+       if (this.line.picking_sequence_code == 'PICKCA'){
+            if(this.line.is_shipto_location == true){
+                if(this.line.qty_done && this.line.product_check_flag == 'True'){
+                    return true
+                }
+            }
+            else{
+                if(this.line.qty_done && this.line.product_check_flag == 'True'){
+                    return true
+                }
+            }
+       }
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_color_customization_pickL', {
+    get isPickL() {
+        if (this.line.picking_sequence_code == 'PICKL'){
+            if(this.line.is_shipto_location == true){
+                if(this.line.qty_done && this.line.product_check_flag == 'True'){
+                    return true
+                }
+            }
+            else{
+                if(this.line.qty_done && this.line.has_scanned_loc == true && this.line.product_check_flag == 'True'){
+                    return true
+                }
+            }
+
+        }
+    }
+})
+
 patch(LineComponent.prototype, 'stock_barcode_line_isNotResultPackageId', {
     get isNotResultPackageId() {
         if (!this.line.result_package_id && this.line.picking_code == 'incoming'){
@@ -32,7 +94,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_isNotResultPackageId', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_hasScannedDestinationLocation', {
     get hasScannedDestinationLocation() {
-        if (this.line.has_scanned_loc == true && this.line.picking_code == 'internal'){
+        if (this.line.has_scanned_loc == true && this.line.picking_sequence_code == 'INT'){
             return true;
 
         }
@@ -130,7 +192,8 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
         var result;
         var loc_name;
         var prodID = this.line.product_id
-        if (this.line.picking_code == 'incoming'){
+        if (this.line.picking_code == 'incoming' || this.line.picking_code == 'outgoing' || this.line.picking_sequence_code == 'PICK'
+                || this.line.picking_sequence_code == 'PICKCA' || this.line.picking_sequence_code == 'PICKL'){
             return
         }
 
@@ -203,15 +266,46 @@ patch(LineComponent.prototype, 'stock_barcode_line_exp_date', {
         console.log("*********")
         console.log("this :",this)
         console.log("this.line :",this.line)
-        console.log("typeof :",typeof(this.line.expiration_date))
-        if (this.line.expiration_date){
-            var parts =this.line.expiration_date.split('-');
+        if(this.line.lot_id){
+            console.log("this.line.lot_id.expiration_date :",this.line.lot_id.expiration_date)
+            var expiry  = this.line.lot_id.expiration_date
+            var parts =expiry.split('-');
             console.log("parts :",parts)
             var exp_date = parts[2] +"/" +parts[1]+"/"+parts[0]
-            return exp_date
+//            document.getElementById("expLabel").textContent = 'Exp : ';
+            return "Exp: "+exp_date
+
+        }
+
+
+    }
+})
+
+
+patch(LineComponent.prototype, 'stock_barcode_line_caseQuantity', {
+ get caseQuantity() {
+        console.log("*********Case Quantity")
+        console.log(this.line.product_purchase_uom_id_factor)
+        console.log(this.qtyDone)
+        var factor =this.line.product_purchase_uom_id_factor
+        var result = this.qtyDone / factor
+        console.log("result :",result)
+        console.log("result :",result.toFixed(2))
+        return result.toFixed(2)
+
+
+    }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_showCaseQty', {
+    showCaseQty(){
+        console.log("*******Show Case Qty")
+        console.log("this :",this)
+        if (this.line.picking_code == 'outgoing'){
+            return true
         }
         else{
-            document.getElementById("expLabel").textContent = '';
+             return false
         }
 
     }

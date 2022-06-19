@@ -14,7 +14,6 @@ class StockMoveLine(models.Model):
 
     bigger_uom_qty_done = fields.Float('Bigger UOM Done', digits='Product Unit of Measure', copy=False)
     basic_uom_qty_done = fields.Float('Basic UOM Done', digits='Product Unit of Measure', copy=False)
-    # product_purchase_uom_id = fields.Many2one(related='product_id.uom_po_id')
 
     bigger_uom_id = fields.Many2one('uom.uom', 'Unit of Measure',related='product_id.uom_po_id',domain="[('id', '=', product_purchase_category_id)]")
     bigger_category_id = fields.Many2one(related='product_id.uom_po_id')
@@ -24,26 +23,26 @@ class StockMoveLine(models.Model):
     basic_category_id = fields.Many2one(related='product_id.uom_id')
     dummy_product_pallet = fields.Float(related='product_id.product_tmpl_id.pallet_quantity', store=True)
     dummy = fields.Float(related='product_id.uom_po_id.factor_inv', store=True)
-    # dummy_product_basic_pallet = fields.Float(related='product_id.product_tmpl_id.pallet_unit_quantity', store=True)
     ti = fields.Integer(related="product_id.product_tmpl_id.ti", store=True)
     hi = fields.Integer(related="product_id.product_tmpl_id.hi", store=True)
     tixhi = fields.Integer('TI X HI', compute='_compute_ti_hi')
-
     dummy_result_package_id = fields.Char("Destination Package")
     has_scanned_loc = fields.Boolean('Scanned Destination Location?', default=False)
-    product_check = fields.Char("Product Check")
+    product_check = fields.Char("Product Check" )
     product_check_flag = fields.Char('Product Check',default='False')
-    # wrong_product_msg = fields.Char('Wrong Product Message',default='Verify the Product First!', readonly=True)
     check_product_msg = fields.Char('Wrong Product Message', default='Verify the Product First!', readonly=True)
-    # location_dest_name = fields.Char(compute='_compute_location_dest_name', store=True)
+    picking_sequence_code = fields.Char(related='picking_id.picking_type_id.sequence_code')
 
-    # def _compute_location_dest_name(self):
-    #     import pdb
-    #     pdb.set_trace()
-    #     for record in self:
-    #         location_dest_id = record.location_dest_id
-    #         pickface_loc =self.env['stock.location'].search([('id', '=', location_dest_id.id)], limit=1)
-    #         record.location_dest_name =pickface_loc.complete_name
+    product_purchase_uom_id_factor = fields.Float(related='product_id.uom_po_id.factor_inv')
+    product_purchase_uom_id_name = fields.Char(related='product_id.uom_po_id.name')
+    is_shipto_location = fields.Boolean('Is Ship To Location?', compute='_compute_is_shipto_location')
+
+    @api.depends('is_shipto_location', 'location_dest_id')
+    def _compute_is_shipto_location(self):
+        for record in self:
+            loc_record = self.env['stock.location'].search([('id','=',record.location_dest_id.id)])
+            record.is_shipto_location = loc_record.ship_to
+
     @api.onchange('expiration_date')
     def onchange_expiration_date(self):
         if self.expiration_date:
@@ -64,10 +63,22 @@ class StockMoveLine(models.Model):
                 self.update({
                     'product_check_flag': 'True'
                 })
+                if self.picking_id.picking_type_id.code in ('incoming','outgoing') or self.picking_id.picking_type_id.sequence_code == 'PICK':
+                    same_prod = self.env['stock.move.line'].search([('picking_id', '=', self.picking_id.id), ('product_id', '=', self.product_id.id)])
+                    for record in same_prod:
+                        record.update({
+                            'product_check_flag': 'True'
+                        })
+
+
+
         else:
             self.update({
                 'product_check_flag': 'False'
             })
+
+        if self.picking_id.picking_type_id.code == 'incoming':
+            same_prod = self.env['stock.move.line'].search([('picking_id', '=', self.picking_id.id), ('product_id', '=', self.product_id.id)])
 
 
     @api.onchange('dummy_result_package_id')
@@ -237,9 +248,12 @@ class StockMoveLine(models.Model):
         fields.append('has_scanned_loc')
         fields.append('id')
         fields.append('expiration_date')
-        # fields.append('location_dest_name')
+        fields.append('picking_sequence_code')
+        fields.append('product_purchase_uom_id_factor')
+        fields.append('product_purchase_uom_id_name')
+        fields.append('product_check_flag')
+        fields.append('is_shipto_location')
         return fields
 
-    def check_product(self):
-
-        return
+    # def check_product(self):
+    #     return

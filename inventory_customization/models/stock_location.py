@@ -22,3 +22,7 @@ class Location(models.Model):
         string='Is a Hold Location?',
         default=False,
     )
+    ship_to = fields.Boolean(
+        string='Is a Ship to Location?',
+        default=False,
+    )
