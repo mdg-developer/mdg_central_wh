@@ -52,6 +52,7 @@
                 # 'stock_barcode_customization/static/src/widgets/check_product.xml',
                 'stock_barcode_customization/static/src/components/grouped_line.xml',
                 'stock_barcode_customization/static/src/stock_barcode_menu.xml',
+                'stock_barcode_customization/static/src/components/main.xml',
             ],
         }
 }

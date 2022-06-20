@@ -5,9 +5,7 @@ from collections import Counter
 
 from odoo import _, api, fields, tools, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import OrderedSet
-from odoo.tools.float_utils import float_compare, float_is_zero, float_round
-from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
+
 
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
@@ -36,6 +34,19 @@ class StockMoveLine(models.Model):
     product_purchase_uom_id_factor = fields.Float(related='product_id.uom_po_id.factor_inv')
     product_purchase_uom_id_name = fields.Char(related='product_id.uom_po_id.name')
     is_shipto_location = fields.Boolean('Is Ship To Location?', compute='_compute_is_shipto_location')
+
+    @api.onchange('qty_done')
+    def onchange_qty_done(self):
+        # import pdb
+        # pdb.set_trace()
+        if self.qty_done and self.picking_id.picking_type_id.sequence_code in ('PICK', 'PICKCA', 'PICKL', 'OUT'):
+            if self.qty_done > self.product_uom_qty:
+                demand_amt = self.product_uom_qty
+                self.update({
+                    'qty_done': demand_amt
+                })
+                # raise UserError(_('Cannot Issue More than the Demanded Amount!'))
+
 
     @api.depends('is_shipto_location', 'location_dest_id')
     def _compute_is_shipto_location(self):
