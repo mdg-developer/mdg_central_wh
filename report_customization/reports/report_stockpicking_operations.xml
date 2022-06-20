@@ -101,10 +101,10 @@
                                         <th style="width: 15%;" name="th_expiry_date" t-if="o.picking_type_id.code != 'incoming'">
                                             <strong>Expiry Date</strong>
                                         </th>
-                                        <th style="width: 15%;" name="th_product_principle" t-if="o.picking_type_id.sequence_code == 'INT'">
+                                        <th style="width: 15%;" name="th_product_principle" t-if="o.picking_type_id.code == 'incoming'">
                                            <strong>Product Principal</strong>
                                         </th>
-                                        <th style="width: 15%;" name="th_product_category" t-if="o.picking_type_id.sequence_code == 'INT'">
+                                        <th style="width: 15%;" name="th_product_category" t-if="o.picking_type_id.code == 'incoming'">
                                             <strong>Product Category</strong>
                                         </th>
 
@@ -182,10 +182,10 @@
                                                 <td style="width: 15%;" t-if="o.picking_type_id.code != 'incoming' and ml.lot_id">
                                                     <span t-field="ml.lot_id.expiration_date"/>
                                                 </td>
-                                                <td style="width: 15%;" t-if="o.picking_type_id.sequence_code == 'INT'">
+                                                <td style="width: 15%;" t-if="o.picking_type_id.code == 'incoming'">
                                                     <span t-field="ml.product_id.principal_id.name"/>
                                                 </td>
-                                                <td style="width: 15%;" t-if="o.picking_type_id.sequence_code == 'INT'">
+                                                <td style="width: 15%;" t-if="o.picking_type_id.code == 'incoming'">
                                                     <span t-field="ml.product_id.categ_id.name"/>
                                                 </td>
 

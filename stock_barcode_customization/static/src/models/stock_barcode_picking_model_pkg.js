@@ -16,6 +16,8 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
         console.log("barcodeData.packageType :",barcodeData.packageType)
         console.log("recPackage :",recPackage)
         console.log("packageName :",packageName)
+        console.log("this :",this)
+        console.log("this.record :",this.record)
         this.lastScannedPackage = false;
         if (barcodeData.packageType && !recPackage) {
             console.log("Inside first if")
@@ -31,7 +33,10 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_customization_package', {
             recPackage.location_id && recPackage.location_id != this.currentLocationId
         )) {
             console.log("Inside last else if")
-            return; // No package, package's type or package's name => Nothing to do.
+            if(this.record.picking_type_sequence_code != 'PICK'){
+                return; // No package, package's type or package's name => Nothing to do.
+            }
+
         }
         // Scanned a package: fetches package's quant and creates a line for
         // each of them, except if the package is already scanned.
