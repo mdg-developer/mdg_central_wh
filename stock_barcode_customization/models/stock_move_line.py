@@ -37,17 +37,14 @@ class StockMoveLine(models.Model):
 
     @api.onchange('qty_done')
     def onchange_qty_done(self):
-        # import pdb
-        # pdb.set_trace()
         if self.qty_done and self.picking_id.picking_type_id.sequence_code in ('PICK', 'PICKCA', 'PICKL', 'OUT'):
             if self.qty_done > self.product_uom_qty:
                 demand_amt = self.product_uom_qty
                 self.update({
-                    'qty_done': demand_amt
+                    'qty_done': demand_amt,
                 })
-                # raise UserError(_('Cannot Issue More than the Demanded Amount!'))
-
-
+                self.env.cr.commit()
+                raise UserError(_('Cannot Issue More than the Demanded Amount!'))
     @api.depends('is_shipto_location', 'location_dest_id')
     def _compute_is_shipto_location(self):
         for record in self:
@@ -68,7 +65,7 @@ class StockMoveLine(models.Model):
                 self.update({
                     'product_check_flag': 'False',
                 })
-                # self.env.cr.execute("""update stock_move_line SET product_check='' WHERE id = %s""",[self.id])
+
                 raise ValidationError(_('Wrong Product !'))
             else:
                 self.update({
