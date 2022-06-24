@@ -20,12 +20,13 @@
         </xpath>
 
         <xpath expr="//div[@name='quantity']" position="inside">
-            <div t-if="line.picking_code== 'outgoing'">
+            <div>
                 <span t-if="qtyDone" t-esc="' [ '+caseQuantity"></span>
                 <span t-if="qtyDone" t-esc="' '+line.product_purchase_uom_id_name + ' ]'"></span>
             </div>
 
         </xpath>
+
 
         <xpath expr="//div[@name='lot']" position="after">
             <div t-if="line.lot_id" name="expiryDate">

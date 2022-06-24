@@ -12,4 +12,5 @@ class StockPicking(models.Model):
     def _get_fields_stock_barcode(self):
         fields = super()._get_fields_stock_barcode()
         fields.append('picking_type_sequence_code')
+        fields.append('operator')
         return fields

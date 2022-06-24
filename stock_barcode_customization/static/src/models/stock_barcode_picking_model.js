@@ -203,6 +203,13 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
 
                 }
             }
+            if(!this.record.operator){
+                await rpc.query({
+                        model: 'stock.picking',
+                        method: 'write',
+                        args: [[this.record.id], {operator: session.partner_id}],
+                    });
+            }
 
             return options.on_close();
         }
@@ -249,6 +256,14 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
 
             }
         }
+        if(!this.record.operator){
+                await rpc.query({
+                        model: 'stock.picking',
+                        method: 'write',
+                        args: [[this.record.id], {operator: session.partner_id}],
+                    });
+            }
+
 
         return options.on_close();
         }
