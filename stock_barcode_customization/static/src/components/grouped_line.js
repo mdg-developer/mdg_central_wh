@@ -8,7 +8,7 @@ patch(GroupedLineComponent.prototype, 'stock_barcode_group_displayIncrementPalle
     get displayIncrementPalletBtn() {
 
 //        return this.env.model.getDisplayIncrementPalletBtn(this.line);
-        if(this.line.picking_code == 'internal'){
+        if(this.line.picking_code == 'internal' || this.line.picking_code == 'outgoing'){
             return false
         }
         else if ( this.qtyDone >= this.qtyDemand){

@@ -7,7 +7,7 @@ const _t = core._t;
 patch(BarcodeModel.prototype, 'stock_barcode_customization', {
 
     async _findLinePackage(barcodeData) {
-        console.log("_findLinePackage")
+
         let foundLine = false;
         const {lot, lotName, product} = barcodeData;
         const quantPackage = barcodeData.package;
@@ -55,16 +55,15 @@ patch(BarcodeModel.prototype, 'stock_barcode_customization', {
                 }
                 if (this._lineIsNotComplete(line)) {
                     // Found a uncompleted compatible line, stop searching.
-                    console.log("Inside foundline")
+
                     foundLine = line;
                     foundPage = this.pages[pageLines["index"]];
-                    console.log("Inside foundline :",foundLine)
-                    console.log("Inside foundPage :",foundPage)
+
                     break;
                 }
                 // The line matches, but there could be a better candidate, so keep searching.
                 foundLine = foundLine || line;
-                console.log("Outside foundLine :",foundLine)
+
             }
 
         }

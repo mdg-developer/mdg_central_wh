@@ -6,6 +6,9 @@
             <button t-if="displayIncrementPalletBtn" name="incrementButton" t-on-click="addPalletGroup(incrementQtyGroup)"
                 t-esc="'++' + incrementQtyGroup" class="o_line_button o_add_quantity btn btn-primary ml-2 ml-sm-4"/>
         </xpath>
+<!--        <xpath expr="//span[hasclass('product-label')]" position="replace">-->
+<!--            <span class="product-label" t-esc="line.product_id.name"/>-->
+<!--        </xpath>-->
 
 
     </t>

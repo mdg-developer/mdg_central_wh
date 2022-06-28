@@ -9,6 +9,8 @@ class StockProductionLot(models.Model):
 
     expiration_date = fields.Date(string='Expiry Date',
                                       help='This is the date on which the goods with this Serial Number may become dangerous and must not be consumed.')
+
+    product_name = fields.Char(related='product_id.name')
     @api.depends('expiration_date')
     def _compute_product_expiry_alert(self):
 
@@ -49,4 +51,5 @@ class StockProductionLot(models.Model):
     def _get_fields_stock_barcode(self):
         fields = super()._get_fields_stock_barcode()
         fields.append('expiration_date')
+        fields.append('product_name')
         return fields

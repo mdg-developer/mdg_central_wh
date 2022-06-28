@@ -10,17 +10,16 @@
                 <p>
                     <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
                 </p>
-<!--                <div class="row" style="text-align: center;">-->
-<!--                    <span class="col-6" style="font-weight:bold;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>-->
-<!--                </div>-->
-
                 <div t-if="report_type == 'pdf'" class="text-muted">
                     Page: <span class="page"/> / <span class="topage"/>
                 </div>
-
             </div>
-
         </xpath>
-
+<!--        <xpath expr="//div[hasclass('pt-5')]" position="replace">-->
+<!--            <div >-->
+<!--                &lt;!&ndash; This div ensures that the address is not cropped by the header. &ndash;&gt;-->
+<!--                <t t-call="web.address_layout"/>-->
+<!--            </div>-->
+<!--        </xpath>-->
     </template>
 </odoo>

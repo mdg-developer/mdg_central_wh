@@ -14,6 +14,8 @@ class Location(models.Model):
         default=False,
     )
     product_id = fields.Many2one('product.product', string="Product")
+    principal_id = fields.Many2one('product.principal', string='Product Principal', related='product_id.principal_id', readonly=True)
+    categ_id = fields.Many2one('product.category', string='Product Category', related='product_id.categ_id',readonly=True)
     loose = fields.Boolean(
         string='Is a Loose Location?',
         default=False,

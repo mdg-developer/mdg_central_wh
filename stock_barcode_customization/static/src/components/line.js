@@ -263,16 +263,10 @@ patch(LineComponent.prototype, 'stock_barcode_line_showExpDate', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_exp_date', {
  get expDate() {
-        console.log("*********")
-        console.log("this :",this)
-        console.log("this.line :",this.line)
         if(this.line.lot_id){
-            console.log("this.line.lot_id.expiration_date :",this.line.lot_id.expiration_date)
             var expiry  = this.line.lot_id.expiration_date
             var parts =expiry.split('-');
-            console.log("parts :",parts)
             var exp_date = parts[2] +"/" +parts[1]+"/"+parts[0]
-//            document.getElementById("expLabel").textContent = 'Exp : ';
             return "Exp: "+exp_date
 
         }
@@ -284,13 +278,10 @@ patch(LineComponent.prototype, 'stock_barcode_line_exp_date', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_caseQuantity', {
  get caseQuantity() {
-        console.log("*********Case Quantity")
-        console.log(this.line.product_purchase_uom_id_factor)
-        console.log(this.qtyDone)
+
         var factor =this.line.product_purchase_uom_id_factor
         var result = this.qtyDone / factor
-        console.log("result :",result)
-        console.log("result :",result.toFixed(2))
+
         return result.toFixed(2)
 
 
@@ -309,4 +300,17 @@ patch(LineComponent.prototype, 'stock_barcode_line_showCaseQty', {
         }
 
     }
+})
+
+patch(LineComponent.prototype, 'stock_barcode_line_product_name', {
+     get productName() {
+            if(this.line.lot_id){
+                return this.line.lot_id.product_name
+            }
+            else{
+                return this.line.product_id.display_name
+            }
+
+
+        }
 })

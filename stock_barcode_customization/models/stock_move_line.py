@@ -236,15 +236,22 @@ class StockMoveLine(models.Model):
 
     @api.onchange('location_dest_id')
     def _onchange_location_dest_id(self):
-
         if self.picking_code == 'internal':
             records = self.env['stock.quant'].search([('location_id','=',self.location_dest_id.id)])
             if records:
                 self.location_dest_id = False
                 return {'warning': {
-                    'title': _("Warning"),
+                    'title': _("Transfer Warning"),
                     'message': _(
                         "You cannot transfer to this location ! "
+                    ),
+                }}
+            if self.location_dest_id.hold:
+                self.location_dest_id = False
+                return {'warning': {
+                    'title': _("Transfer Warning"),
+                    'message': _(
+                        "You cannot transfer to the HOLD location ! "
                     ),
                 }}
 

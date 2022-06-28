@@ -74,11 +74,19 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupie
     async _processLocationDestination(barcodeData) {
 
         if (this.record.picking_type_code === 'internal' || this.record.picking_type_code === 'incoming'){
-
+            console.log("****************************")
+            console.log("_processLocationDestination")
+            console.log("barcodeData.destLocation :",barcodeData.destLocation)
             var rpc = require('web.rpc');
             var fields = [];
             var result =[];
             var result_length;
+            if (barcodeData.destLocation.hold == true){
+                Dialog.alert(self, _t("Your cannot transfer to the HOLD location !"), {
+                                title: _t('Internal Transfer'),
+                    });
+                return
+            }
             result = await rpc.query({
                 model: 'stock.quant',
                 method: 'search_read',
@@ -89,11 +97,13 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupie
                 result_length = result.length
 
             });
+
              if (result_length >= 1){
                     Dialog.alert(self, _t("Your cannot transfer to this location !"), {
                                 title: _t('Internal Transfer'),
                     });
              }
+
              else{
 
                 this.highlightDestinationLocation = true;
@@ -115,7 +125,6 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
     async validate() {
         var rpc = require('web.rpc');
         var session = require('web.session');
-        console.log("session :",session)
         var stop =false
         for (const pageLines of this.pages){
 
@@ -138,8 +147,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
         }
 
 //        In the Picking ( PICK  / PICKCA / PICKL ) and Delivery order , checking product scan is mandatory
-        console.log("this :",this)
-        console.log("this.record :", this.record)
+
         if (['PICK','PICKL', 'OUT'].includes(this.record.picking_type_sequence_code)){
             for (const pageLines of this.pages){
                 for (const line of this.pages[pageLines["index"]].lines) {
@@ -168,11 +176,8 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
 
 
 
-        console.log("In validate this :",this)
-        console.log("this.recordIds :",this)
-        console.log("PackageLines :",this.recordIds)
         if ((this.record.picking_type_code == 'internal' && this.record.location_dest_id == 11) || (this.record.picking_type_code == 'outgoing') || (this.packageLines.length != 0)) {
-              console.log ("First If")
+
             await this.save();
             const action = await this.orm.call(
                 this.params.model,
@@ -193,7 +198,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
             }
             for (const pageLines of this.pages){
                 for (const line of this.pages[pageLines["index"]].lines) {
-                    console.log("inside first for loop")
+
                     await rpc.query({
                         model: 'stock.move.line',
                         method: 'write',
@@ -215,7 +220,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
         }
 
         if (stop == true){
-            console.log("Inside stop true")
+
 
             Dialog.alert(self, _t("Destination location must be scanned before validating !"), {
                 title: _t('Internal Transfer'),
@@ -223,7 +228,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
 
         }
         else{
-        console.log("Inside else")
+
         await this.save();
         const action = await this.orm.call(
             this.params.model,
@@ -246,7 +251,7 @@ patch(BarcodeModel.prototype, 'stock_barcode_show_alert_validate',{
             for (const line of this.pages[pageLines["index"]].lines) {
 //                 console.log("Inside Update Loop")
 //                 await this.updateLine(line, {validated_by: session.uid});
-                console.log("inside first for loop")
+
                 await rpc.query({
                         model: 'stock.move.line',
                         method: 'write',
