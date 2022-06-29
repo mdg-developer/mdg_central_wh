@@ -5,7 +5,7 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
-                        <div class="page">
+                        <div class="page" >
 
                             <div class="row">
                                 <div class="col-6" name="div_outgoing_address">
@@ -38,13 +38,13 @@
                                 </div>
                             </div>
                             <br/>
-                            <div class="row justify-content-start mb16" style="margin-left:-40px;">
+                            <div class="row justify-content-start mb16" style="margin-left:-34px;">
                                 <div name="right_box">
                                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)" style="width:300px;height:50px;" alt="Barcode"/>
                                 </div>
                             </div>
 
-                            <h1 t-field="o.name" class="mt0"/>
+                            <h1 t-field="o.name" class="mt0"/>s
                             <div class="row mt48 mb32 col-6">
                                 <div t-if="o.origin" name="div_origin" style="width:300px;">
                                     <strong>Order:</strong>
@@ -57,6 +57,14 @@
                                 <div name="div_sched_date" style="width:200px;">
                                     <strong>Scheduled Date:</strong>
                                     <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                </div>
+                                <div name="div_cus_ref" style="width:200px;" t-if="o.picking_type_id.code=='outgoing' and o.sale_id">
+                                    <strong>Customer Ref:</strong>
+                                    <p t-field="o.sale_id.origin"/>
+                                </div>
+                                <div name="div_cus_ref" style="width:200px;" t-if="o.picking_type_id.code=='outgoing'">
+                                    <strong>Start Time:</strong>
+                                    <p><strong>End Time:</strong></p>
                                 </div>
                             </div>
 <!--                            <p t-if="o.picking_type_id.sequence_code == 'PICK'">PICK</p>-->
@@ -125,8 +133,8 @@
                                                 <t t-set="case_qty_cbm" t-value="case_qty*ml.product_id.cbm" t-options='{"widget": "float", "precision": 4}'/>
 
                                                 <td style="width: 15%;">
-<!--                                                    <span t-field="ml.product_id.display_name"/><br/>-->
-                                                    <span t-field="ml.product_id.name"/><br/>
+                                                    <span t-field="ml.product_id.display_name"/><br/>
+<!--                                                    <span t-field="ml.product_id.name"/><br/>-->
                                                     <span t-field="ml.product_id.description_picking"/>
                                                     <t t-set="flag_weight" t-value="flag_weight+case_qty_weight" t-options='{"widget": "float", "precision": 4}'/>
                                                     <t t-set="flag_cbm" t-value="flag_cbm+case_qty_cbm" t-options='{"widget": "float", "precision": 4}'/>

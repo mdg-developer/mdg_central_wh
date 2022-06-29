@@ -3,23 +3,31 @@
 
     <template id="external_layout_standard" inherit_id="web.external_layout_standard">
         <xpath expr="//div[hasclass('text-center')]" position="replace">
-            <div style="border-top: 1px solid black; text-align: center;">
-                <ul class="list-inline mb4">
-                    <div t-field="company.report_footer"/>
-                </ul>
-                <p>
-                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
-                </p>
-                <div t-if="report_type == 'pdf'" class="text-muted">
-                    Page: <span class="page"/> / <span class="topage"/>
+                <div style="border-top: 1px solid black; margin-top: 400px !important;">
+                    <div class="row">
+                        <span class="col-6" t-esc="company.report_footer"/>
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')" class="col-3"/>
+                        <span class="col-3">Page:<span class="page"/> / <span class="topage"/></span>
+                    </div>
                 </div>
+
+        </xpath>
+
+        <xpath expr="//div[@name='company_address']" position="replace">
+            <div class="col-12" name="company_address">
+                <div t-if="company.name" t-field="company.name"/>
+                <span t-if="company.street" t-field="company.street"/>
+                <span t-if="company.street2" t-field="company.street2"/>
+                <span t-if="company.city" t-field="company.city"/>
+                <span t-if="company.state_id" t-field="company.state_id.name"/>,
+                <span t-if="company.country_id" t-field="company.country_id.name"/>
             </div>
         </xpath>
-<!--        <xpath expr="//div[hasclass('pt-5')]" position="replace">-->
-<!--            <div >-->
-<!--                &lt;!&ndash; This div ensures that the address is not cropped by the header. &ndash;&gt;-->
-<!--                <t t-call="web.address_layout"/>-->
-<!--            </div>-->
-<!--        </xpath>-->
+        <xpath expr="//div[hasclass('pt-5')]" position="replace">
+            <div >
+                <!-- This div ensures that the address is not cropped by the header. -->
+                <t t-call="web.address_layout"/>
+            </div>
+        </xpath>
     </template>
 </odoo>
