@@ -44,7 +44,7 @@
                                 </div>
                             </div>
 
-                            <h1 t-field="o.name" class="mt0"/>s
+                            <h1 t-field="o.name" class="mt0"/>
                             <div class="row mt48 mb32 col-6">
                                 <div t-if="o.origin" name="div_origin" style="width:300px;">
                                     <strong>Order:</strong>
