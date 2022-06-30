@@ -23,7 +23,7 @@
                                         <h2 style="color:black !important">Delivery Note</h2>
                                     </div>
                                 </div>
-                                <div class="col-5 offset-1" name="div_incoming_address">
+                                <div class="col-5 offset-2" name="div_incoming_address">
                                     <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
                                         <span><strong>Vendor Address:</strong></span>
                                     </div>
@@ -256,7 +256,7 @@
                                 </span>
 
                             </div>
-                            <div t-else="" style="padding-top:20px;">
+                            <div t-else="" style="padding-top:20px;margin-top : 50px;">
                                 <span>
                                     <p style="float:left;">Controller : ________________________________________________</p>
                                     <p style="text-align:right;">Received By : ________________________________________________</p>
