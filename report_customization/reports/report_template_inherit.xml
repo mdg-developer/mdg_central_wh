@@ -13,26 +13,26 @@
 
         </xpath>
 
-<!--        <xpath expr="//div[hasclass('col-9')]" position="replace">-->
-<!--            <div class="col-9 text-right" style="margin-top:5px;" name="moto">-->
-<!--                <div style="margin-right:301px" t-if="company.name" t-field="company.name"/>-->
-<!--                <span t-if="company.street" t-field="company.street"/>-->
-<!--                <span t-if="company.street2" t-field="company.street2"/>-->
-<!--                <span t-if="company.city" t-field="company.city"/>-->
-<!--                <span t-if="company.state_id" t-field="company.state_id.name"/>,-->
-<!--                <span t-if="company.country_id" t-field="company.country_id.name"/>-->
-<!--            </div>-->
-<!--        </xpath>-->
-
-        <xpath expr="//div[@name='company_address']" position="replace">
-            <div class="col-12" name="company_address">
-                <div t-if="company.name" t-field="company.name"/>
+        <xpath expr="//div[hasclass('col-9')]" position="replace">
+            <div class="col-9 text-right" style="margin-top:5px;" name="moto">
+                <div style="margin-right:301px" t-if="company.name" t-field="company.name"/>
                 <span t-if="company.street" t-field="company.street"/>
                 <span t-if="company.street2" t-field="company.street2"/>
                 <span t-if="company.city" t-field="company.city"/>
                 <span t-if="company.state_id" t-field="company.state_id.name"/>,
                 <span t-if="company.country_id" t-field="company.country_id.name"/>
             </div>
+        </xpath>
+
+        <xpath expr="//div[@name='company_address']" position="replace">
+<!--            <div class="col-12" name="company_address">-->
+<!--                <div t-if="company.name" t-field="company.name"/>-->
+<!--                <span t-if="company.street" t-field="company.street"/>-->
+<!--                <span t-if="company.street2" t-field="company.street2"/>-->
+<!--                <span t-if="company.city" t-field="company.city"/>-->
+<!--                <span t-if="company.state_id" t-field="company.state_id.name"/>,-->
+<!--                <span t-if="company.country_id" t-field="company.country_id.name"/>-->
+<!--            </div>-->
         </xpath>
         <xpath expr="//div[hasclass('pt-5')]" position="replace">
             <div >
