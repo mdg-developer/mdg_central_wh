@@ -99,7 +99,7 @@
                             </div>
 
                             <div class="row mt48 mb32 col-6" t-if="o.picking_type_id.code=='internal'">
-                                <div t-if="o.origin" name="div_origin" style="width:220px;">
+                                <div t-if="o.origin" name="div_origin" style="width:200px;">
                                     <strong>Order:</strong>
                                     <p t-field="o.origin"/>
                                 </div>
