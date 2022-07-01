@@ -59,7 +59,7 @@
                             </div>
 
                             <h1 t-field="o.name" class="mt0"/>
-                            <div class="row mt48 mb32 col-6">
+                            <div class="row mt48 mb32 col-6" t-if="o.picking_type_id.code=='outgoing'">
                                 <div t-if="o.origin" name="div_origin" style="width:250px;">
                                     <strong>Order:</strong>
                                     <p t-field="o.origin"/>
@@ -81,10 +81,39 @@
                                     <p><strong>End Time:</strong></p>
                                 </div>
                             </div>
-<!--                            <p t-if="o.picking_type_id.sequence_code == 'PICK'">PICK</p>-->
-<!--                            <p t-if="o.picking_type_id.sequence_code == 'PICKCA'">PICKCA</p>-->
-<!--                            <p t-if="o.picking_type_id.sequence_code == 'PICKL'">PICKL</p>-->
-<!--                            <p t-if="o.picking_type_id.sequence_code == 'INT'">INT</p>-->
+
+                            <div class="row mt48 mb32 col-6" t-if="o.picking_type_id.code=='incoming'">
+                                <div t-if="o.origin" name="div_origin" style="width:180px;">
+                                    <strong>Order:</strong>
+                                    <p t-field="o.origin"/>
+                                </div>
+                                <div name="div_state" style="width:110px">
+                                    <strong>Status:</strong>
+                                    <p t-field="o.state"/>
+                                </div>
+                                <div name="div_sched_date" style="width:200px">
+                                    <strong>Scheduled Date:</strong>
+                                    <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                </div>
+
+                            </div>
+
+                            <div class="row mt48 mb32 col-6" t-if="o.picking_type_id.code=='internal'">
+                                <div t-if="o.origin" name="div_origin" style="width:220px;">
+                                    <strong>Order:</strong>
+                                    <p t-field="o.origin"/>
+                                </div>
+                                <div name="div_state" style="width:160px">
+                                    <strong>Status:</strong>
+                                    <p t-field="o.state"/>
+                                </div>
+                                <div name="div_sched_date" style="width:200px">
+                                    <strong>Scheduled Date:</strong>
+                                    <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                </div>
+
+                            </div>
+
 
                             <t t-set="flag_qty" t-value="0.0"/>
                             <t t-set="flag_case" t-value="0.0"/>
