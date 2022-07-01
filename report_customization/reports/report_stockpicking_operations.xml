@@ -64,11 +64,11 @@
                                     <strong>Order:</strong>
                                     <p t-field="o.origin"/>
                                 </div>
-                                <div name="div_state" style="width:180px;">
+                                <div name="div_state" style="width:180px;padding-left:-5px">
                                     <strong>Status:</strong>
                                     <p t-field="o.state"/>
                                 </div>
-                                <div name="div_sched_date" style="width:200px;">
+                                <div name="div_sched_date" style="width:200px;padding-left:-5px">
                                     <strong>Scheduled Date:</strong>
                                     <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
@@ -76,7 +76,7 @@
                                     <strong>Customer Ref:</strong>
                                     <p t-field="o.sale_id.origin"/>
                                 </div>
-                                <div name="div_cus_ref" style="width:200px;" t-if="o.picking_type_id.code=='outgoing'">
+                                <div name="div_cus_ref" style="width:200px;padding-left:5px" t-if="o.picking_type_id.code=='outgoing'">
                                     <strong>Start Time:</strong>
                                     <p><strong>End Time:</strong></p>
                                 </div>
