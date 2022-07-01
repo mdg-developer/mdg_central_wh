@@ -19,6 +19,11 @@
                                         <div t-field="o.picking_type_id.warehouse_id.partner_id"
                                             t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                                     </div>
+                                    <div t-if="o.picking_type_id.code=='internal'">
+                                        <span><strong>Warehouse Address:</strong></span>
+                                        <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                    </div>
                                     <div t-if="o.picking_type_id.code == 'outgoing'">
                                         <h2 style="color:black !important">Delivery Note</h2>
                                     </div>
@@ -27,9 +32,9 @@
                                     <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
                                         <span><strong>Vendor Address:</strong></span>
                                     </div>
-                                    <div t-if="o.picking_type_id.code=='internal' and o.partner_id">
-                                        <span><strong>Warehouse Address:</strong></span>
-                                    </div>
+<!--                                    <div t-if="o.picking_type_id.code=='internal' and o.partner_id">-->
+<!--                                        <span><strong>Warehouse Address:</strong></span>-->
+<!--                                    </div>-->
                                     <div t-if="o.picking_type_id.code=='outgoing' and o.partner_id">
                                         <span><strong>Customer Address:</strong></span>
                                     </div>
@@ -39,10 +44,10 @@
 <!--                                        <p t-if="o.sudo().partner_id.vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.sudo().partner_id.vat"/></p>-->
                                         <p t-if="o.sudo().partner_id.street"><span t-field="o.sudo().partner_id.street"/></p>
                                     </div>
-                                    <div t-if="o.partner_id and o.picking_type_id.code=='internal'"  name="partner_header">
-                                        <div t-field="o.picking_type_id.warehouse_id.partner_id"
-                                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                                    </div>
+<!--                                    <div t-if="o.partner_id and o.picking_type_id.code=='internal'"  name="partner_header">-->
+<!--                                        <div t-field="o.picking_type_id.warehouse_id.partner_id"-->
+<!--                                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                             <br/>
@@ -55,7 +60,7 @@
 
                             <h1 t-field="o.name" class="mt0"/>
                             <div class="row mt48 mb32 col-6">
-                                <div t-if="o.origin" name="div_origin" style="width:300px;">
+                                <div t-if="o.origin" name="div_origin" style="width:220px;">
                                     <strong>Order:</strong>
                                     <p t-field="o.origin"/>
                                 </div>
