@@ -15,7 +15,7 @@
 
         <xpath expr="//div[hasclass('col-9')]" position="replace">
             <div class="col-9 text-right" style="margin-top:5px;" name="moto">
-                <div style="margin-right:250px" t-if="company.name" t-field="company.name"/>
+                <div style="margin-right:254px" t-if="company.name" t-field="company.name"/>
 <!--                <span><strong t-if="company.name" t-field="company.name"></strong></span><br/>-->
                 <span t-if="company.street" t-field="company.street"/>
                 <span t-if="company.street2" t-field="company.street2"/>
