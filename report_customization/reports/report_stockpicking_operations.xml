@@ -60,11 +60,11 @@
 
                             <h1 t-field="o.name" class="mt0"/>
                             <div class="row mt48 mb32 col-6">
-                                <div t-if="o.origin" name="div_origin" style="width:220px;">
+                                <div t-if="o.origin" name="div_origin" style="width:250px;">
                                     <strong>Order:</strong>
                                     <p t-field="o.origin"/>
                                 </div>
-                                <div name="div_state" style="width:150px;">
+                                <div name="div_state" style="width:180px;">
                                     <strong>Status:</strong>
                                     <p t-field="o.state"/>
                                 </div>
