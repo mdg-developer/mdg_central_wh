@@ -25,5 +25,7 @@
              'views/stock_picking.xml',
              'views/product_principle_test.xml',
              'views/stock_move.xml',
+             'report/report_replenishment.xml',
+             'report/stock_report_views.xml',
     ],
 }

@@ -16,5 +16,12 @@
                 </button>
             </div>
         </t>
+        <t t-jquery="div.row > div.col:last" t-operation="after">
+            <div class="col" style="margin-top: 3px;">
+                <button class="button_replenishment btn btn-block btn-primary mb-4">
+                    Replenishment
+                </button>
+            </div>
+        </t>
     </t>
 </templates>

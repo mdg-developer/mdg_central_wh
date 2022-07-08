@@ -5,4 +5,5 @@ from . import stock_quant
 from . import stock_picking
 from . import uom_uom
 from . import stock_location
+from . import stock_orderpoint_views
 # from . import product_product

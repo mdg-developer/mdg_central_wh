@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_replenishment">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <h2 style="text-align: center; font-size: 3em">Replenishment</h2>
+                        <div>
+                            <strong>Prepared By <span t-esc="user.name"></span></strong><br/>
+                        </div>
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th name="th_origin">
+                                        <strong>Replenishment#</strong>
+                                    </th>
+                                    <th name="th_product">
+                                        <strong>Product</strong>
+                                    </th>
+                                    <th name="th_uom">
+                                        <strong>UOM</strong>
+                                    </th>
+                                    <th name="th_from_loc">
+                                        <strong>From Loc</strong>
+                                    </th>
+                                    <th name="th_to_loc">
+                                        <strong>To Loc</strong>
+                                    </th>
+                                    <th name="th_case_count">
+                                        <strong>Case Count</strong>
+                                    </th>
+                                    <th name="th_qty_case">
+                                        <strong>Qty(Case)</strong>
+                                    </th>
+                                    <th name="th_qty">
+                                        <strong>Qty</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="no" t-value="0"/>
+                                <t t-set="no_case" t-value="0.0"/>
+                                <t t-foreach="docs" t-as="o">
+                                    <t t-set="no" t-value="no+int(1)"/>
+                                    <tr>
+                                        <td>
+                                            <span t-field="o.origin"></span>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.product_id.display_name"></span>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.product_uom.name"></span>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.location_id.name"></span>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.location_dest_id.name"></span>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.demand_bigger_qty"></span>
+                                            <t t-set="no_case" t-value="no_case+o.demand_bigger_qty" t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.product_id.pallet_quantity"></span>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.product_uom_qty"></span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div style="border-top: 1px solid black; margin-top: 80px !important;">
+                            <p>No.of Replenishment : <span t-esc="no"></span></p>
+                            <p>No.of Case to be Replenished :<span t-esc="no_case" t-options='{"widget": "float", "precision": 2}'></span></p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

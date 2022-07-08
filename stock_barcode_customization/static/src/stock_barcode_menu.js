@@ -2,6 +2,9 @@
 
 import MainMenu from "@stock_barcode/stock_barcode_menu";
 import Session from 'web.session';
+var core = require('web.core');
+var _t = core._t;
+
 
 MainMenu.include({
     events: Object.assign({}, MainMenu.prototype.events, {
@@ -24,6 +27,17 @@ MainMenu.include({
                 } else if (result.warning) {
                     this.displayNotification({ title: result.warning, type: 'danger' });
                 }
+            });
+        },
+
+        "click .button_replenishment": function () {
+            this.do_action({
+                type: 'ir.actions.act_window',
+                name: _t('Replenishment'),
+                res_model: 'stock.warehouse.orderpoint',
+                views: [[false, 'kanban']],
+                view_mode: "kanban",
+                target: 'current',
             });
         },
 

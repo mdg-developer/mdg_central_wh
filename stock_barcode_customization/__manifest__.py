@@ -23,6 +23,7 @@
              'views/stock_move_line.xml',
              'views/stock_picking_view.xml',
              # 'views/stock_inventory_view.xml',
+            'views/stock_orderpoint_views.xml',
     ],
 
     'assets': {

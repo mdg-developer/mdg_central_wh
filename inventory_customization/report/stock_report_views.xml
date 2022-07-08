@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_replenishment" model="ir.actions.report">
+            <field name="name">Replenishment</field>
+            <field name="model">stock.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inventory_customization.report_replenishment</field>
+            <field name="report_file">inventory_customization.report_replenishment</field>
+            <field name="print_report_name">'Replenishment - %s' % object.name</field>
+            <field name="binding_model_id" ref="model_stock_move"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>
