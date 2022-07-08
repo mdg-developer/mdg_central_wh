@@ -29,6 +29,9 @@ class Orderpoint(models.Model):
             'res_model': 'stock.quant',
             'target': 'new',
             'domain': [('product_id', '=', self.product_id.id)],
+            'context': dict(
+                search_default_internal_loc=1,
+            ),
 
         }
 

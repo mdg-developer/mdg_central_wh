@@ -47,7 +47,7 @@
                                     <t t-set="no" t-value="no+int(1)"/>
                                     <tr>
                                         <td>
-                                            <span t-field="o.origin"></span>
+                                            <span t-field="o.reference"></span>
                                         </td>
                                         <td>
                                             <span t-field="o.product_id.display_name"></span>
