@@ -66,7 +66,7 @@
                                             <t t-set="no_case" t-value="no_case+o.demand_bigger_qty" t-options='{"widget": "float", "precision": 2}'/>
                                         </td>
                                         <td>
-                                            <span t-field="o.product_id.pallet_quantity"></span>
+                                            <span t-field="o.product_id.uom_po_id.factor_inv"></span>
                                         </td>
                                         <td>
                                             <span t-field="o.product_uom_qty"></span>
