@@ -12,8 +12,9 @@ class StockMoveLine(models.Model):
 
     bigger_uom_qty_done = fields.Float('Bigger UOM Done', digits='Product Unit of Measure', copy=False)
     basic_uom_qty_done = fields.Float('Basic UOM Done', digits='Product Unit of Measure', copy=False)
-
     bigger_uom_id = fields.Many2one('uom.uom', 'Unit of Measure',related='product_id.uom_po_id',domain="[('id', '=', product_purchase_category_id)]")
+    demand_bigger_qty = fields.Float('Demand Case', default=0.0, digits='Product Unit of Measure',
+                                     compute='_bigger_quantity_done_compute', store=True)
     bigger_category_id = fields.Many2one(related='product_id.uom_po_id')
 
     basic_uom_id = fields.Many2one('uom.uom', 'Unit of Measure', related='product_id.uom_id',
@@ -34,6 +35,11 @@ class StockMoveLine(models.Model):
     product_purchase_uom_id_factor = fields.Float(related='product_id.uom_po_id.factor_inv')
     product_purchase_uom_id_name = fields.Char(related='product_id.uom_po_id.name')
     is_shipto_location = fields.Boolean('Is Ship To Location?', compute='_compute_is_shipto_location')
+
+    @api.depends('product_id')
+    def _bigger_quantity_done_compute(self):
+        for record in self:
+            record.demand_bigger_qty = record.product_uom_qty / record.bigger_uom_id.factor_inv
 
     @api.onchange('qty_done')
     def onchange_qty_done(self):
