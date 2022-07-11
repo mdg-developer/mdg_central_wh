@@ -82,7 +82,7 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupie
             var result =[];
             var result_length;
             if (barcodeData.destLocation.hold == true){
-                Dialog.alert(self, _t("Your cannot transfer to the HOLD location !"), {
+                Dialog.alert(self, _t("You cannot transfer to the HOLD location !"), {
                                 title: _t('Internal Transfer'),
                     });
                 return
@@ -98,8 +98,8 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupie
 
             });
 
-             if (result_length >= 1){
-                    Dialog.alert(self, _t("Your cannot transfer to this location !"), {
+             if (result_length >= 1 && barcodeData.destLocation.pick_face == false){
+                    Dialog.alert(self, _t("You cannot transfer to this location !"), {
                                 title: _t('Internal Transfer'),
                     });
              }

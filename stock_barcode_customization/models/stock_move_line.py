@@ -50,7 +50,7 @@ class StockMoveLine(models.Model):
                     'qty_done': demand_amt,
                 })
                 self.env.cr.commit()
-                raise UserError(_('Cannot Issue More than the Demanded Amount!'))
+                raise UserError(_('Cannot Issue More than the Demanded Quantity!'))
     @api.depends('is_shipto_location', 'location_dest_id')
     def _compute_is_shipto_location(self):
         for record in self:
@@ -244,12 +244,12 @@ class StockMoveLine(models.Model):
     def _onchange_location_dest_id(self):
         if self.picking_code == 'internal':
             records = self.env['stock.quant'].search([('location_id','=',self.location_dest_id.id)])
-            if records:
+            if records and records.location_id.pick_face == False:
                 self.location_dest_id = False
                 return {'warning': {
                     'title': _("Transfer Warning"),
                     'message': _(
-                        "You cannot transfer to this location ! "
+                        "You cannot transfer to this location !! "
                     ),
                 }}
             if self.location_dest_id.hold:

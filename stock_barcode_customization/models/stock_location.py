@@ -10,4 +10,5 @@ class Location(models.Model):
     def _get_fields_stock_barcode(self):
         fields = super()._get_fields_stock_barcode()
         fields.append('hold')
+        fields.append('pick_face')
         return fields
