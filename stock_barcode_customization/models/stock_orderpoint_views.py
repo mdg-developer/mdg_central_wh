@@ -7,14 +7,14 @@ class Orderpoint(models.Model):
     _inherit = "stock.warehouse.orderpoint"
 
 
-    to_replenish = fields.Char(compute='_compute_to_replenish')
+    to_replenish = fields.Char(compute='_compute_to_replenish',store=True)
 
     @api.depends('qty_on_hand','product_min_qty','product_id')
     def _compute_to_replenish(self):
         for record in self:
             on_hand = record.qty_on_hand
             min_qty = record.product_min_qty
-            if on_hand <= min_qty:
+            if on_hand < min_qty:
                 record.to_replenish = 'True'
             else:
                 record.to_replenish = 'False'
