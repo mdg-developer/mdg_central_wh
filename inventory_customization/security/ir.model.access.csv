@@ -2,3 +2,5 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_zone_user,access_zone_user,model_zone,base.group_user,1,1,1,0
 access_zone_setting,access_zone_setting,model_zone,base.group_system,1,1,1,1
 access_product_principal,access_product_principal,model_product_principal,base.group_user,1,1,1,1
+access_good_issue_note,access_good_issue_note,model_good_issue_note,base.group_user,1,1,1,1
+access_good_issue_note_line,access_good_issue_note_line,model_good_issue_note_line,base.group_user,1,1,1,1

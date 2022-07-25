@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_gin_form" model="ir.ui.view">
+        <field name="name">good.issue.note.form</field>
+        <field name="model">good.issue.note</field>
+        <field name="arch" type="xml">
+          <form string="Good Issue Note">
+            <header>
+                <field name="state" widget="statusbar"/>
+                <button name="action_approve" attrs="{'invisible': [('state', 'in', ('approve','issue','cancel','reversed'))]}" string="Approve" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_issue" attrs="{'invisible': [('state', 'in', ('draft','issue','cancel','reversed'))]}" string="Issue" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_cancel" attrs="{'invisible': [('state', 'in', ('cancel','issue','reversed'))]}" string="Cancel" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_reverse" attrs="{'invisible': [('state', 'in', ('draft','cancel','reversed','approve'))]}" string="Reverse" type="object" class="oe_highlight" groups="base.group_user"/>
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="name" string="Name"/>
+                        <field name="gin_ref" string="GIN Ref"/>
+                        <field name="delivery_team" string="Delivery Team"/>
+                        <field name="requesting_loc" string="Requesting Location"/>
+                        <field name="requested_by" string="Requested By"/>
+                        <field name="issue_date" string="Date for Issue"/>
+                        <field name="reverse_user" string="Reverse User"/>
+                        <field name="principle" string="Principle"/>
+                    </group>
+                    <group>
+                        <field name="rfi_ref" string="RFI Ref"/>
+                        <field name="request_warehouse" string="Request Warehouse"/>
+                        <field name="branch" string="Branch"/>
+                        <field name="vehicle_no" string="Vehicle No"/>
+                        <field name="approved_by" string="Approved By"/>
+                        <field name="internal_ref" string="Internal Ref"/>
+                        <field name="issuer" string="Issuer"/>
+                        <field name="receiver" string="Receiver"/>
+                    </group>
+
+                </group>
+
+
+                 <notebook>
+                    <page string="Order Lines" name="order_lines">
+                        <field name="gin_line" mode="tree">
+                            <tree string="Good Issue Note Lines" editable="bottom">
+                                <field name="product_id"/>
+                                <field name="order_qty"/>
+                                <field name="total_req_qty"/>
+                                <field name="qty"/>
+                                <field name="product_uom_id"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="batch_no"/>
+                                <field name="expiry_date"/>
+                                <field name="qty_on_hand"/>
+                                <field name="remark"/>
+                            </tree>
+                        </field>
+                    </page>
+                 </notebook>
+
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="view_gin_tree" model="ir.ui.view">
+            <field name="name">good.issue.note.tree</field>
+            <field name="model">good.issue.note</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Good Issue Note">
+                    <field name="delivery_team"/>
+                    <field name="gin_ref"/>
+                    <field name="rfi_ref"/>
+                    <field name="requesting_loc"/>
+                    <field name="request_warehouse"/>
+                    <field name="issue_date"/>
+                    <field name="vehicle_no"/>
+                    <field name="internal_ref"/>
+                    <field name="state"/>
+                    <field name="reverse_user"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="action_gin" model="ir.actions.act_window">
+            <field name="name">Good Issue Note</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">good.issue.note</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new GIN!
+                </p>
+            </field>
+    </record>
+
+    <menuitem id="menu_action_gin_tree" name="Good Issue Note" parent="stock.menu_stock_warehouse_mgmt" sequence="31" action="action_gin" />
+
+</odoo>

@@ -28,5 +28,6 @@
              'report/report_replenishment.xml',
              'report/stock_report_views.xml',
              'report/report_replenishment_line.xml',
+             'views/good_issue_note.xml',
     ],
 }

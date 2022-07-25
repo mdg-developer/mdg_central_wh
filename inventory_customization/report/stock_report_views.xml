@@ -17,7 +17,7 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">inventory_customization.report_replenishment_line</field>
             <field name="report_file">inventory_customization.report_replenishment_line</field>
-            <field name="print_report_name">'Replenishment - %s' % object.name</field>
+            <field name="print_report_name">'Replenishment'</field>
             <field name="binding_model_id" ref="stock.model_stock_move_line"/>
             <field name="binding_type">report</field>
         </record>
