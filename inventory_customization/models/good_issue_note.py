@@ -13,7 +13,7 @@ class GoodIssueNote(models.Model):
     reverse_user = fields.Many2one('res.users', string="Reverse User")
     principle = fields.Char(String="Principle")
     rfi_ref = fields.Char(String="RFI Ref")
-    request_warehouse = fields.Many2one('stock.location', 'Request Warehouse')
+    request_warehouse = fields.Char(String='Request Warehouse')
     branch = fields.Char(String="Branch")
     vehicle_no = fields.Char(String="Vehicle No")
     approved_by = fields.Char(String="Approved By")
