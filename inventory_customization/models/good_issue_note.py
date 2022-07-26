@@ -32,6 +32,36 @@ class GoodIssueNote(models.Model):
                                  auto_join=True)
 
     def action_approve(self):
+        stock_location = self.env['stock.location'].search(
+            [('warehouse_id', '=', 1), ('name', '=', 'Stock')], limit=1)
+        customer_location = self.env['stock.location'].search(
+            [('name', '=', 'Customers')], limit=1)
+        pick_out = self.env['stock.picking.type'].search(
+            [('warehouse_id.company_id', '=', 1), ('code', '=', 'outgoing')],
+            limit=1,
+        )
+        picking = self.env['stock.picking'].create({
+            # 'partner_id': self.subcontractor_partner.id,
+            'location_id': stock_location.id,
+            'location_dest_id': customer_location.id,
+            'picking_type_id': pick_out.id,
+            'origin': self.gin_ref,
+        })
+        for line in self.gin_line:
+            move_vals = {
+                'name': 'GIN-Issue',
+                'product_id': line.product_id.id,
+                'product_uom': line.product_uom_id.id,
+                # 'product_qty':line.total_req_qty,
+                'product_uom_qty': line.total_req_qty,
+                'picking_id': picking.id,
+                'location_id': stock_location.id,
+                'location_dest_id': customer_location.id,
+
+            }
+            self.env['stock.move'].create(move_vals)
+        picking.action_confirm()
+        picking.action_assign()
         self.write({'state': 'approve'})
 
     def action_issue(self):
