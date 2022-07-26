@@ -33,7 +33,7 @@ class GoodIssueNote(models.Model):
 
     def action_approve(self):
         stock_location = self.env['stock.location'].search(
-            [('warehouse_id', '=', 1), ('name', '=', 'Stock')], limit=1)
+            [('complete_name', '=', 'CWHB/Stock')], limit=1)
         customer_location = self.env['stock.location'].search(
             [('name', '=', 'Customers')], limit=1)
         pick_out = self.env['stock.picking.type'].search(
