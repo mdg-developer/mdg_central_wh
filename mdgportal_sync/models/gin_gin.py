@@ -40,15 +40,17 @@ class StockPicking(models.Model):
 
 
                         if gin_line_obj:
-                            if gin_line_obj.product_uom_id.name == line.product_uom.name:
+                            if gin_line_obj.product_uom_id.name == line.product_uom.name and line.quantity_done != 0.0:
                                 gin_line_obj.update({
                                     'qty': line.quantity_done
                                 })
-                            else:
+                            elif gin_line_obj.product_uom_id.name == line.product_uom.name and line.quantity_done != 0.0:
                                 factor = gin_line_obj.product_uom_id.factor_inv
                                 gin_line_obj.update({
                                     'qty': (line.quantity_done / factor)
                                 })
+                            else:
+                                factor = gin_line_obj.product_uom_id.factor_inv
                         # gin_line_obj.update({
                         #         'qty':line.quantity_done
                         # })
