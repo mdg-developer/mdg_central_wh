@@ -55,3 +55,4 @@ class StockPicking(models.Model):
                     models.execute_kw(db, sd_uid, password, 'good.issue.note', 'issue', [gin_id])
                     gin_id_wms.action_issue()
 
+        return result
