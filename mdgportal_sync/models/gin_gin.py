@@ -31,12 +31,27 @@ class StockPicking(models.Model):
                         }
                         models.execute_kw(db, sd_uid, password, 'good.issue.note.line', 'write',
                                           [change_gin_line_id, value])
+                        # gin_line_obj = self.env['good.issue.note.line'].search(
+                        #     [('gin_id', '=', gin_id_wms.id), ('product_id', '=', line.product_id.id),
+                        #      ('total_req_qty', '=', line.product_uom_qty)])
+
                         gin_line_obj = self.env['good.issue.note.line'].search(
-                            [('gin_id', '=', gin_id_wms.id), ('product_id', '=', line.product_id.id),
-                             ('total_req_qty', '=', line.product_uom_qty)])
-                        gin_line_obj.update({
-                                'qty':line.quantity_done
-                        })
+                            [('gin_id', '=', gin_id_wms.id), ('product_id', '=', line.product_id.id)])
+
+
+                        if gin_line_obj:
+                            if gin_line_obj.product_uom_id.name == line.product_uom.name:
+                                gin_line_obj.update({
+                                    'qty': line.quantity_done
+                                })
+                            else:
+                                factor = gin_line_obj.product_uom_id.factor_inv
+                                gin_line_obj.update({
+                                    'qty': (line.quantity_done / factor)
+                                })
+                        # gin_line_obj.update({
+                        #         'qty':line.quantity_done
+                        # })
                     models.execute_kw(db, sd_uid, password, 'good.issue.note', 'issue', [gin_id])
                     gin_id_wms.action_issue()
 
