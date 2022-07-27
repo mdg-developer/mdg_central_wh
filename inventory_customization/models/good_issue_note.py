@@ -59,7 +59,7 @@ class GoodIssueNote(models.Model):
                     'name': 'GIN-Issue',
                     'product_id': line.product_id.id,
                     'product_uom': line.product_uom_id.id,
-                    'product_uom_qty': line.total_req_qty,
+                    'product_uom_qty': line.qty,
                     'picking_id': picking.id,
                     'location_id': self.requesting_loc.id,
                     'location_dest_id': customer_location.id,
@@ -67,7 +67,7 @@ class GoodIssueNote(models.Model):
 
                 }
             else:
-                to_base_qty = line.total_req_qty * line.product_uom_id.factor_inv
+                to_base_qty = line.qty * line.product_uom_id.factor_inv
                 move_vals = {
                     'name': 'GIN-Issue',
                     'product_id': line.product_id.id,
