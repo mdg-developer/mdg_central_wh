@@ -1,4 +1,5 @@
 from odoo import _, api, fields, models
+import datetime
 
 class GoodIssueNote(models.Model):
     _name = "good.issue.note"
@@ -53,25 +54,41 @@ class GoodIssueNote(models.Model):
             'origin': self.gin_ref,
         })
         for line in self.gin_line:
-            move_vals = {
-                'name': 'GIN-Issue',
-                'product_id': line.product_id.id,
-                'product_uom': line.product_uom_id.id,
-                'product_uom_qty': line.total_req_qty,
-                'picking_id': picking.id,
-                'location_id': self.requesting_loc.id,
-                'location_dest_id': customer_location.id,
-                'origin': self.name,
+            if line.product_uom_id.id == line.product_id.uom_id.id:
+                move_vals = {
+                    'name': 'GIN-Issue',
+                    'product_id': line.product_id.id,
+                    'product_uom': line.product_uom_id.id,
+                    'product_uom_qty': line.total_req_qty,
+                    'picking_id': picking.id,
+                    'location_id': self.requesting_loc.id,
+                    'location_dest_id': customer_location.id,
+                    'origin': self.name,
 
-            }
+                }
+            else:
+                to_base_qty = line.total_req_qty * line.product_uom_id.factor_inv
+                move_vals = {
+                    'name': 'GIN-Issue',
+                    'product_id': line.product_id.id,
+                    'product_uom': line.product_id.uom_id.id,
+                    'product_uom_qty': to_base_qty,
+                    'picking_id': picking.id,
+                    'location_id': self.requesting_loc.id,
+                    'location_dest_id': customer_location.id,
+                    'origin': self.name,
+
+                }
+
             self.env['stock.move'].create(move_vals)
         picking.action_confirm()
         picking.action_assign()
         self.write({'state': 'approve', 'approved_by': user.name})
 
     def action_issue(self):
+        current_date = fields.Date.today()
         user = self.env['res.users'].browse(self.env.uid)
-        self.write({'state': 'issue', 'issuer': user.name})
+        self.write({'state': 'issue', 'issuer': user.name, 'issue_date':current_date})
 
     def action_cancel(self):
         self.write({'state': 'cancel'})
