@@ -81,8 +81,8 @@ class GoodIssueNote(models.Model):
                 }
 
             self.env['stock.move'].create(move_vals)
-        picking.action_confirm()
-        picking.action_assign()
+        # picking.action_confirm()
+        # picking.action_assign()
         self.write({'state': 'approve', 'approved_by': user.name})
 
     def action_issue(self):
