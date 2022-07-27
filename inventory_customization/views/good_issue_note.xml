@@ -14,8 +14,9 @@
             </header>
             <sheet>
                 <group>
+<!--                    <h1><field name="name" string="Name" attrs="{'invisible': [('state', 'not in', ['approve','issue','cancel','reversed'])]}"/></h1>-->
                     <group>
-                        <field name="name" string="Name"/>
+                        <field name="name" string="Name" readonly="1" attrs="{'invisible': [('state', 'not in', ['approve','issue','cancel','reversed'])]}"/>
                         <field name="gin_ref" string="GIN Ref"/>
                         <field name="delivery_team" string="Delivery Team"/>
                         <field name="requesting_loc" string="Requesting Location"/>

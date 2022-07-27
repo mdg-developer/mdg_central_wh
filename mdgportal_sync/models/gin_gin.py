@@ -11,12 +11,18 @@ class StockPicking(models.Model):
             if gin_id_wms:
                 sd_uid, url, db, password = self.env['cwh.connection'].get_connection_data()
                 models = client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+                user = self.env['res.users'].browse(self.env.uid)
                 gin_name = gin_id_wms.gin_ref
 
                 gin_id = models.execute_kw(db, sd_uid, password, 'good.issue.note', 'search',
                                             [[['name', '=', gin_name]]], {'limit': 1})
                 if gin_id:
-                    # models.execute_kw(db, sd_uid, password, 'branch.good.issue.note', 'approve', [bgin_id])
+                    uid_value = {
+                        'issue_by': user.name,
+                        'receiver': user.name,
+                    }
+                    models.execute_kw(db, sd_uid, password, 'good.issue.note', 'write',
+                                      [gin_id, uid_value])
                     for line in self.move_ids_without_package:
                         change_gin_line_id = models.execute_kw(db, sd_uid, password, 'good.issue.note.line','search', [[['line_id', '=', gin_id[0]],['product_id.default_code', '=',line.product_id.default_code],['product_uom.name', '=',line.product_uom.name]]], {'limit': 1})
 
