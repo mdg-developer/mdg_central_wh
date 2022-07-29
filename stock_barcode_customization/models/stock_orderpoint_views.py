@@ -14,7 +14,7 @@ class Orderpoint(models.Model):
         for record in self:
             on_hand = record.qty_on_hand
             min_qty = record.product_min_qty
-            if on_hand < min_qty:
+            if on_hand <= min_qty:
                 record.to_replenish = 'True'
             else:
                 record.to_replenish = 'False'

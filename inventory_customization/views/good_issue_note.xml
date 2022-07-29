@@ -7,22 +7,22 @@
           <form string="Good Issue Note">
             <header>
                 <field name="state" widget="statusbar"/>
-                <button name="action_approve" attrs="{'invisible': [('state', 'in', ('approve','issue','cancel','reversed'))]}" string="Approve" type="object" class="oe_highlight" groups="base.group_user"/>
-                <button name="action_issue" attrs="{'invisible': [('state', 'in', ('draft','issue','cancel','reversed'))]}" string="Issue" type="object" class="oe_highlight" groups="base.group_user"/>
-                <button name="action_cancel" attrs="{'invisible': [('state', 'in', ('cancel','issue','reversed'))]}" string="Cancel" type="object" class="oe_highlight" groups="base.group_user"/>
-                <button name="action_reverse" attrs="{'invisible': [('state', 'in', ('draft','cancel','reversed','approve'))]}" string="Reverse" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_approve" attrs="{'invisible': [('state', 'in', ('approve','issue','cancel'))]}" string="Approve" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_issue" attrs="{'invisible': [('state', 'in', ('draft','issue','cancel'))]}" string="Issue" type="object" class="oe_highlight" groups="base.group_user"/>
+                <button name="action_cancel" attrs="{'invisible': [('state', 'in', ('cancel','issue'))]}" string="Cancel" type="object" class="oe_highlight" groups="base.group_user"/>
+<!--                <button name="action_reverse" attrs="{'invisible': [('state', 'in', ('draft','cancel','reversed','approve'))]}" string="Reverse" type="object" class="oe_highlight" groups="base.group_user"/>-->
             </header>
             <sheet>
                 <group>
 <!--                    <h1><field name="name" string="Name" attrs="{'invisible': [('state', 'not in', ['approve','issue','cancel','reversed'])]}"/></h1>-->
                     <group>
-                        <field name="name" string="Name" readonly="1" attrs="{'invisible': [('state', 'not in', ['approve','issue','cancel','reversed'])]}"/>
+                        <field name="name" string="Name" readonly="1" attrs="{'invisible': [('state', 'not in', ['approve','issue','cancel'])]}"/>
                         <field name="gin_ref" string="GIN Ref"/>
                         <field name="delivery_team" string="Delivery Team"/>
                         <field name="requesting_loc" string="Requesting Location"/>
                         <field name="requested_by" string="Requested By"/>
                         <field name="issue_date" string="Date for Issue"/>
-                        <field name="reverse_user" string="Reverse User"/>
+<!--                        <field name="reverse_user" string="Reverse User"/>-->
                         <field name="principle" string="Principle"/>
                     </group>
                     <group>
@@ -46,12 +46,12 @@
                                 <field name="product_id"/>
                                 <field name="order_qty"/>
                                 <field name="total_req_qty"/>
-                                <field name="qty"/>
+                                <field name="qty" string="Issue Qty"/>
                                 <field name="product_uom_id"/>
                                 <field name="product_uom_category_id" invisible="1"/>
                                 <field name="batch_no"/>
                                 <field name="expiry_date"/>
-                                <field name="qty_on_hand"/>
+<!--                                <field name="qty_on_hand"/>-->
                                 <field name="remark"/>
                             </tree>
                         </field>
@@ -78,7 +78,7 @@
                     <field name="vehicle_no"/>
                     <field name="internal_ref"/>
                     <field name="state"/>
-                    <field name="reverse_user"/>
+<!--                    <field name="reverse_user"/>-->
                 </tree>
             </field>
         </record>

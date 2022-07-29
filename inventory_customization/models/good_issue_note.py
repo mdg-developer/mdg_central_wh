@@ -26,7 +26,6 @@ class GoodIssueNote(models.Model):
         ('approve', 'Approve'),
         ('issue', 'Issue'),
         ('cancel', 'Cancel'),
-        ('reversed', 'Reverse'),
     ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
     gin_line = fields.One2many('good.issue.note.line', 'gin_id', string='Good Issue Note Lines',
                                  states={'cancel': [('readonly', True)], 'issue': [('readonly', True)]}, copy=True,
@@ -93,8 +92,6 @@ class GoodIssueNote(models.Model):
     def action_cancel(self):
         self.write({'state': 'cancel'})
 
-    def action_reverse(self):
-        self.write({'state': 'reversed'})
 
 
 class GoodIssueNoteLine(models.Model):
