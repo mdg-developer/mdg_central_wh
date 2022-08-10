@@ -215,10 +215,12 @@ class StockMove(models.Model):
                         partially_available_moves_ids.add(move.id)
             if move.product_id.tracking == 'serial':
                 move.next_serial_count = move.product_uom_qty
-
         self.env['stock.move.line'].create(move_line_vals_list)
         StockMove.browse(partially_available_moves_ids).write({'state': 'partially_available'})
         StockMove.browse(assigned_moves_ids).write({'state': 'assigned'})
+        if self.reference:
+            if ('INT' in self.reference and self.mapped('picking_id').location_dest_id.pick_face):
+                return
         self.mapped('picking_id')._check_entire_pack()
     
     def _update_reserved_quantity2(self, need, available_quantity, location_id, lot_id=None, package_id=None, owner_id=None, strict=True, existing_locations=None):
