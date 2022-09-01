@@ -55,3 +55,14 @@ class StockQuant(models.Model):
             domain = expression.AND([[('location_id', '=', location_id.id)], domain])
 
         return self.search(domain, order=removal_strategy_order)
+
+    def int_transfer(self):
+        barcode = "CWHB-INTERNAL"
+
+        picking_type = self.env['stock.picking.type'].search([('barcode', '=', barcode),], limit=1)
+        if picking_type:
+            picking = self.env['stock.picking']._create_new_picking(picking_type)
+            picking.update({
+                'location_id':self.location_id
+            })
+            return picking._get_client_action()['action']

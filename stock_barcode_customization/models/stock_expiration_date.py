@@ -43,6 +43,12 @@ class StockPicking(models.Model):
                 if flag.expiration_date == False:
                     raise UserError(_("Expiry Date is Required!"))
                     return
+
+                if ('Pick-Face-CA' in flag.location_dest_id.complete_name and flag.result_package_id):
+                    flag.update({
+                        'result_package_id': False,
+                    })
+
         return super(StockPicking, self).button_validate()
 
 

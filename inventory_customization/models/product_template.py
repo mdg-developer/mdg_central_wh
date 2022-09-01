@@ -11,6 +11,9 @@ class ProductTemplate(models.Model):
     cbm = fields.Float(string='CBM',default=0.0000)
     principal_id = fields.Many2one(
         'product.principal', 'Product Principal',help="Select principal for the current product")
+    ctn_weight = fields.Float(string='Ctn Weight',default=0.0000)
+    ctn_height = fields.Float(string='Ctn Height',default=0.0000)
+    inbound_shelf_life = fields.Float(string='Inbound Shelf Life')
 
 
 

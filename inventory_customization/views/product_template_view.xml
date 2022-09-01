@@ -42,6 +42,21 @@
 						<field name='pallet_quantity'/>
 					</div>
 
+					<label for="ctn_weight"/>
+					<div class="o_row" name="ctn_weight">
+						<field name='ctn_weight'/>
+					</div>
+
+					<label for="ctn_height"/>
+					<div class="o_row" name="ctn_height">
+						<field name='ctn_height'/>
+					</div>
+
+					<label for="inbound_shelf_life"/>
+					<div class="o_row" name="inbound_shelf_life">
+						<field name='inbound_shelf_life'/>
+					</div>
+
 				</group>
 			 </xpath>
 			<xpath expr="//field[@name='categ_id']" position="before">

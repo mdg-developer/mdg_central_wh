@@ -24,6 +24,7 @@
              'views/stock_picking_view.xml',
              # 'views/stock_inventory_view.xml',
             'views/stock_orderpoint_views.xml',
+            'views/stock_quant_view.xml',
     ],
 
     'assets': {

@@ -288,7 +288,23 @@
                                 </tbody>
                             </table>
 
-                            <div style="margin-top : 50px;" t-if="o.picking_type_id.code != 'outgoing'">
+                            <div style="margin-top : 50px;" t-if="o.picking_type_id.code not in  ('outgoing','incoming')">
+                                <span>
+                                    <p style="float:left;">Picked By  </p>
+                                    <p style="text-align:right;">Date/Time   : ________________________________________________</p>
+                                </span>
+                                <span>
+                                    <p>Name : ________________________________________________</p>
+                                </span>
+                                <span>
+                                    <p>Received By  </p>
+                                </span>
+                                <span>
+                                    <p>Name : ________________________________________________</p>
+                                </span>
+
+                            </div>
+                            <div style="margin-top : 50px;" t-elif="o.picking_type_id.code == 'incoming'">
                                 <span>
                                     <p style="float:left;">Received By : ________________________________________________</p>
                                     <p style="text-align:right;">Date/Time   : ________________________________________________</p>

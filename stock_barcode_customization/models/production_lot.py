@@ -14,8 +14,12 @@ class StockProductionLot(models.Model):
     @api.depends('expiration_date')
     def _compute_product_expiry_alert(self):
 
-        current_date = fields.Date.today()
+        # current_date = fields.Date.today()
         for lot in self:
+            if (type(lot.expiration_date).__name__ == 'datetime'):
+                current_date = fields.Datetime.today()
+            else:
+                current_date = fields.Date.today()
             if lot.expiration_date:
                 lot.product_expiry_alert = lot.expiration_date <= current_date
             else:

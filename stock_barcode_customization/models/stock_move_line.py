@@ -5,6 +5,7 @@ from collections import Counter
 
 from odoo import _, api, fields, tools, models
 from odoo.exceptions import UserError, ValidationError
+from datetime import datetime, date, timedelta
 
 
 class StockMoveLine(models.Model):
@@ -60,6 +61,12 @@ class StockMoveLine(models.Model):
     @api.onchange('expiration_date')
     def onchange_expiration_date(self):
         if self.expiration_date:
+            inbound_shelf_life = self.product_id.inbound_shelf_life
+            if inbound_shelf_life != 0.0:
+                today = fields.Date.today()
+                last_date = today+timedelta(days=self.product_id.inbound_shelf_life)
+                if self.expiration_date < last_date:
+                    raise UserError(_('Check Inbound Shelf Life of the Product!'))
             batch = self.expiration_date.strftime("%d%m%Y")
             self.update({
                 'lot_name': batch
