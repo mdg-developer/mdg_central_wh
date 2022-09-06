@@ -6,7 +6,19 @@
         <field name="priority">1000</field>
         <field name="inherit_id" ref="stock_barcode.stock_quant_barcode_kanban" />
         <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('row')]" position="after">
+            <xpath expr="//div" position="inside">
+               <button string="Internal Transfer" name="int_transfer" type="object" class="button_int_transfer oe_highlight" id="button_click">Internal Transfer</button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_quant_barcode_kanban_2_inherit" model="ir.ui.view">
+        <field name="name">stock.barcode.quant.kanban.inherit</field>
+        <field name="model">stock.quant</field>
+        <field name="priority">1000</field>
+        <field name="inherit_id" ref="stock_barcode.stock_quant_barcode_kanban_2" />
+        <field name="arch" type="xml">
+            <xpath expr="//div" position="inside">
                <button string="Internal Transfer" name="int_transfer" type="object" class="button_int_transfer oe_highlight" id="button_click">Internal Transfer</button>
             </xpath>
         </field>

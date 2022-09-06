@@ -43,13 +43,11 @@ patch(MainComponent.prototype, 'stock_barcode_main_find_id', {
 
 patch(MainComponent.prototype, 'stock_barcode_main_showAddProduct', {
 get displayAddProduct() {
-        console.log("pick_type_code :",this.env.model.name)
+
         var pick_type_code = this.env.model.name
         if(pick_type_code.includes('PICK') || pick_type_code.includes('OUT')){
-            console.log("inside if")
             return false
         }
-        console.log("outside if")
         return true
     }
 })

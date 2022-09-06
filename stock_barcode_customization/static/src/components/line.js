@@ -23,7 +23,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_color_customization_1', {
 patch(LineComponent.prototype, 'stock_barcode_line_color_customization_pick', {
     get isPicking() {
         if (this.line.picking_sequence_code == 'PICK' && this.line.qty_done && this.line.product_check_flag == 'True'){
-            console.log("Inside thisss")
+
             return true;
 
         }
@@ -33,13 +33,9 @@ patch(LineComponent.prototype, 'stock_barcode_line_color_customization_pick', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_color_customization_delivery_order', {
     get isDeliveryOrder() {
-        console.log("this :",this)
-        console.log("this.line :",this.line)
-        console.log("this.line.picking_sequence_code :",this.line.picking_sequence_code)
-        console.log("this.line.qty_done :",this.line.qty_done)
-        console.log("this.line.product_check_flag :",this.line.product_check_flag)
+
         if (this.line.picking_code == 'outgoing' && this.line.qty_done && this.line.product_check_flag == 'True'){
-            console.log("Inside thisss")
+
             return true;
 
         }
@@ -220,9 +216,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_pickFaceLocationName', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_showPickfaceLocation', {
     showPickfaceLocation(){
-        console.log("**P*******")
-        console.log("this :",this)
-        console.log("this.line :", this.line)
+
         this.env.model.isInternalTransfer();
     }
 })
@@ -290,8 +284,7 @@ patch(LineComponent.prototype, 'stock_barcode_line_caseQuantity', {
 
 patch(LineComponent.prototype, 'stock_barcode_line_showCaseQty', {
     showCaseQty(){
-        console.log("*******Show Case Qty")
-        console.log("this :",this)
+
         if (this.line.picking_code == 'outgoing'){
             return true
         }

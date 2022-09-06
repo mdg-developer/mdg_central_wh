@@ -10,7 +10,6 @@ MainMenu.include({
     events: Object.assign({}, MainMenu.prototype.events, {
           "click .button_internal_transfer": function () {
             var barcode =  "CWHB-INTERNAL"
-            console.log("this:::",this)
             Session.rpc('/stock_barcode/scan_from_main_menu', { barcode }).then(result => {
                 if (result.action) {
                     this.do_action(result.action);

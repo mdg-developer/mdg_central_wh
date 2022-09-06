@@ -74,9 +74,6 @@ patch(BarcodePickingModel.prototype, 'stock_barcode_destination_location_occupie
     async _processLocationDestination(barcodeData) {
 
         if (this.record.picking_type_code === 'internal' || this.record.picking_type_code === 'incoming'){
-            console.log("****************************")
-            console.log("_processLocationDestination")
-            console.log("barcodeData.destLocation :",barcodeData.destLocation)
             var rpc = require('web.rpc');
             var fields = [];
             var result =[];
@@ -300,15 +297,19 @@ patch(BarcodeModel.prototype, 'stock_barcode_setup',{
 
 patch(BarcodePickingModel.prototype, 'stock_barcode_updateLinePalletQty', {
     async updateLinePalletQty(virtualId, qty = 1) {
-
+        console.log("UpdateLinePalletQty")
+        console.log("virtualId :",virtualId)
+        console.log("this.pageLines :",this.pageLines)
         const flag = this.pageLines.find(l => l.virtual_id === virtualId);
+        console.log("flag :",flag)
         const product = this.cache.getRecord('product.product', flag.product_id.id);
+        console.log("product :",product)
         const fieldsParams = this._convertDataToFieldsParams({
             product,
             qty: qty,
             lot_id :'',
         });
-
+        console.log("fieldsParams :",fieldsParams)
         var newLine = await this._createNewLine({fieldsParams});
         this.trigger('update')
     }
