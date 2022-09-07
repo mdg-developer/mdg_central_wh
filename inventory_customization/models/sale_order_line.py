@@ -11,7 +11,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.loose:
                 pick_face_route = self.env['stock.location.route'].search(
-                    [('pickface_pcs_route', '=', True),('active','=',True)],limit=1)
+                    [('pickface_pcs_route', '=', True),('active','=',True),('warehouse_ids', '=', line.order_id.warehouse_id.id)],limit=1)
                 if pick_face_route:
                     line.route_id =pick_face_route.id
             else:
@@ -22,7 +22,7 @@ class SaleOrderLine(models.Model):
         for line in self:
             if line.ctn_pickface:
                 pick_face_route = self.env['stock.location.route'].search(
-                    [('pickface_ctn_route', '=', True),('active','=',True)],limit=1)
+                    [('pickface_ctn_route', '=', True),('active','=',True),('warehouse_ids', '=', line.order_id.warehouse_id.id)],limit=1)
                 if pick_face_route:
                     line.route_id =pick_face_route.id
             else:
