@@ -14,6 +14,7 @@
         'inventory_customization',
         'mdgportal_sync',
         'stock_barcode_picking_batch',
+        'product_multiple_barcodes',
     ],
     'data': [
              'views/stock_barcode_view.xml',

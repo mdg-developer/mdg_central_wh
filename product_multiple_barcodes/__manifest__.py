@@ -15,10 +15,16 @@
         'sale',
         'purchase',
         'stock',
+        'stock_barcode',
     ],
     'data': [
         'security/ir.model.access.csv',
         'wizard/multiply_barcode_wizard.xml',
         'views/product_template_views.xml',
     ],
+    'assets': {
+            'web.assets_backend': [
+                'product_multiple_barcodes/static/src/**/*.js',
+            ],
+        }
 }

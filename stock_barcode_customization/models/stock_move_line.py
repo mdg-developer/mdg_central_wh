@@ -74,7 +74,15 @@ class StockMoveLine(models.Model):
     @api.onchange('product_check')
     def onchange_product_check(self):
         if self.product_check:
-            if self.product_id.barcode != self.product_check:
+            product = self.product_id
+            barcode_names = []
+            if product.barcode_ids:
+                barcode_names = product.mapped('barcode_ids.name')
+            if product.barcode:
+                barcode_names.append(product.barcode)
+
+            # if self.product_id.barcode != self.product_check:
+            if self.product_check not in barcode_names:
                 self.update({
                     'product_check_flag': 'False',
                 })

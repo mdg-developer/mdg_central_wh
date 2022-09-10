@@ -71,3 +71,13 @@ class ProductProduct(models.Model):
                     '"Barcode" field and "Additional Barcodes" field.'
                 ).format(", ".join(set(barcodes_duplicate)))
             )
+
+    @api.model
+    def _get_fields_stock_barcode(self):
+        fields = super()._get_fields_stock_barcode()
+        fields.append('barcode_ids')
+        return fields
+
+
+
+
