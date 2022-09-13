@@ -60,7 +60,7 @@ class StockMoveLine(models.Model):
 
     @api.onchange('expiration_date')
     def onchange_expiration_date(self):
-        if self.expiration_date:
+        if self.expiration_date and self.picking_id.picking_type_id.sequence_code == 'IN':
             inbound_shelf_life = self.product_id.inbound_shelf_life
             if inbound_shelf_life != 0.0:
                 today = fields.Date.today()
