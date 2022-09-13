@@ -61,6 +61,9 @@
         <field name="model">stock.warehouse.orderpoint</field>
         <field name="inherit_id" ref="stock.stock_reorder_report_search" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="product_id" string="Stock Entry" filter_domain="['|', ('product_id', 'ilike', self), ('location_id', 'ilike', self)]"/>
+            </xpath>
             <xpath expr="//search/filter[@name='filter_to_reorder']" position="replace">
                  <filter string="To Replenish" name="filter_to_replenish" domain="[('to_replenish', '=', 'True')]"/>
                  <filter string="Done Replenishment" name="filter_done_replenish" domain="[('to_replenish', '=', 'False')]"/>
