@@ -58,6 +58,14 @@ class StockMoveLine(models.Model):
             loc_record = self.env['stock.location'].search([('id','=',record.location_dest_id.id)])
             record.is_shipto_location = loc_record.ship_to
 
+    @api.onchange('result_package_id')
+    def onchange_result_package_id(self):
+        if self.result_package_id:
+            batch = self.result_package_id.name
+            self.update({
+                'lot_name': batch
+            })
+
     @api.onchange('expiration_date')
     def onchange_expiration_date(self):
         if self.expiration_date and self.picking_id.picking_type_id.sequence_code == 'IN':
@@ -67,10 +75,10 @@ class StockMoveLine(models.Model):
                 last_date = today+timedelta(days=self.product_id.inbound_shelf_life)
                 if self.expiration_date < last_date:
                     raise UserError(_('Check Inbound Shelf Life of the Product!'))
-            batch = self.expiration_date.strftime("%d%m%Y")
-            self.update({
-                'lot_name': batch
-            })
+            # batch = self.expiration_date.strftime("%d%m%Y")
+            # self.update({
+            #     'lot_name': batch
+            # })
     @api.onchange('product_check')
     def onchange_product_check(self):
         if self.product_check:
