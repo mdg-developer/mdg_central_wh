@@ -12,6 +12,9 @@ class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
     expiry_date = fields.Date(related='lot_id.expiration_date', store=True, readonly=False)
+    principal_id = fields.Char(related='product_tmpl_id.principal_id.name', string='Principal')
+    default_code = fields.Char(related='product_tmpl_id.default_code', string='SKU')
+    display_name = fields.Char(related='product_tmpl_id.name', string='Short Code')
 
     @api.model
     def _get_removal_strategy_order(self, removal_strategy):

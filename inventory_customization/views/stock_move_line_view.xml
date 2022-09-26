@@ -6,7 +6,8 @@
         <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='result_package_id']" position="replace">
-               <field name="result_package_id" groups="stock.group_tracking_lot" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')]}"/>
+<!--               <field name="result_package_id" groups="stock.group_tracking_lot" attrs="{'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')]}"/>-->
+                <field name="result_package_id" groups="stock.group_tracking_lot" attrs="{'required': [('picking_code', '=', 'incoming')]}"/>
             </xpath>
             <xpath expr="//field[@name='lot_name']" position="attributes">
                 <attribute name="attrs">{
@@ -33,8 +34,12 @@
                 <field name="picking_code" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='result_package_id']" position="attributes">
+<!--                <attribute name="attrs">-->
+<!--                    {'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],}-->
+<!--                </attribute>-->
+
                 <attribute name="attrs">
-                    {'required': ['|',('picking_code', '=', 'incoming'),('picking_code', '=', 'internal')],}
+                    {'required': [('picking_code', '=', 'incoming')],}
                 </attribute>
             </xpath>
             <xpath expr="//field[@name='lot_id']" position="attributes">
