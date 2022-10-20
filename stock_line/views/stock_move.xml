@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_inherit_product_split" model="ir.ui.view">
+            <field name="name">view.picking.form.inherit.product.split</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="replace">
+                    <field name="product_id" optional="hide"/>
+                    <field name="product_name"/>
+                    <field name="default_code"/>
+                </xpath>
+
+            </field>
+    </record>
+
+    <record id="view_stock_move_line_detailed_operation_product_split" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.product.split</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_id']" position="replace">
+                <field name="product_id" required="1" context="{'default_detailed_type': 'product'}" attrs="{'readonly': ['|', ('state', '=', 'done'), ('move_id', '!=', False)]}" optional="hide"/>
+                <field name="product_name"/>
+                <field name="default_code"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
