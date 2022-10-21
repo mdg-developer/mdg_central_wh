@@ -275,7 +275,7 @@
                                 All products could not be reserved. Click on the "Check Availability" button to try to reserve products.
                             </p>
                             <p t-field="o.note"/>
-                            <table t-if="o.picking_type_id.code == 'outgoing'" style="border:none; width:50%;margin-left:auto;">
+                            <table t-if="o.picking_type_id.code in ('outgoing','internal')" style="border:none; width:50%;margin-left:auto;">
                                 <tbody>
                                     <tr style="height:30px;">
                                         <th>Total Weight :<t t-esc="flag_weight" t-options='{"widget": "float", "precision": 4}'/></th>
