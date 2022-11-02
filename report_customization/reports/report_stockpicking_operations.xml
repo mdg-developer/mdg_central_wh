@@ -72,7 +72,11 @@
                                     <strong>Scheduled Date:</strong>
                                     <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
-                                <div name="div_cus_ref" style="width:200px;" t-if="o.picking_type_id.code=='outgoing' and o.sale_id">
+                                <div t-if="o.sale_id.client_order_ref" name="div_state" style="width:180px;padding-left:-5px">
+                                    <strong>Branch:</strong>
+                                    <p t-field="o.sale_id.client_order_ref"/>
+                                </div>
+                                <div name="div_cus_ref" style="width:200px;" t-if="o.sale_id">
                                     <strong>Customer Ref:</strong>
                                     <p t-field="o.sale_id.origin"/>
                                 </div>
@@ -110,6 +114,14 @@
                                 <div name="div_sched_date" style="width:200px">
                                     <strong>Scheduled Date:</strong>
                                     <p t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                </div>
+                                <div t-if="o.sale_id.client_order_ref" name="div_state" style="width:180px;padding-left:-5px">
+                                    <strong>Branch:</strong>
+                                    <p t-field="o.sale_id.client_order_ref"/>
+                                </div>
+                                <div name="div_cus_ref" style="width:200px;" t-if="o.sale_id">
+                                    <strong>Customer Ref:</strong>
+                                    <p t-field="o.sale_id.origin"/>
                                 </div>
 
                             </div>
