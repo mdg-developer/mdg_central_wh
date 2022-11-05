@@ -6,7 +6,8 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         result = super(StockPicking, self).button_validate()
-        if self.picking_type_id.code == "outgoing" and self.state == 'done':
+        backorder = self.env['stock.picking'].search([('sale_id', '=', self.sale_id.id),('backorder_id', '=', self.id )])
+        if self.picking_type_id.code == "outgoing" and self.state == 'done' and not backorder:
             sale_order_id = self.env['sale.order'].search([('name', '=', self.origin)], limit=1)
             if sale_order_id.origin:
                 if sale_order_id.origin.startswith("BRFI"):
