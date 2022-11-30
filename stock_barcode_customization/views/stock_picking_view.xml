@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='other_infos']" position="inside">
                 <field name="operator" attrs="{'readonly':['|',('state', '=', 'done'),('state', '=', 'cancel')]}"/>
+                <field name="gin_ref"/>
             </xpath>
             <xpath expr="//field[@name='user_id']" position="replace">
 

@@ -7,6 +7,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     operator = fields.Many2one('res.partner', string="Operator")
+    gin_ref = fields.Char(string="GIN Ref")
     picking_type_sequence_code = fields.Char(related='picking_type_id.sequence_code')
 
     def _get_fields_stock_barcode(self):
