@@ -16,7 +16,7 @@ class StockPicking(models.Model):
 
 
                     bgin_id = models.execute_kw(db, sd_uid, password, 'branch.good.issue.note', 'search',
-                                               [[['request_id.name', '=', brfi_name]]], {'limit': 1})
+                                               [[['request_id.name', '=', brfi_name],['state', '=', 'approve']]], {'limit': 1})
                     if bgin_id:
                         # models.execute_kw(db, sd_uid, password, 'branch.good.issue.note', 'approve', [bgin_id])
                         for line in sale_order_id.order_line:
